@@ -1,0 +1,5 @@
+.idea
+.git
+vendors
+node_modules
+.gitignore
