@@ -7,11 +7,12 @@
     "order": 1,
     "providers": [
         "Modules\\Inotification\\Providers\\InotificationServiceProvider",
-        "Modules\\Inotification\\Providers\\RouteServiceProvider"
+        "Modules\\Inotification\\Providers\\RouteServiceProvider",
+        "Modules\\Inotification\\Providers\\EventServiceProvider"
     ],
     "aliases": {},
     "files": [
-        
+
     ],
     "requires": []
 }
