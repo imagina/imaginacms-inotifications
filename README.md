@@ -32,7 +32,7 @@ POST: api/notification/whatsapp
 	"attributes":{
 		"user": "Imagina Colombia",
 		"phone": "whatsapp:+573222222222",
-		"message": "Hi World 😁"
+		"message": "Hello World 😁"
 	}
 }
 ```
