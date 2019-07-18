@@ -35,5 +35,13 @@ $router->group(['prefix' => 'notification'], function (Router $router) {
     'middleware' => ['auth:api']
   ]);
 
+  $router->post('/whatsapp', [
+    'as' => 'api.inotification.whatsapp.create',
+    'uses' => 'SendWhatsAppController@create',
+    //'middleware' => ['auth:api']
+  ]);
+
+
+
 
 });
