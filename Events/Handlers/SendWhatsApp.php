@@ -32,7 +32,7 @@ class SendWhatsApp
         ->create($phone,
           array(
             'from' => $this->sender,
-            'body' => "Hola *$user*, $message"
+            'body' => "*$user*, $message"
           )
         );
       return $whatsapp->sid;
