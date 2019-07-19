@@ -15,10 +15,10 @@ class SendWhatsApp
 
   public function __construct()
   {
-    $this->twilio = new Client($this->sid, $this->token);
     $this->sid = env('TWILIO_ACCOUNT_SID', '');
     $this->token = env('TWILIO_AUTH_TOKEN', '');
     $this->sender = env('TWILIO_SENDER', '');
+    $this->twilio = new Client($this->sid, $this->token);
   }
 
   public function handle(SendWhatsAppNotification $event)
