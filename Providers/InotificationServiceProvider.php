@@ -42,7 +42,7 @@ class InotificationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig('inotification', 'permissions');
-
+        $this->publishConfig('inotification', 'settings');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 

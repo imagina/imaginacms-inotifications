@@ -5,11 +5,19 @@ namespace Modules\Inotification\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Setting\Contracts\Setting;
 
 use Modules\Inotification\Events\SendWhatsAppNotification;
 
 class SendWhatsAppController extends Controller
 {
+
+  private $setting;
+
+  public function __construct(Setting $setting)
+  {
+    $this->setting = $setting;
+  }
 
   /**
    * Show the form for creating a new resource.
@@ -25,7 +33,7 @@ class SendWhatsAppController extends Controller
       // Set Params
       $user = $data['user'];
       $phone = $data['phone'];
-      $message = $data['message'];
+      $message = $this->setting->get('inotification::whatsapp-message-default');
 
       // Send Notification
       $event = event(new SendWhatsAppNotification($user, $phone, $message));
