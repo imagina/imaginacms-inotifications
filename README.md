@@ -22,7 +22,7 @@ TWILIO_SENDER=whatsapp:+xxxx
 
 ###### End Point
 ```
-POST: api/notification/whatsapp
+POST: /api/notification/whatsapp
 ```
 
 ###### Body Request
