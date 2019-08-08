@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Setting\Contracts\Setting;
+use Modules\Idialogflow\Entities\Bot;
 
 use Modules\Inotification\Events\SendWhatsAppNotification;
 
@@ -23,7 +24,7 @@ class SendWhatsAppController extends Controller
    * Show the form for creating a new resource.
    * @return Response
    */
-  public function create(Request $request)
+  public function create(Request $request, Bot $bot)
   {
 
     try {
@@ -33,11 +34,12 @@ class SendWhatsAppController extends Controller
       // Set Params
       $user = $data['user'];
       $phone = $data['phone'];
-      $message = $this->setting->get('inotification::whatsapp-message-default');
 
       // Send Notification
-      $event = event(new SendWhatsAppNotification($user, $phone, $message));
-      $response = ["data" => $event];
+      $event = event(new SendWhatsAppNotification($user, $phone, $bot));
+      $response = [
+        "data" => $event
+      ];
 
     } catch (\Exception $e) {
       $status = 500;

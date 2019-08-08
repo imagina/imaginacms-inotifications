@@ -22,21 +22,21 @@ class SendWhatsApp
 
   public function handle(SendWhatsAppNotification $event)
   {
-    $sid = env('TWILIO_ACCOUNT_SID', $this->setting->get('inotification::twilio-account-sid'));
-    $token = env('TWILIO_AUTH_TOKEN', $this->setting->get('inotification::twilio-auth-token'));
-    $sender = env('TWILIO_SENDER', $this->setting->get('inotification::twilio-sender'));
+    $sid = $event->bot->twilio_account_sid;
+    $token = $event->bot->twilio_auth_token;
+    $sender = $event->bot->twilio_sender;
     $twilio = new Client($sid, $token);
 
     try{
       $user = $event->user;
       $phone = $event->phone;
-      $message = $event->message;
+      $message = $event->bot->init_message;
 
       $whatsapp = $twilio->messages
         ->create($phone,
           array(
             'from' => $sender,
-            'body' => str_replace('{$user}', $user, $message), //"$message"
+            'body' => str_replace('{$user}', $user, $message),
           )
         );
       return $whatsapp->sid;

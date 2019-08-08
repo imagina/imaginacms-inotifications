@@ -6,12 +6,12 @@ class SendWhatsAppNotification
 {
   public $user;
   public $phone;
-  public $message;
+  public $bot;
 
-  public function __construct($user, $phone, $message)
+  public function __construct($user, $phone, $bot)
   {
     $this->user = $user;
     $this->phone = $phone;
-    $this->message = $message;
+    $this->bot = $bot;
   }
 }
