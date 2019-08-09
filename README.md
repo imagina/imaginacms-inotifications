@@ -1,31 +1,32 @@
-# asgardcms-inotifications
+# ASGARDCMS-INOTIFICATIONS
 
-##### Whatsapp Notifications
+##### WHATSAPP NOTIFICATIONS
+###### PARAMS
+
+String $sid - Twilio SID
+ 
+String $token - Twilio TOKEN
+
+String $sender - Twilio SENDER PHONE (whatsapp:+57311111111)
+ 
+String $template - Hi {$user} (user string is replace for $user variable)
+ 
+String $user - Imagina Colombia
+
+String $phone - (whatsapp:+57311111111)
 
 
-###### End Point
 ```
-POST: /api/notification/whatsapp/{botId}
+ event( new SendWhatsAppNotification( $sid, $token, $sender, $template, $user, $phone ) );
 ```
 
-###### Body Request
+##### PUSHER NOTIFICATIONS
+###### PARAMS
 
-```ssh
-{
-	"attributes":{
-		"user": "Imagina Colombia",
-		"phone": "whatsapp:+573222222222"
-	}
-}
+String $userid - Id user who will receive the notification
+
+String $data - Data to send in the event of the notification
+
 ```
-
-
-###### Body Response
-
-```ssh
-{
-    "data": [
-        "SM6917bec4e9fb46e680568aaa57d99c99"
-    ]
-}
+event( new NotificationEvent($userId, $data) );
 ```
