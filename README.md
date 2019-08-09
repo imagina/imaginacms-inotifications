@@ -17,7 +17,9 @@ String $phone - (whatsapp:+57311111111)
 
 
 ```
- event( new SendWhatsAppNotification( $sid, $token, $sender, $template, $user, $phone ) );
+use Modules\Inotification\Events\SendWhatsAppNotification;
+
+event( new SendWhatsAppNotification( $sid, $token, $sender, $template, $user, $phone ) );
 ```
 
 ##### PUSHER NOTIFICATIONS
@@ -28,5 +30,7 @@ String $userid - Id user who will receive the notification
 String $data - Data to send in the event of the notification
 
 ```
+use Modules\Inotification\Events\NotificationEvent;
+
 event( new NotificationEvent($userId, $data) );
 ```
