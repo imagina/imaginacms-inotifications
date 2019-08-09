@@ -8,7 +8,7 @@ use Modules\Inotification\Entities\Platform;
 use Modules\Inotification\Http\Requests\CreatePlatformRequest;
 use Modules\Inotification\Http\Requests\UpdatePlatformRequest;
 use Modules\Inotification\Repositories\PlatformRepository;
-use Modules\Icustom\Http\Controllers\BaseApiController;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 
 class PlatformController extends BaseApiController
 {

@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Modules\Inotification\Entities\NotificationHistory;
 use Modules\Inotification\Repositories\NotificationHistoryRepository;
 use Modules\Inotification\Transformers\NotificationHistoryTransformer;
-use Modules\Icustom\Http\Controllers\BaseApiController;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationHistoryController extends BaseApiController

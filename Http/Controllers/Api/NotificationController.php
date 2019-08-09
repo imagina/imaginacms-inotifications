@@ -4,12 +4,12 @@ namespace Modules\Inotification\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Icustom\Http\Controllers\BaseApiController;
+use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Inotification\Repositories\NotificationRepository;
 use Modules\Inotification\Repositories\NotificationHistoryRepository;
 use Modules\Inotification\Transformers\NotificationTransformer;
 use Modules\Inotification\Events\NotificationEvent;
-use Modules\Iprofile\Repositories\ApiUserRepository;
+use Modules\Iprofile\Repositories\UserApiRepository;
 use App\Jobs\sendNotifications;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,12 +25,12 @@ class NotificationController extends BaseApiController
     public function __construct(
       /*NotificationRepository $notification,
       NotificationHistoryRepository $notificationHistory,
-      ApiUserRepository $user*/
+      UserApiRepository $user*/
     )
     {
         $this->notification = app('Modules\Inotification\Repositories\NotificationRepository');
         $this->notificationHistory = app('Modules\Inotification\Repositories\NotificationHistoryRepository');
-        $this->user = app('Modules\Iprofile\Repositories\ApiUserRepository');
+        $this->user = app('Modules\Iprofile\Repositories\UserApiRepository');
     }
 
     /**

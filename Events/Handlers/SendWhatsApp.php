@@ -9,10 +9,6 @@ use Modules\Setting\Contracts\Setting;
 class SendWhatsApp
 {
 
-  private $twilio;
-  private $sid;
-  private $token;
-  private $sender;
   private $setting;
 
   public function __construct(Setting $setting)
@@ -22,21 +18,21 @@ class SendWhatsApp
 
   public function handle(SendWhatsAppNotification $event)
   {
-    $sid = $event->bot->twilio_account_sid;
-    $token = $event->bot->twilio_auth_token;
-    $sender = $event->bot->twilio_sender;
-    $twilio = new Client($sid, $token);
-
     try{
+
+      $sid = $event->sid;
+      $token = $event->token;
+      $sender = $event->sender;
+      $template = $event->template;
       $user = $event->user;
       $phone = $event->phone;
-      $message = $event->bot->init_message;
+      $twilio = new Client($sid, $token);
 
       $whatsapp = $twilio->messages
         ->create($phone,
           array(
             'from' => $sender,
-            'body' => str_replace('{$user}', $user, $message),
+            'body' => str_replace('{$user}', $user, $template),
           )
         );
       return $whatsapp->sid;
