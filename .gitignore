@@ -1,5 +1,6 @@
-.idea
-.git
-vendors
-node_modules
-.gitignore
+.php_cs.cache
+vendor/
+composer.lock
+node_modules/
+Modules/
+.idea/

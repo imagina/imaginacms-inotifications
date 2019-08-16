@@ -2,44 +2,90 @@
 
 namespace Modules\Inotification\Repositories\Eloquent;
 
-use Modules\Inotification\Repositories\NotificationRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Inotification\Repositories\NotificationRepository;
 
-class EloquentNotificationRepository extends EloquentBaseRepository implements NotificationRepository
+final class EloquentNotificationRepository extends EloquentBaseRepository implements NotificationRepository
 {
-  public function index($page, $take, $filter, $include){
-    //Initialize Query
-    $query = $this->model->query();
-
-    /*== RELATIONSHIPS ==*/
-    if (count($include)) {
-      //Include relationships for default
-      $includeDefault = [];
-      $query->with(array_merge($includeDefault, $include));
+    /**
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function latestForUser($userId)
+    {
+        return $this->model->whereUserId($userId)->whereIsRead(false)->orderBy('created_at', 'desc')->take(10)->get();
     }
 
-    /*== RELATIONSHIPS ==*/
-    if($filter){
-      if(isset($filter->userId)){
-        $query->whereIn('id', function($query) use($filter){
-          $query->select('notification_id')
-            ->from('inotification__notification_histories')
-            ->where('user_id',$filter->userId);
-        });
-      }
+    /**
+     * Mark the given notification id as "read"
+     * @param int $notificationId
+     * @return bool
+     */
+    public function markNotificationAsRead($notificationId)
+    {
+        $notification = $this->find($notificationId);
+        $notification->is_read = true;
+
+        return $notification->save();
     }
 
-    /*=== Order By Created At ===*/
-    $query->orderBy('created_at','desc');
-
-    /*=== REQUEST ===*/
-    if ($page) {//Return request with pagination
-      $take ? true : $take = 12; //If no specific take, query take 12 for default
-      return $query->paginate($take);
-    }else{ //Return request without pagination
-      $take ? $query->take($take) : false; //if request to take a limit
-      return $query->get();
+    public function all()
+    {
+        return $this->model->all();
     }
-  }
 
+    public function find($id)
+    {
+        return $this->model->find($id);
+    }
+
+    /**
+     * Get all the notifications for the given user id
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allForUser($userId)
+    {
+        return $this->model->whereUserId($userId)->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
+     * Get all the read notifications for the given user id
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allReadForUser($userId)
+    {
+        return $this->model->whereUserId($userId)->whereIsRead(true)->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
+     * Get all the unread notifications for the given user id
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allUnreadForUser($userId)
+    {
+        return $this->model->whereUserId($userId)->whereIsRead(false)->orderBy('created_at', 'desc')->get();
+    }
+
+    /**
+     * Delete all the notifications for the given user
+     * @param int $userId
+     * @return bool
+     */
+    public function deleteAllForUser($userId)
+    {
+        return $this->model->whereUserId($userId)->delete();
+    }
+
+    /**
+     * Mark all the notifications for the given user as read
+     * @param int $userId
+     * @return bool
+     */
+    public function markAllAsReadForUser($userId)
+    {
+        return $this->model->whereUserId($userId)->update(['is_read' => true]);
+    }
 }
