@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Inotification\Tests;
+namespace Modules\Notification\Tests;
 
 use Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider;
 use Modules\Core\Providers\CoreServiceProvider;
-use Modules\Inotification\Providers\NotificationServiceProvider;
+use Modules\Notification\Providers\NotificationServiceProvider;
 use Nwidart\Modules\LaravelModulesServiceProvider;
 use Orchestra\Testbench\TestCase;
 

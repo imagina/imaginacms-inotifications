@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Inotification\Repositories;
+namespace Modules\Notification\Repositories;
 
 use Modules\Core\Repositories\BaseRepository;
 
 /**
  * Interface NotificationRepository
- * @package Modules\Inotification\Repositories
+ * @package Modules\Notification\Repositories
  */
 interface NotificationRepository extends BaseRepository
 {
@@ -57,4 +57,37 @@ interface NotificationRepository extends BaseRepository
      * @return bool
      */
     public function markAllAsReadForUser($userId);
+
+    /**
+     * Get all the read notifications for the given filters
+     * @param array $params
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getItemsBy($params);
+
+    /**
+     * Get the read notification for the given filters
+     * @param string $criteria
+     * @param array $params
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getItem($criteria, $params);
+
+
+    /**
+     * Update the notifications for the given ids
+     * @param array $criterias
+     * @param array $data
+     * @return bool
+     */
+    public function updateItems($criterias, $data);
+
+    /**
+     * Delete the notifications for the given ids
+     * @param array $criterias
+     * @return bool
+     */
+    public function deleteItems($criterias);
+
+
 }

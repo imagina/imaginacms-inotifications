@@ -3,31 +3,48 @@
 use Illuminate\Routing\Router;
 
 /** @var Router $router */
-
-$router->group(['prefix' => '/notification'], function (Router $router) {
-    $router->post('notification/mark-read', [
-        'as' => 'api.notification.read',
+$router->post('notification/mark-read',
+    ['as' => 'api.notification.read',
         'uses' => 'NotificationsController@markAsRead'
     ]);
 
-    $router->get('notifications', [
-        'as' => 'admin.notification.notification.index',
-        'uses' => 'NotificationsController@index',
-        'middleware' => 'can:notification.notifications.index',
-    ]);
-    $router->get('notifications/markAllAsRead', [
-        'as' => 'admin.notification.notification.markAllAsRead',
-        'uses' => 'NotificationsController@markAllAsRead',
-        'middleware' => 'can:notification.notifications.markAllAsRead',
-    ]);
-    $router->delete('notifications/destroyAll', [
-        'as' => 'admin.notification.notification.destroyAll',
-        'uses' => 'NotificationsController@destroyAll',
-        'middleware' => 'can:inotification.notifications.destroyAll',
-    ]);
-    $router->delete('notifications/{notification}', [
-        'as' => 'admin.inotification.notification.destroy',
-        'uses' => 'NotificationsController@destroy',
-        'middleware' => 'can:inotification.notifications.destroy',
-    ]);
+$router->group(['prefix' => '/notification/v1'], function (Router $router) {
+
+    $router->group(['prefix' => '/notifications'], function (Router $router) {
+
+        //Route create
+        $router->post('/', [
+            'as' => 'api.notification.create',
+            'uses' => 'NotificationsController@create',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route index
+        $router->get('/', [
+            'as' => 'api.notification.get.items.by',
+            'uses' => 'NotificationsController@index',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route show
+        $router->get('/{criteria}', [
+            'as' => 'api.notification.get.item',
+            'uses' => 'NotificationsController@show',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route update
+        $router->put('/{criteria}', [
+            'as' => 'api.notification.update',
+            'uses' => 'NotificationsController@update',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route delete
+        $router->delete('/{criteria}', [
+            'as' => 'api.notification.delete',
+            'uses' => 'NotificationsController@delete',
+            'middleware' => ['auth:api']
+        ]);
+    });
 });

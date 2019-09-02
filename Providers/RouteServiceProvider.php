@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Inotification\Providers;
+namespace Modules\Notification\Providers;
 
 use Modules\Core\Providers\RoutingServiceProvider as CoreRoutingServiceProvider;
 
@@ -10,7 +10,7 @@ class RouteServiceProvider extends CoreRoutingServiceProvider
      * The root namespace to assume when generating URLs to actions.
      * @var string
      */
-    protected $namespace = 'Modules\Inotification\Http\Controllers';
+    protected $namespace = 'Modules\Notification\Http\Controllers';
 
     /**
      * @return string

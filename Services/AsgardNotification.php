@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Inotification\Services;
+namespace Modules\Notification\Services;
 
-use Modules\Inotification\Events\BroadcastNotification;
-use Modules\Inotification\Repositories\NotificationRepository;
+use Modules\Notification\Events\BroadcastNotification;
+use Modules\Notification\Repositories\NotificationRepository;
 use Modules\User\Contracts\Authentication;
 
 final class AsgardNotification implements Notification
@@ -51,9 +51,9 @@ final class AsgardNotification implements Notification
 
     /**
      * Trigger the broadcast event for the given notification
-     * @param \Modules\Inotification\Entities\Notification $notification
+     * @param \Modules\Notification\Entities\Notification $notification
      */
-    private function triggerEventFor(\Modules\Inotification\Entities\Notification $notification)
+    private function triggerEventFor(\Modules\Notification\Entities\Notification $notification)
     {
         event(new BroadcastNotification($notification));
     }

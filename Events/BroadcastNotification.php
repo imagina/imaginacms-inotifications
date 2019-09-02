@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Inotification\Events;
+namespace Modules\Notification\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
-use Modules\Inotification\Entities\Notification;
+use Modules\Notification\Entities\Notification;
 
 class BroadcastNotification implements ShouldBroadcast, ShouldQueue
 {
@@ -27,6 +27,6 @@ class BroadcastNotification implements ShouldBroadcast, ShouldQueue
      */
     public function broadcastOn()
     {
-        return ['imagina.notifications.' . $this->notification->user_id];
+        return ['asgardcms.notifications.' . $this->notification->user_id];
     }
 }

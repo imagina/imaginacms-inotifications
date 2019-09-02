@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Inotification\Tests;
+namespace Modules\Notification\Tests;
 
-use Modules\Inotification\Entities\Notification;
-use Modules\Inotification\Repositories\NotificationRepository;
+use Modules\Notification\Entities\Notification;
+use Modules\Notification\Repositories\NotificationRepository;
 
 class EloquentNotificationRepositoryTest extends BaseTestCase
 {

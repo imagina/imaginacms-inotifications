@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Inotification\Services;
+namespace Modules\Notification\Services;
 
 interface Notification
 {

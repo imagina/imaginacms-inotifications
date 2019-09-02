@@ -1,5 +1,5 @@
 {
-  "name": "imagina/inotification-module",
+  "name": "imagina/notification-module",
   "description": "Module handling the real time notifications",
   "type": "asgard-module",
   "keywords": [
@@ -9,8 +9,8 @@
   ],
   "authors": [
     {
-      "name": "Nicolas Widart",
-      "email": "n.widart@gmail.com"
+      "name": "Imagina Colombia",
+      "email": "soporte@imaginacolombia.com"
     }
   ],
   "license": "MIT",
@@ -26,12 +26,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Modules\\Inotification\\": ""
+      "Modules\\Notification\\": ""
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Modules\\Inotification\\": ".",
+      "Modules\\Notification\\": ".",
       "Modules\\": "Modules/"
     }
   },

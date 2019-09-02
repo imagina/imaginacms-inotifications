@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Inotification\Composers;
+namespace Modules\Notification\Composers;
 
 use Illuminate\Contracts\View\View;
-use Modules\Inotification\Repositories\NotificationRepository;
+use Modules\Notification\Repositories\NotificationRepository;
 use Modules\User\Contracts\Authentication;
 
 class NotificationViewComposer

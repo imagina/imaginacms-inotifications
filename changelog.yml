@@ -1,11 +1,8 @@
-url: https://github.com/imagina/asgardcms-inotifications
+url: https://github.com/imagina/Inotification
 versions:
-    "3.0.2":
+    "3.1.0":
       added:
-        - NotificationsTranformer
-        -
-      changed:
-        - clone Reposititori AsgardCms/Notification
+        - API Rest Controllers, Routes, Tranformer and filters
     "3.0.1":
         changed:
             - Upgrade Pusher notifications plugin to latest version and using the cluster and encryption settings

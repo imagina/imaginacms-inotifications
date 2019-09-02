@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Inotification\Http\Controllers\Admin;
+namespace Modules\Notification\Http\Controllers\Admin;
 
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
-use Modules\Inotification\Entities\Notification;
-use Modules\Inotification\Repositories\NotificationRepository;
+use Modules\Notification\Entities\Notification;
+use Modules\Notification\Repositories\NotificationRepository;
 use Modules\User\Contracts\Authentication;
 
 class NotificationsController extends AdminBaseController
@@ -30,7 +30,7 @@ class NotificationsController extends AdminBaseController
     {
         $notifications = $this->notification->allForUser($this->auth->id());
 
-        return view('inotification::admin.notifications.index', compact('notifications'));
+        return view('notification::admin.notifications.index', compact('notifications'));
     }
 
     /**
@@ -52,7 +52,7 @@ class NotificationsController extends AdminBaseController
         $this->notification->deleteAllForUser($this->auth->id());
 
         return redirect()->route('admin.notification.notification.index')
-            ->withSuccess(trans('inotification::messages.all notifications deleted'));
+            ->withSuccess(trans('notification::messages.all notifications deleted'));
     }
 
     public function markAllAsRead()

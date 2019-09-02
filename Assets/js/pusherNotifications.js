@@ -52,7 +52,7 @@
                 cluster: this.settings.pusherCluster,
                 encrypted: this.settings.pusherEncrypted,
             });
-            this.pusherChannel = this.pusher.subscribe('imagina.notifications.' + this.settings.loggedInUserId);
+            this.pusherChannel = this.pusher.subscribe('asgardcms.notifications.' + this.settings.loggedInUserId);
             this.pusherChannel.bind('Modules\\Notification\\Events\\BroadcastNotification', function (message) {
                 if ($(self.settings.noNotifications).length) {
                     $(self.settings.noNotifications).remove();

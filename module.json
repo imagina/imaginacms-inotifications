@@ -1,8 +1,8 @@
 {
-    "name": "Inotification",
+    "name": "Notification",
     "alias": "notification",
     "description": "Module handling the real time notifications",
-    "version": "3.0.1",
+    "version": "3.1.0",
     "keywords": [
         "asgardcms",
         "notifications",
@@ -11,8 +11,8 @@
     "active": 1,
     "order": 1,
     "providers": [
-        "Modules\\Inotification\\Providers\\InotificationServiceProvider",
-        "Modules\\Inotification\\Providers\\RouteServiceProvider"
+        "Modules\\Notification\\Providers\\NotificationServiceProvider",
+        "Modules\\Notification\\Providers\\RouteServiceProvider"
     ],
     "aliases":{},
     "files": [

@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'inotification.notifications' => [
+    'notification.notifications' => [
+        'manage'=>'notification::messages.manage',
         'index' => 'notification::messages.list resource',
         'destroy' => 'notification::messages.destroy resource',
         'destroyAll' => 'notification::messages.destroy all resource',

@@ -92,16 +92,30 @@ Your app's "Getting Started" tab on Pusher's website has a section for `.env`. Y
 
 Usage is simple and straightforward:
 
-Inject the `Modules\Inotification\Services\Notification` interface where you need it and assign it to a class variable.
+Inject the `Modules\Notification\Services\Notification` interface where you need it and assign it to a class variable.
 
 ### Send notification to logged in user
 
 ``` php
-$this->notification->push('New subscription', 'Someone has subscribed!', 'fa fa-hand-peace-o text-green', route('admin.user.user.index'));
+$this->notification->push('New subscription', 'Someone has subscribed!', 'user','user/3'));
 ```
 
 ### Send notification to a specific user
 
 ``` php
-$this->notification->to($userId)->push('New subscription', 'Someone has subscribed!', 'fa fa-hand-peace-o text-green', route('admin.user.user.index'));
+$this->notification->to($userId)->push('New subscription', 'Someone has subscribed!', 'user', 'user/3');
+```
+## API
+routes and filters for api queries
+### Get all notifications
+``` json
+https://domain.com/api/notification/v1/notifications
+//filters
+{
+    "user":"1"
+    "me":true //or false
+    "read":"true" //or 'false'
+    
+}
+
 ```

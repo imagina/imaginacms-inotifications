@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Inotification\Events\Handlers;
+namespace Modules\Notification\Events\Handlers;
 
 use Modules\Core\Sidebar\AbstractAdminSidebar;
 

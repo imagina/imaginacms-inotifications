@@ -1,18 +1,18 @@
 <?php
 
-namespace Modules\Inotification\Providers;
+namespace Modules\Notification\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Core\Traits\CanPublishConfiguration;
-use Modules\Inotification\Composers\NotificationViewComposer;
-use Modules\Inotification\Entities\Notification;
-use Modules\Inotification\Events\Handlers\RegisterNotificationSidebar;
-use Modules\Inotification\Repositories\Cache\CacheNotificationDecorator;
-use Modules\Inotification\Repositories\Eloquent\EloquentNotificationRepository;
-use Modules\Inotification\Repositories\NotificationRepository;
-use Modules\Inotification\Services\AsgardNotification;
+use Modules\Notification\Composers\NotificationViewComposer;
+use Modules\Notification\Entities\Notification;
+use Modules\Notification\Events\Handlers\RegisterNotificationSidebar;
+use Modules\Notification\Repositories\Cache\CacheNotificationDecorator;
+use Modules\Notification\Repositories\Eloquent\EloquentNotificationRepository;
+use Modules\Notification\Repositories\NotificationRepository;
+use Modules\Notification\Services\AsgardNotification;
 use Modules\User\Contracts\Authentication;
 
 class NotificationServiceProvider extends ServiceProvider
@@ -73,7 +73,7 @@ class NotificationServiceProvider extends ServiceProvider
             }
         );
 
-        $this->app->bind(\Modules\Inotification\Services\Notification::class, function ($app) {
+        $this->app->bind(\Modules\Notification\Services\Notification::class, function ($app) {
             return new AsgardNotification($app[NotificationRepository::class], $app[Authentication::class]);
         });
     }

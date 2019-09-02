@@ -17,11 +17,11 @@ $router->group(['prefix' => '/notification'], function (Router $router) {
     $router->delete('notifications/destroyAll', [
         'as' => 'admin.notification.notification.destroyAll',
         'uses' => 'NotificationsController@destroyAll',
-        'middleware' => 'can:inotification.notifications.destroyAll',
+        'middleware' => 'can:notification.notifications.destroyAll',
     ]);
     $router->delete('notifications/{notification}', [
-        'as' => 'admin.inotification.notification.destroy',
+        'as' => 'admin.notification.notification.destroy',
         'uses' => 'NotificationsController@destroy',
-        'middleware' => 'can:inotification.notifications.destroy',
+        'middleware' => 'can:notification.notifications.destroy',
     ]);
 });
