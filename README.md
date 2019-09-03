@@ -1,15 +1,5 @@
 # Notification module
 
-[![Latest Version](https://img.shields.io/packagist/v/asgardcms/notification-module.svg?style=flat-square)](https://github.com/asgardcms/notification/releases)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/AsgardCms/Notification/master.svg?style=flat-square)](https://travis-ci.org/AsgardCms/Notification)
-[![Quality Score](https://img.shields.io/scrutinizer/g/asgardcms/notification.svg?style=flat-square)](https://scrutinizer-ci.com/g/asgardcms/notification)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/0d8f61c7-0e2f-46b2-9f63-91f4d5abeca5.svg)](https://insight.sensiolabs.com/projects/0d8f61c7-0e2f-46b2-9f63-91f4d5abeca5)
-
-[![Total Downloads](https://img.shields.io/packagist/dd/asgardcms/notification-module.svg?style=flat-square)](https://packagist.org/packages/asgardcms/notification-module)
-[![Total Downloads](https://img.shields.io/packagist/dm/asgardcms/notification-module.svg?style=flat-square)](https://packagist.org/packages/asgardcms/notification-module)
-[![Total Downloads](https://img.shields.io/packagist/dt/asgardcms/notification-module.svg?style=flat-square)](https://packagist.org/packages/asgardcms/notification-module)
-[![Slack](http://slack.asgardcms.com/badge.svg)](http://slack.asgardcms.com/)
 
 
 Quickly send (real-time) notifications to your AsgardCms application.
@@ -31,7 +21,6 @@ public function push($title, $message, $icon, $link = null);
  ```
 
 ![Notifications demo screenshot](https://cldup.com/Dvb8rrcJLv.thumb.png)
-[Quick demo](http://quick.as/7rasgvgv)
 ***
 
 ## Installation

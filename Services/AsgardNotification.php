@@ -55,7 +55,7 @@ final class AsgardNotification implements Notification
      */
     private function triggerEventFor(\Modules\Notification\Entities\Notification $notification)
     {
-        event(new BroadcastNotification($notification));
+        broadcast(new BroadcastNotification($notification))->toOthers();
     }
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Notification\Repositories\NotificationRepository;
 use Modules\Notification\Transformers\NotificationTransformer;
-use Modules\Notification\Services\Notification as PushNotification;
+
 class NotificationsController extends BaseApiController
 {
     /**
@@ -15,10 +15,9 @@ class NotificationsController extends BaseApiController
     private $notification;
     private $notificationP;
 
-    public function __construct(NotificationRepository $notification, PushNotification $notificationP)
+    public function __construct(NotificationRepository $notification)
     {
         $this->notification = $notification;
-        $this->notificationP= $notificationP;
     }
 
     public function markAsRead(Request $request)

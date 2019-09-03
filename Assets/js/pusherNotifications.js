@@ -52,8 +52,16 @@
                 cluster: this.settings.pusherCluster,
                 encrypted: this.settings.pusherEncrypted,
             });
-            this.pusherChannel = this.pusher.subscribe('asgardcms.notifications.' + this.settings.loggedInUserId);
-            this.pusherChannel.bind('Modules\\Notification\\Events\\BroadcastNotification', function (message) {
+            this.pusherChannel = this.pusher.subscribe('imagina.notifications');
+            this.pusherChannel.bind('notification.new.'+ this.settings.loggedInUserId, function (message) {
+                if ($(self.settings.noNotifications).length) {
+                    $(self.settings.noNotifications).remove();
+                }
+                $(self.element).prepend(self.prepareTemplate(message));
+                $(self.element).find('li').first().addClass('animated pulse');
+                self.incrementCounter();
+            });
+            this.pusherChannel.bind('notification.new', function (message) {
                 if ($(self.settings.noNotifications).length) {
                     $(self.settings.noNotifications).remove();
                 }
