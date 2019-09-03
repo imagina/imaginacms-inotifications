@@ -17,7 +17,7 @@ class NotificationTransformer extends Resource
             'message'=>$this->when($this->message, $this->message),
             'entity'=>$this->when($this->icon_class, $this->icon_class),
             'link'=>$this->when($this->link, $this->link),
-            'isReas'=>$this->is_read,
+            'isRead'=>$this->is_read,
             'timeAgo'=>$this->when($this->timeAgo,$this->timeAgo),
             'user'=>new UserTransformer($this->whenLoaded('user')),
         ];

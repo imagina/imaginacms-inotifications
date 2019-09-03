@@ -3,6 +3,7 @@
 namespace Modules\Notification\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Modules\Notification\Http\Requests\CreateNotificationRequest;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Notification\Repositories\NotificationRepository;
 use Modules\Notification\Transformers\NotificationTransformer;
@@ -47,6 +48,7 @@ class NotificationsController extends BaseApiController
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
         } catch (\Exception $e) {
+            \Log::error($e);
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -79,6 +81,7 @@ class NotificationsController extends BaseApiController
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
         } catch (\Exception $e) {
+            \Log::error($e);
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -100,7 +103,7 @@ class NotificationsController extends BaseApiController
         try {
             $data = $request->input('attributes') ?? [];//Get data
             //Validate Request
-            $this->validateRequestApi(new Request($data));
+            $this->validateRequestApi(new CreateNotificationRequest($data));
 
             //Create item
             $dataEntity = $this->notification->create($data);
@@ -109,6 +112,7 @@ class NotificationsController extends BaseApiController
             $response = ["data" => new NotificationTransformer($dataEntity)];
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
+            \Log::error($e);
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
@@ -132,7 +136,7 @@ class NotificationsController extends BaseApiController
             $data = $request->input('attributes') ?? [];//Get data
 
             //Validate Request
-            $this->validateRequestApi(new Request($data));
+            $this->validateRequestApi(new CreateNotificationRequest($data));
 
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
@@ -146,6 +150,7 @@ class NotificationsController extends BaseApiController
             $response = ["data" => 'Item Updated'];
             \DB::commit();//Commit to DataBase
         } catch (\Exception $e) {
+            \Log::error($e);
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
@@ -178,6 +183,7 @@ class NotificationsController extends BaseApiController
             $response = ["data" => "Item deleted"];
             \DB::commit();//Commit to Data Base
         } catch (\Exception $e) {
+            \Log::error($e);
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
@@ -201,6 +207,7 @@ class NotificationsController extends BaseApiController
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
         } catch (\Exception $e) {
+            \Log::error($e);
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -221,6 +228,7 @@ class NotificationsController extends BaseApiController
             $response = ["data" => "Items deleted"];
 
         } catch (\Exception $e) {
+            \Log::error($e);
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
