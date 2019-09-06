@@ -29,11 +29,11 @@
         },
         prepareTemplate: function (message) {
             var template = this.getTemplate();
-            template = template.replace('iconClass', message.notification.icon_class);
-            template = template.replace('#', message.notification.link);
-            template = template.replace('notificationTitle', message.notification.title);
-            template = template.replace('notificationMessage', message.notification.message);
-            template = template.replace('timeAgo', message.notification.time_ago);
+            template = template.replace('iconClass', message.entity);
+            template = template.replace('#', message.link);
+            template = template.replace('notificationTitle', message.title);
+            template = template.replace('notificationMessage', message.message);
+            template = template.replace('timeAgo', message.timeAgo);
 
             return template;
         },

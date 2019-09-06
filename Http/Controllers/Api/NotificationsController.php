@@ -7,7 +7,7 @@ use Modules\Notification\Http\Requests\CreateNotificationRequest;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Notification\Repositories\NotificationRepository;
 use Modules\Notification\Transformers\NotificationTransformer;
-
+use Modules\Notification\Services\Notification as PushNotification;
 class NotificationsController extends BaseApiController
 {
     /**
@@ -16,9 +16,10 @@ class NotificationsController extends BaseApiController
     private $notification;
     private $notificationP;
 
-    public function __construct(NotificationRepository $notification)
+    public function __construct(NotificationRepository $notification, PushNotification $notificationP)
     {
         $this->notification = $notification;
+        $this->notificationP= $notificationP;
     }
 
     public function markAsRead(Request $request)
@@ -98,22 +99,17 @@ class NotificationsController extends BaseApiController
      */
     public function create(Request $request)
     {
-
-        \DB::beginTransaction();
         try {
-            $data = $request->input('attributes') ?? [];//Get data
-            //Validate Request
-            $this->validateRequestApi(new CreateNotificationRequest($data));
+            $data = (object)$request->input('attributes') ?? [];//Get data
 
-            //Create item
-            $dataEntity = $this->notification->create($data);
+            if(isset($data->user_id)){
+                $this->notificationP->to($data->user_id)->push($data->title, $data->caption??'',$data->entity??'', $data->link);
+            }else{
+                $this->notificationP->push($data->title, $data->caption??'',$data->entity??'', $data->link);
+            }
 
-            //Response
-            $response = ["data" => new NotificationTransformer($dataEntity)];
-            \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
             \Log::error($e);
-            \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }

@@ -46,7 +46,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
      */
     public function allForUser($userId)
     {
-        return $this->model->whereUserId($userId)->orWhere('user_id',0)->orderBy('created_at', 'desc')->get();
+        return $this->model->whereUserId($userId)->orWhere('user_id', 0)->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -108,24 +108,31 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
         if (isset($params->filter)) {
             $filter = $params->filter;//Short filter
 
-            if (isset($filter->me)) {
-                if ($filter->me) {
-                    $query->whereUserId($params->user->id);
-                    $query->orWhere('user_id', 0);
-                } else {
-                    $query->where('user_id', 0);
-                }
-            }
             if (isset($filter->read)) {
                 $query->whereIsRead($filter->read);
             }
-            if(!$params->user->hasAccess('notification.notifications.manage')){
-                $query->where('user_id', 0);
-            }else{
-                if (isset($filter->user)) {
-                    $query->whereUserId($filter->user);
+            if (isset($filter->me) || isset($filter->user)) {
+                if (isset($filter->me)) {
+                    if ($filter->me) {
+                        $query->where(function ($query) use ($params) {
+                            $query->where('user_id', $params->user->id);
+                            $query->orWhere('user_id', 0);
+                        });
+                    } else {
+                        $query->where('user_id', 0);
+                    }
                 }
+                if (isset($filter->user)) {
+                    if ($params->user->hasAccess('notification.notifications.manage')) {
+                        $query->where('user_id', 0);
+                    } else {
+                        $query->whereUserId($filter->user);
+                    }
+                }
+            } else {
+                $query->where('user_id', 0);
             }
+
             //Filter by date
             if (isset($filter->date)) {
                 $date = $filter->date;//Short filter date
@@ -142,8 +149,9 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
                 $orderWay = $filter->order->way ?? 'desc';//Default way
                 $query->orderBy($orderByField, $orderWay);//Add order to query
             }
-        }
 
+
+        }
         /*== FIELDS ==*/
         if (isset($params->fields) && count($params->fields))
             $query->select($params->fields);
@@ -157,7 +165,8 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
         }
     }
 
-    public function getItem($criteria, $params = false)
+    public
+    function getItem($criteria, $params = false)
     {
         //Initialize query
         $query = $this->model->query();
@@ -189,7 +198,8 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
     }
 
 
-    public function updateItems($criterias, $data)
+    public
+    function updateItems($criterias, $data)
     {
         $query = $this->model->query();
         $query->whereIn('id', $criterias)->update($data);
@@ -198,7 +208,8 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
 
     }
 
-    public function deleteItems($criterias)
+    public
+    function deleteItems($criterias)
     {
         $query = $this->model->query();
 
