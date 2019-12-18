@@ -46,5 +46,19 @@ $router->group(['prefix' => '/notification/v1'], function (Router $router) {
             'uses' => 'NotificationsController@delete',
             'middleware' => ['auth:api']
         ]);
+
+        //Route update
+        $router->put('update-items/{criteria}', [
+            'as' => 'api.notification.updateItems',
+            'uses' => 'NotificationsController@updateItems',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route delete
+        $router->delete('delete-items/{criteria}', [
+            'as' => 'api.notification.deleteItems',
+            'uses' => 'NotificationsController@deleteItems',
+            'middleware' => ['auth:api']
+        ]);
     });
 });
