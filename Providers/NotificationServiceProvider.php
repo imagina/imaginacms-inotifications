@@ -72,6 +72,36 @@ class NotificationServiceProvider extends ServiceProvider
                 return new CacheNotificationDecorator($repository);
             }
         );
+        $this->app->bind(
+            'Modules\Notification\Repositories\RuleRepository',
+            function () {
+                $repository = new \Modules\Notification\Repositories\Eloquent\EloquentRuleRepository(new \Modules\Notification\Entities\Rule());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new \Modules\Notification\Repositories\Cache\CacheRuleDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Notification\Repositories\ClientRepository',
+            function () {
+                $repository = new \Modules\Notification\Repositories\Eloquent\EloquentClientRepository(new \Modules\Notification\Entities\Client());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new \Modules\Notification\Repositories\Cache\CacheClientDecorator($repository);
+            }
+        );
+        $this->app->bind(
+            'Modules\Notification\Repositories\TemplateRepository',
+            function () {
+                $repository = new \Modules\Notification\Repositories\Eloquent\EloquentTemplateRepository(new \Modules\Notification\Entities\Template());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new \Modules\Notification\Repositories\Cache\CacheTemplateDecorator($repository);
+            }
+        );
 
         $this->app->bind(\Modules\Notification\Services\Notification::class, function ($app) {
             return new AsgardNotification($app[NotificationRepository::class], $app[Authentication::class]);
