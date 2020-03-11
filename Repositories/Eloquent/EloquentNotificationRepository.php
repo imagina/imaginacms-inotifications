@@ -98,7 +98,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
         if (in_array('*', $params->include)) {//If Request all relationships
             $query->with(['user']);
         } else {//Especific relationships
-            $includeDefault = ['user'];//Default relationships
+            $includeDefault = [];//Default relationships
             if (isset($params->include))//merge relations with default relationships
                 $includeDefault = array_merge($includeDefault, $params->include);
             $query->with($includeDefault);//Add Relationships to query
@@ -132,7 +132,9 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
             } else {
                 $query->where('user_id', 0);
             }
-
+            if(isset($filter->icon) && !empty($filter->icon)){
+                $query->where('icon_class','like',$filter->icon);
+            }
             //Filter by date
             if (isset($filter->date)) {
                 $date = $filter->date;//Short filter date
@@ -148,6 +150,8 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
                 $orderByField = $filter->order->field ?? 'created_at';//Default field
                 $orderWay = $filter->order->way ?? 'desc';//Default way
                 $query->orderBy($orderByField, $orderWay);//Add order to query
+            } else {
+                $query->orderBy('created_at', 'desc');
             }
 
 

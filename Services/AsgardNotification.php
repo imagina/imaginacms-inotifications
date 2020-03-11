@@ -47,6 +47,7 @@ final class AsgardNotification implements Notification
         if (true === config('asgard.notification.config.real-time', false)) {
             $this->triggerEventFor($notification);
         }
+        $this->toFirebase($notification);
     }
 
     /**
@@ -57,6 +58,33 @@ final class AsgardNotification implements Notification
     {
         broadcast(new BroadcastNotification($notification))->toOthers();
     }
+
+
+    private function toFirebase(\Modules\Notification\Entities\Notification $notification)
+    {
+
+        try {
+            \Log::info('Norification push');
+            fcm()->toTopic('notification.new.' . $notification->user_id) // $topic must an string (topic name)
+            ->priority('normal')
+                ->timeToLive(0)
+                ->data([
+                    'body' => $notification->message,
+                ])
+                ->notification([
+                    'title' => $notification->title,
+                    'body' => $notification->message,
+                    'link'=>$notification->link,
+                    'image'=>setting('isite::logo1')
+                ])
+                ->send();
+        } catch (\Exception $e) {
+            \Log::error($e);
+        }
+
+
+    }
+
 
     /**
      * Set a user id to set the notification to

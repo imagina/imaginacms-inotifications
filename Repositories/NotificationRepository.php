@@ -73,7 +73,6 @@ interface NotificationRepository extends BaseRepository
      */
     public function getItem($criteria, $params);
 
-
     /**
      * Update the notifications for the given ids
      * @param array $criterias
@@ -88,6 +87,5 @@ interface NotificationRepository extends BaseRepository
      * @return bool
      */
     public function deleteItems($criterias);
-
 
 }

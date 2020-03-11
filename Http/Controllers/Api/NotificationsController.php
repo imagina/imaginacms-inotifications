@@ -43,6 +43,7 @@ class NotificationsController extends BaseApiController
 
             //Request to Repository
             $dataEntity = $this->notification->getItemsBy($params);
+
             //Response
             $response = ["data" => NotificationTransformer::collection($dataEntity)];
 
@@ -103,11 +104,11 @@ class NotificationsController extends BaseApiController
             $data = (object)$request->input('attributes') ?? [];//Get data
 
             if(isset($data->user_id)){
-                $this->notificationP->to($data->user_id)->push($data->title, $data->caption??'',$data->entity??'', $data->link);
+                $this->notificationP->to($data->user_id)->push($data->title, $data->message??'',$data->icon??'', $data->link);
             }else{
-                $this->notificationP->push($data->title, $data->caption??'',$data->entity??'', $data->link);
+                $this->notificationP->push($data->title, $data->message??'',$data->icon??'', $data->link);
             }
-
+            $response = ["data" => 'Item Updated'];
         } catch (\Exception $e) {
             \Log::error($e);
             $status = $this->getStatusError($e->getCode());
@@ -173,7 +174,7 @@ class NotificationsController extends BaseApiController
             $dataEntity = $this->notification->getItem($criteria, $params);
 
             //call Method delete
-            $this->notification->delete($dataEntity);
+            $this->notification->destroy($dataEntity);
 
             //Response
             $response = ["data" => "Item deleted"];
@@ -189,10 +190,12 @@ class NotificationsController extends BaseApiController
         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
     }
 
-    public  function updateAll(Request $request){
+    public  function updateItems(Request $request){
         try {
             //Get Parameters from URL.
+            dd($request);
             $params = $this->getParamsRequest($request);
+
             $data = $request->input('attributes') ?? [];//Get data
             //Request to Repository
             $dataEntity = $this->notification->getItemsBy($params);
@@ -212,7 +215,7 @@ class NotificationsController extends BaseApiController
         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
     }
 
-    public  function deleteAll(Request $request){
+    public  function deleteItems(Request $request){
         try {
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
