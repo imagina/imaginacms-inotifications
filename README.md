@@ -79,10 +79,10 @@ The settings necessary to customize the fields of the provider for each Rule
 
 Each setting need to be defined with the `dynamic fields` configuration in the [basequasar-app](https://github.com/imagina/basequasar-app). Here a list of the settings required:
 
-  | Option | Description | Required |
-    | ------------- | ------------- | ------------- |
-    | status | a select field with Enable/Disable options ('1' or '0') | Yes
-    | saveInDatabase | required field for save in the `notification__notifications` table or not| Yes
+| Option | Description | Required |
+| ------------- | ------------- | ------------- |
+| status | a select field with Enable/Disable options ('1' or '0') | Yes |
+| saveInDatabase | required field for save in the `notification__notifications` table or not| Yes |
 
     
 >#####Note    
@@ -275,4 +275,4 @@ The conditions are configured like the dynamic fields  of the basequasar-app.
  
  
 ## Flow Chart
-![Flow Chart](https://raw.githubusercontent.com/imagina/asgardcms-inotifications/tree/master/Assets/img/flow-chart.jpeg)
+![Flow Chart](https://raw.githubusercontent.com/imagina/asgardcms-inotifications/dev-4.0/Assets/img/flow-chart.jpeg)
