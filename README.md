@@ -40,15 +40,15 @@ php artisan module:migrate notification --seed
 ### Providers configuration 
 #####[/Config/config.php](/Config/config.php)
 
-  | Option | Description | Required |
-    | ------------- | ------------- | ------------- |
-    | name | Name to show in frontend administrator | Yes
-    | systemName | Name to use in backend | Yes
-    | icon | Icon to use in frontend administrator | No
-    | color | Color to use in frontend administrator | No
-    | rules | Rules to validate the recipient, see the [available rules](https://laravel.com/docs/5.5/validation#available-validation-rules)  | No
-    | fields | Fields necessary to configure the provider, see the [Provider Fields](https://github.com/imagina/asgardcms-inotifications#provider-fields) | Yes
-    | settings | the available settings for each rules | No
+| Option | Description | Required |
+| ------------- | ------------- | ------------- |
+| name | Name to show in frontend administrator | Yes |
+| systemName | Name to use in backend | Yes |
+| icon | Icon to use in frontend administrator | No |
+| color | Color to use in frontend administrator | No |
+| rules | Rules to validate the recipient, see the [available rules](https://laravel.com/docs/5.5/validation#available-validation-rules)  | No |
+| fields | Fields necessary to configure the provider, see the [Provider Fields](https://github.com/imagina/asgardcms-inotifications#provider-fields) | Yes |
+| settings | the available settings for each rules | No |
 
 ### Provider Fields
 
@@ -56,13 +56,13 @@ All the fields necessary to configure the provider: api keys, login, user names,
 
 Each field need to be defined with the `dynamic fields` configuration in the [basequasar-app](https://github.com/imagina/basequasar-app). Here a list of the fields required:
 
-  | Option | Description | Required |
-    | ------------- | ------------- | ------------- |
-    | id | it's necessary to the crud in frontend, only the `value` it's necessary: ```  ["id" => ['value' => null]``` | Yes
-    | status | a select field with Enable/Disable options ('1' or '0') | Yes
-    | default | a checkbox field for the default provider by type of notification | Yes
-    | type | Type of the notification, defined in the config `notificationTypes` and seeded in the `notification__notification_types` | Yes
-    | saveInDatabase | required field for save in the `notification__notifications` table or not| Yes
+| Option | Description | Required |
+| ------------- | ------------- | ------------- |
+| id | it's necessary to the crud in frontend, only the `value` it's necessary: ```  ["id" => ['value' => null]``` | Yes
+| status | a select field with Enable/Disable options ('1' or '0') | Yes
+| default | a checkbox field for the default provider by type of notification | Yes
+| type | Type of the notification, defined in the config `notificationTypes` and seeded in the `notification__notification_types` | Yes
+| saveInDatabase | required field for save in the `notification__notifications` table or not| Yes
     
 >#####Note
 >Each Provider field can define the route to the public config to replace the keys from ENV file, just add the configRoute value:
