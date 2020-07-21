@@ -3,6 +3,8 @@
 return [
     'no notifications' => 'There are no notifications.',
     'notifications' => 'Notifications',
+    'show-notification' => 'Show Notification',
+    'new-notification' => 'You have a new notification',
     'delete all confirmation' => 'Are you sure you want to delete all notifications ?',
     'time' => 'Time',
     'title' => 'Title',

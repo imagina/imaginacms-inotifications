@@ -10,6 +10,10 @@ class Template extends Model
     use Translatable;
 
     protected $table = 'notification__templates';
-    public $translatedAttributes = [];
-    protected $fillable = [];
+    public $translatedAttributes = [
+      'name'
+    ];
+    protected $fillable = [
+      'view'
+    ];
 }

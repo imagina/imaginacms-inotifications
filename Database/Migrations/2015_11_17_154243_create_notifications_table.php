@@ -13,7 +13,7 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notification__notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->string('type')->nullable();
             $table->string('icon_class');
             $table->string('link')->nullable();

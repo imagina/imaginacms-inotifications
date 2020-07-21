@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     protected $table = 'notification__notifications';
-    protected $fillable = ['user_id', 'type', 'message', 'icon_class', 'link', 'is_read', 'title'];
+    protected $fillable = ['user_id', 'type', 'message', 'icon_class', 'link', 'is_read', 'title', 'provider', 'recipient'];
     protected $appends = ['time_ago'];
     protected $casts = ['is_read' => 'bool'];
 

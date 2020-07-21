@@ -3,13 +3,14 @@
 namespace Modules\Notification\Events;
 
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\Channel;
 use Modules\Notification\Entities\Notification;
 use Modules\Notification\Transformers\NotificationTransformer;
 
-class BroadcastNotification implements ShouldBroadcast, ShouldQueue
+class BroadcastNotification implements ShouldBroadcastNow, ShouldQueue
 {
     use SerializesModels;
 

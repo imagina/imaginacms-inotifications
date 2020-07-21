@@ -1,5 +1,17 @@
 url: https://github.com/imagina/Inotification
 versions:
+  "4.0.0":
+    added:
+      - `Provider`, `Rule`, `Template` and `TypeNotification` Asgard Entities Scaffold
+      - `defaultEmailView` config
+      - `provider` and `recipient` columns into `notification__notifications` table
+      - `notificationTypes` config to be seeded in the notification__notification_types table
+      - `providers` config to add new providers configurations
+      - `NotificationTypeTableSeeder` depending on the config
+      - `EventServiceProvider` to listening dynamically all the events defined in the config `providers`
+      - `NotificationHandler` to handle all the events listened by the `EventServiceProvider`
+      - `Rule->conditions` validations
+      - `ImaginaNotification` improved version of the `AsgardNotification`
   "3.1.4":
     added:
       - Methods updateItems and deleteItems in CacheNotificationDecorator

@@ -2,63 +2,27 @@
 
 use Illuminate\Routing\Router;
 
+
+$router->group(['prefix' => '/notification/v1'], function (Router $router) {
+  
+  //====== Notifications
+  require_once('ApiRoutes/notificationRoutes.php');
+  
+  //====== Providers
+  require_once('ApiRoutes/providerRoutes.php');
+  
+  //====== Rules
+  require_once('ApiRoutes/ruleRoutes.php');
+  
+  //====== Templates
+  require_once('ApiRoutes/templateRoutes.php');
+  
+});
+
+
 /** @var Router $router */
 $router->post('notification/mark-read',
     ['as' => 'api.notification.read',
         'uses' => 'NotificationsController@markAsRead'
     ]);
 
-$router->group(['prefix' => '/notification/v1'], function (Router $router) {
-
-    $router->group(['prefix' => '/notifications'], function (Router $router) {
-
-        //Route create
-        $router->post('/', [
-            'as' => 'api.notification.create',
-            'uses' => 'NotificationsController@create',
-            'middleware' => ['auth:api']
-        ]);
-
-        //Route index
-        $router->get('/', [
-            'as' => 'api.notification.get.items.by',
-            'uses' => 'NotificationsController@index',
-            'middleware' => ['auth:api']
-        ]);
-
-        //Route show
-        $router->get('/{criteria}', [
-            'as' => 'api.notification.get.item',
-            'uses' => 'NotificationsController@show',
-            'middleware' => ['auth:api']
-        ]);
-
-        //Route update
-        $router->put('/{criteria}', [
-            'as' => 'api.notification.update',
-            'uses' => 'NotificationsController@update',
-            'middleware' => ['auth:api']
-        ]);
-
-        //Route delete
-        $router->delete('/{criteria}', [
-            'as' => 'api.notification.delete',
-            'uses' => 'NotificationsController@delete',
-            'middleware' => ['auth:api']
-        ]);
-
-        //Route update
-        $router->put('update-items/{criteria}', [
-            'as' => 'api.notification.updateItems',
-            'uses' => 'NotificationsController@updateItems',
-            'middleware' => ['auth:api']
-        ]);
-
-        //Route delete
-        $router->delete('delete-items/{criteria}', [
-            'as' => 'api.notification.deleteItems',
-            'uses' => 'NotificationsController@deleteItems',
-            'middleware' => ['auth:api']
-        ]);
-    });
-});
