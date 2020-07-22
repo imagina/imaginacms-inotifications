@@ -277,7 +277,7 @@ The conditions are configured like the dynamic fields  of the basequasar-app.
 >Note
 >    
 > All conditions require the `any` default value, the handle detects it and validates it
- 
+
  
 ##Event Example
 
@@ -332,5 +332,294 @@ class UserWasJoined
 }
 ```
 
+## Notifiable Config Example
+
+``` php
+  'notifiable' => [
+    
+    [
+      "title" => "Lead Opportunity",
+      "entityName" => "Modules\\Ilead\\Entities\\LeadOpportunity",
+      "events" => [
+        [
+          "title" => "New Lead Opportunity was created",
+          "path" => "Modules\\Ilead\\Events\\LeadOpportunityWasCreated"
+        ]
+      ],
+      
+      "conditions" => [
+        "EMail" => [
+          "name" => "EMail",
+          'value' => [
+            "comparator" => "",
+            "value" => ""
+          ],
+          'type' => 'recursive',
+          "fields" => [
+            "operator" => [
+              "name" => "operator",
+              'value' => 'any',
+              'type' => 'select',
+              'props' => [
+                'label' => 'Email',
+                'options' => [
+                  ['label' => 'Any', 'value' => 'any'],
+                  ['label' => 'Contains', 'value' => 'contains'],
+                  ['label' => 'Exact Match', 'value' => 'exactMatch']
+                ]
+              ],
+            ],
+            "value" => [
+              "name" => "value",
+              'value' => '',
+              'type' => 'text',
+              'props' => [
+                'label' => ''
+              ],
+            ],
+            "type" => [
+              "name" => "type",
+              'value' => 'comparatorSimple',
+              'type' => 'hidden',
+              'props' => [
+                'label' => ''
+              ],
+            ]
+          ]
+        
+        ],
+        "NinetyMin" => [
+          "name" => "NinetyMin",
+          'value' => 'any',
+          'type' => 'select',
+          'props' => [
+            'label' => 'Ninety Min',
+            'options' => [
+              ['label' => 'Any', 'value' => 'any'],
+              ['label' => 'Yes', 'value' => 'Y'],
+              ['label' => 'No', 'value' => 'N']
+            ]
+          ],
+        ],
+        "idSource" => [
+          "name" => "idSource",
+          'value' => 'any',
+          'type' => 'select',
+          'loadOptions' => [
+            'apiRoute' => 'apiRoutes.setup.sources',
+            'select' => ['label' => 'title', 'id' => 'id']
+          ],
+          'options' => [
+            ['label' => 'Any', 'value' => 'any'],
+          ],
+          'props' => [
+            'label' => 'Source'
+          ],
+        ],
+        "idStore" => [
+          "name" => "idStore",
+          'value' => 'any',
+          'type' => 'select',
+          'loadOptions' => [
+            'apiRoute' => 'apiRoutes.setup.stores',
+            'select' => ['label' => 'title', 'id' => 'id']
+          ],
+          'options' => [
+            ['label' => 'Any', 'value' => 'any'],
+          ],
+          'props' => [
+            'label' => 'Store'
+          ],
+        ],
+      
+      ],
+      
+      "settings" => [
+        
+        "email" => [
+          
+          "recipients" => [
+            ['label' => 'Customer Email', 'value' => 'EMail']
+          ]
+        ],
+        
+        "sms" => [
+          "recipients" => [
+            ['label' => 'Day Phone', 'value' => 'DayPhone'],
+            ['label' => 'Evening Phone', 'value' => 'EvePhone'],
+            ['label' => 'Cell Phone', 'value' => 'CellPhone']
+          ]
+        ],
+        
+        "pusher" => [
+          "recipients" => [
+            ['label' => 'Rep 1', 'value' => 'repId'],
+            ['label' => 'Rep 2', 'value' => 'repId2']
+          ]
+        ],
+        
+        "firebase" => [
+          "recipients" => [
+            ['label' => 'Rep 1', 'value' => 'repId'],
+            ['label' => 'Rep 2', 'value' => 'repId2']
+          ]
+        ],
+      ],
+    ],
+  ]
+```
+
+## Provider Config Example [providers](Config/config.php))
+
+``` php
+ "pusher" => [// PUSHER PROVIDER
+      "name" => "Pusher",
+      "systemName" => "pusher",
+      "icon" => "far fa-bell",
+      "color" => "#c223ce",
+      "rules" => [
+        "numeric",
+        "min:1",
+      ],
+      "fields" => [
+        "id" => [
+          'value' => null,
+        ],
+        "pusherAppEncrypted" => [
+          "name" => "pusherAppEncrypted",
+          'value' => true,
+          'type' => 'toggle',
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Pusher App Encrypted',
+            'falseValue' => false,
+            'trueValue' => true
+          ],
+          "configRoute" => "broadcasting.connections.pusher.options.encrypted"
+        ],
+        
+        "pusherAppId" => [
+          "name" => "pusherAppId",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Pusher App Id *'
+          ],
+          "configRoute" => "broadcasting.connections.pusher.app_id"
+        ],
+        
+        "pusherAppKey" => [
+          "name" => "pusherAppKey",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Pusher App Key *'
+          ],
+          "configRoute" => "broadcasting.connections.pusher.key"
+        ],
+        
+        "pusherAppSecret" => [
+          "name" => "pusherAppSecret",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Pusher App Secret *'
+          ],
+          "configRoute" => "broadcasting.connections.pusher.secret"
+        ],
+        
+        "pusherAppCluster" => [
+          "name" => "pusherAppCluster",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Pusher App Cluster *'
+          ],
+          "configRoute" => "broadcasting.connections.pusher.options.cluster"
+        ],
+        "status" => [
+          "name" => "status",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Status',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+        "default" => [
+          "name" => "default",
+          'value' => false,
+          'type' => 'checkbox',
+          'props' => [
+            'label' => 'Default',
+          ]
+        ],
+        "saveInDatabase" => [
+          "name" => "saveInDatabase",
+          'value' => '1',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Save in database',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+        "type" => ['value' => 'broadcast'],
+      ],
+      "settings" => [
+        "recipients" => [
+          "name" => "recipients",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'settings',
+          'props' => [
+            'label' => 'Recipients',
+            "hint" => "Enter recipient ID - separate entries with commas"
+          ],
+        ],
+        "status" => [
+          "name" => "status",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Enable',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+        "saveInDatabase" => [
+          "name" => "saveInDatabase",
+          'value' => '1',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Save in database',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+      ]
+    ],
+```
 ## Flow Chart
 ![Flow Chart](https://raw.githubusercontent.com/imagina/asgardcms-inotifications/dev-4.0/Assets/img/flow-chart.jpeg)
