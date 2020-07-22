@@ -14,7 +14,8 @@ Improved version of the Asgard Notification Module - https://github.com/AsgardCm
 - `Rule->conditions` validations
 - `ImaginaNotification` improved version of the `AsgardNotification`
 
->#####Note
+>Note
+>
 >with the new `ImaginaNotification` service, the column `user_id` are replaced by `recipient` in the table `notification__notifications` 
 
 
@@ -28,7 +29,8 @@ Execute the following command in your terminal:
 composer require imagina/asgardcms-inotifications
 ```
 
->#####Note
+>Note
+>
 >After installation you'll have to give you the required permissions to get to the blog module pages in the backend.**
 
 #### Run migrations and seeders
@@ -64,7 +66,8 @@ Each field need to be defined with the `dynamic fields` configuration in the [ba
 | type | Type of the notification, defined in the config `notificationTypes` and seeded in the `notification__notification_types` | Yes
 | saveInDatabase | required field for save in the `notification__notifications` table or not| Yes
     
->#####Note
+>Note
+>
 >Each Provider field can define the route to the public config to replace the keys from ENV file, just add the configRoute value:
 
   ``` php
@@ -85,7 +88,8 @@ Each setting need to be defined with the `dynamic fields` configuration in the [
 | saveInDatabase | required field for save in the `notification__notifications` table or not| Yes |
 
     
->#####Note    
+>Note
+>    
 >the required fields of the Provider have more precedence over the Rule Settings.
 
 
@@ -270,9 +274,63 @@ The conditions are configured like the dynamic fields  of the basequasar-app.
 ],
 ```       
        
->#####Note    
+>Note
+>    
 > All conditions require the `any` default value, the handle detects it and validates it
  
  
+##Event Example
+
+``` php
+
+namespace Modules\Iteam\Events;
+
+
+class UserWasJoined
+{
+    public $user;
+    public $team;
+    
+    // this attribute it's required
+    public $entity;
+
+    /**
+     * Create a new event instance.
+     *
+     * @param $entity
+     * @param array $data
+     */
+    public function __construct($user,$team)
+    {
+        $this->user = $user;
+        $this->entity = $team;
+        $this->team = $team;
+    }
+  
+  // this method it's required
+  
+  public function notification(){
+    
+    return [
+      "title" =>  "¡Buenas Noticias!, te han aceptado en el equipo: ".$this->team->title,
+      "message" =>   "Has sido aceptado en el equipo: ".$this->team->title,
+      "icon_class" => "fas fa-glass-cheers",
+      "link" => "link",
+      "view" => "iteam::emails.userJoined.userJoined",
+      "recipients" => [
+        "email" => [$this->user->email],
+        "broadcast" => [$this->user->id],
+        "push" => [$this->user->id],
+      ],
+      
+      // here you can send all objects and params necessary to the view template
+      "user" => $this->user,
+      "team" => $this->team
+    ];
+  }
+
+}
+```
+
 ## Flow Chart
 ![Flow Chart](https://raw.githubusercontent.com/imagina/asgardcms-inotifications/dev-4.0/Assets/img/flow-chart.jpeg)
