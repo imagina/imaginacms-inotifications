@@ -33,6 +33,7 @@ return [
       "rules" => [
         "email"
       ],
+      "type" => 'email',
       "fields" => [
         "id" => [
           'value' => null,
@@ -80,7 +81,7 @@ return [
             'label' => 'Default',
           ],
         ],
-        "type" => ['value' => 'email'],
+        
         "saveInDatabase" => [
           "name" => "saveInDatabase",
           'value' => '0',
@@ -163,6 +164,7 @@ return [
         "numeric",
         "min:1",
       ],
+      "type" => 'broadcast',
       "fields" => [
         "id" => [
           'value' => null,
@@ -261,7 +263,7 @@ return [
             ],
           ],
         ],
-        "type" => ['value' => 'broadcast'],
+      
       ],
       "settings" => [
         "recipients" => [
@@ -312,6 +314,7 @@ return [
         "numeric",
         "min:1",
       ],
+      "type" >= 'broadcast',
       "fields" => [
         "id" => [
           'value' => null,
@@ -370,7 +373,7 @@ return [
             ],
           ],
         ],
-        "type" => ['value' => 'broadcast'],
+     
       ],
       "settings" => [
         "recipients" => [
@@ -412,6 +415,158 @@ return [
       ]
     ],
   
+    "labsMobile" => [// LABS MOBILE PROVIDER
+      "name" => "Labs Mobile",
+      "systemName" => "labsMobile",
+      "icon" => "far fa-bell",
+      "color" => "#c223ce",
+      "rules" => [
+        "numeric",
+        "min:10",
+      ],
+      "type" => 'sms',
+      "fields" => [
+        "id" => [
+          'value' => null,
+        ],
+        "driver" => [
+          'value' => 'labsmobile',
+          'name' => 'driver',
+          'type' => 'hidden',
+          "isFakeField" => 'fields',
+          "configRoute" => "sms.driver"
+        ],
+        "from" => [
+          'value' => '', //22435 example from labs mobile configuration
+          'name' => 'from',
+          'type' => 'hidden',
+          "isFakeField" => 'fields',
+          "configRoute" => "sms.from"
+        ],
+        "clientId" => [
+          "name" => "clientId",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Client Id *',
+          ],
+          "configRoute" => "sms.labsmobile.client_id"
+        ],
+      
+        "userName" => [
+          "name" => "userName",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'User Name *'
+          ],
+          "configRoute" => "sms.labsmobile.username"
+        ],
+      
+        "password" => [
+          "name" => "password",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Password *'
+          ],
+          "configRoute" => "sms.labsmobile.password"
+        ],
   
+        "test" => [
+          "name" => "test",
+          'value' => true,
+          'type' => 'toggle',
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Test',
+            'falseValue' => false,
+            'trueValue' => true
+          ],
+          "configRoute" => "sms.labsmobile.test"
+        ],
+  
+       
+        "status" => [
+          "name" => "status",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Status',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+        "default" => [
+          "name" => "default",
+          'value' => false,
+          'type' => 'checkbox',
+          'props' => [
+            'label' => 'Default',
+          ]
+        ],
+        "saveInDatabase" => [
+          "name" => "saveInDatabase",
+          'value' => '1',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Save in database',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+       
+      ],
+      "settings" => [
+        "recipients" => [
+          "name" => "recipients",
+          'value' => '',
+          'type' => 'input',
+          "isFakeField" => 'settings',
+          'props' => [
+            'label' => 'Recipients',
+            "hint" => "Enter recipient Number - separate entries with commas"
+          ],
+        ],
+        "status" => [
+          "name" => "status",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Enable',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+        "saveInDatabase" => [
+          "name" => "saveInDatabase",
+          'value' => '1',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Save in database',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+      ]
+    ],
   ]
 ];

@@ -42,6 +42,10 @@ final class ImaginaNotification implements Inotification
    * @var string|Provider[object]
    */
   private $provider;
+  /**
+   * @var array
+   */
+  private $providerConfig;
   
   /**
    * @var ProviderRepository
@@ -176,11 +180,11 @@ final class ImaginaNotification implements Inotification
     
     $providersConfig = collect(config("asgard.notification.config.providers"));
     $providersConfig = $providersConfig->keyBy("systemName");
-    $providerConfig = $providersConfig[$this->provider->system_name];
+    $this->providerConfig = $providersConfig[$this->provider->system_name];
     
     $valid = true;
-    if (isset($providerConfig["rules"])) {
-      $result = Validator::make(["recipient" => $recipient], ["recipient" => $providerConfig["rules"]]);
+    if (isset($this->providerConfig["rules"])) {
+      $result = Validator::make(["recipient" => $recipient], ["recipient" => $this->providerConfig["rules"]]);
       if ($result->fails()) {
         $valid = false;
       }
@@ -234,11 +238,8 @@ final class ImaginaNotification implements Inotification
   private function loadConfigFromDatabase()
   {
     
-    $providersConfig = collect(config("asgard.notification.config.providers"));
-    $providersConfig = $providersConfig->keyBy("systemName");
-    
-    $providerConfig = $providersConfig[$this->provider->system_name];
-    foreach ($providerConfig["fields"] as $field) {
+
+    foreach ($this->providerConfig["fields"] as $field) {
       if (isset($field["configRoute"])) {
         config([$field["configRoute"] => $this->provider->fields->{$field["name"]}]);
       }
@@ -269,7 +270,11 @@ final class ImaginaNotification implements Inotification
     $view = $this->data["view"] ?? $defaultView;
     
     //Maiable
-    $mailable = new NotificationMailable($this->data, $subject, (view()->exists($view) ? $view : $defaultView));
+    $mailable = new NotificationMailable($this->data,
+      $subject, (view()->exists($view) ? $view : $defaultView),
+      $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
+      $this->data["fromName"] ?? $this->provider->fields->fromName ?? null);
+    
     \Log::info('Sending Email to ' . $this->recipient);
     Mail::to($this->recipient)->send($mailable);
   }
@@ -307,6 +312,20 @@ final class ImaginaNotification implements Inotification
     $client->messages->create($this->recipient,
       ['from' => $twilio_number, 'body' => $this->data["message"] ?? '']);
     
+  }
+  
+  
+  private function labsMobile()
+  {
+    \Log::info("Notification labsMobile to: " . $this->recipient);
+  
+    $recipient = $this->recipient;
+    //Service Providers Example
+    \SMS::send(($this->data["title"] ?? '')." ".($this->data["message"] ?? '')." ".($this->data["link"] ?? ''), null, function($sms) use ($recipient) {
+      $sms->to($recipient);
+    });
+  
+  
   }
 
 }

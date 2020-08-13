@@ -16,7 +16,7 @@ Improved version of the Asgard Notification Module - https://github.com/AsgardCm
 
 >Note
 >
->with the new `ImaginaNotification` service, the column `user_id` are replaced by `recipient` in the table `notification__notifications` 
+>with the new `ImaginaNotification` service, the column `user_id` was replaced by `recipient` in the table `notification__notifications` 
 
 
 ## Installation
@@ -277,8 +277,8 @@ The conditions are configured like the dynamic fields  of the basequasar-app.
 >Note
 >    
 > All conditions require the `any` default value, the handle detects it and validates it
-
  
+## 
 ##Event Example
 
 ``` php
@@ -469,7 +469,7 @@ class UserWasJoined
   ]
 ```
 
-## Provider Config Example [providers](Config/config.php))
+## Provider Config Example [providers](Config/config.php)
 
 ``` php
  "pusher" => [// PUSHER PROVIDER

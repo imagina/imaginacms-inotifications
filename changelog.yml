@@ -1,5 +1,9 @@
 url: https://github.com/imagina/Inotification
 versions:
+  "4.1.0":
+    added:
+      - integrated labs mobile configuration
+      - fix notification/mark-read api route
   "4.0.0":
     added:
       - `Provider`, `Rule`, `Template` and `TypeNotification` Asgard Entities Scaffold

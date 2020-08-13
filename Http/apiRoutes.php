@@ -23,6 +23,6 @@ $router->group(['prefix' => '/notification/v1'], function (Router $router) {
 /** @var Router $router */
 $router->post('notification/mark-read',
     ['as' => 'api.notification.read',
-        'uses' => 'NotificationsController@markAsRead'
+        'uses' => 'NotificationApiController@markAsRead'
     ]);
 
