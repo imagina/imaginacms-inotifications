@@ -37,14 +37,15 @@ class BroadcastNotification implements ShouldBroadcastNow, ShouldQueue
             'type'=> $this->notification->type,
             'updated_at'=>$this->notification->updated_at,
             'user'=>$this->notification->user_id,
+            'recipient'=>$this->notification->recipient,
         ];
         return $data;
     }
 
     public function broadcastAs()
     {
-        if($this->notification->user_id){
-            return 'notification.new.'.$this->notification->user_id;
+        if($this->notification->recipient){
+            return 'notification.new.'.$this->notification->recipient;
         }else{
             return 'notification.new';
         }

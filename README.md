@@ -1,8 +1,11 @@
-# Inotification module 4.0.0
+# Inotification module 4.1.1
 Improved version of the Asgard Notification Module - https://github.com/AsgardCms/Notification
 
 ##Realease Notes
 ### Added
+- Rules `CreateNotificationRequest`
+- Validation message for request rules
+- `Labs Mobile` default provider for SMS notifications
 - `Provider`, `Rule`, `Template` and `TypeNotification` Asgard Entities Scaffold
 - `defaultEmailView` config 
 - `provider` and `recipient` columns into `notification__notifications` table
@@ -120,7 +123,10 @@ Inject the `Modules\Notification\Services\Inotification` interface where you nee
         "title" => "test notification",
         "message" => "message notification",
         "icon_class" => "fas fa-test",
-        "link" => url('')
+        "link" => url(''),
+        "setting" => [
+          "saveInDatabase" => 1 // now, the notifications with type broadcast need to be save in database to really send the notification
+        ]
       ]
     );
     
@@ -134,7 +140,10 @@ Inject the `Modules\Notification\Services\Inotification` interface where you nee
         "title" => "test notification",
         "message" => "message notification",
         "icon_class" => "fas fa-test",
-        "link" => url('')
+        "link" => url(''),
+        "setting" => [
+          "saveInDatabase" => 1 // now, the notifications with type broadcast need to be save in database to really send the notification
+        ]
       ]
     );
   
@@ -166,7 +175,10 @@ $this->notification->provider('email')->to($user->email)
         "message" => "message notification",
         "icon_class" => "fas fa-test",
         "link" => url(''),
-        "view" => "email.view"
+        "view" => "email.view",
+        "setting" => [
+          "saveInDatabase" => 1 // now, the notifications with type broadcast need to be save in database to really send the notification
+        ]
       ]
   );
             

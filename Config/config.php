@@ -437,7 +437,7 @@ return [
           "configRoute" => "sms.driver"
         ],
         "from" => [
-          'value' => '', //22435 example from labs mobile configuration
+          'value' => '22435',
           'name' => 'from',
           'type' => 'hidden',
           "isFakeField" => 'fields',

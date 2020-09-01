@@ -1,9 +1,19 @@
 url: https://github.com/imagina/Inotification
 versions:
+  "4.1.1":
+    added:
+      - Rules CreateNotificationRequest
+      - Validation message for request rules
+    changed:
+      - column user_id by recipient for creating notification
+      - column user_id by recipient in the repositories
+      - columns to camelCase in the NotificationTransformer
   "4.1.0":
     added:
-      - integrated labs mobile configuration
-      - fix notification/mark-read api route
+      - `Labs Mobile` default provider for SMS notifications
+    changed:
+      - change api controllers in the apiRoutes file
+      - improve providerConfig in the ImaginaNotification Service
   "4.0.0":
     added:
       - `Provider`, `Rule`, `Template` and `TypeNotification` Asgard Entities Scaffold

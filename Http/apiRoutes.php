@@ -18,11 +18,3 @@ $router->group(['prefix' => '/notification/v1'], function (Router $router) {
   require_once('ApiRoutes/templateRoutes.php');
   
 });
-
-
-/** @var Router $router */
-$router->post('notification/mark-read',
-    ['as' => 'api.notification.read',
-        'uses' => 'NotificationApiController@markAsRead'
-    ]);
-

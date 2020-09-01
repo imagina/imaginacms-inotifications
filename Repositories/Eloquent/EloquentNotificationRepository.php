@@ -96,9 +96,9 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
     
     /*== RELATIONSHIPS ==*/
     if (in_array('*', $params->include)) {//If Request all relationships
-      $query->with(['user']);
+      $query->with([]);
     } else {//Especific relationships
-      $includeDefault = [];//Default relationships
+      $includeDefault = ['user'];//Default relationships
       if (isset($params->include))//merge relations with default relationships
         $includeDefault = array_merge($includeDefault, $params->include);
       $query->with($includeDefault);//Add Relationships to query
@@ -115,28 +115,29 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
         if (isset($filter->me)) {
           if ($filter->me) {
             $query->where(function ($query) use ($params) {
-              $query->where('user_id', $params->user->id);
-              $query->orWhere('user_id', 0);
+              $query->where('recipient', $params->user->id);
+              $query->orWhere('recipient', 0);
             });
           } else {
-            $query->where('user_id', 0);
+            $query->where('recipient', 0);
           }
         }
         if (isset($filter->user)) {
           if ($params->user->hasAccess('notification.notifications.manage')) {
-            $query->where('user_id', 0);
+            $query->where('recipient', 0);
           } else {
             $query->whereUserId($filter->user);
           }
         }
       } else {
-        $query->where('user_id', 0);
+        $query->where('recipient', 0);
       }
       
       if (isset($filter->icon) && !empty($filter->icon)) {
         $query->where('icon_class', 'like', $filter->icon);
       }
   
+   
       if(isset($filter->type) && !empty($filter->icon)){
         $query->where('icon_class','like',$filter->icon);
       }
@@ -160,8 +161,8 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
         $query->orderBy('created_at', 'desc');
       }
       
-      
     }
+    
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);

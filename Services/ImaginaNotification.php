@@ -250,6 +250,7 @@ final class ImaginaNotification implements Inotification
   {
     
     if ($this->savedInDatabase) {
+      \Log::info('Notification pusher to notification.new.' . $this->recipient);
       broadcast(new BroadcastNotification($this->notification))->toOthers();
     } else {
       \Log::info("[Notification/pusher] Can't send the notification  to: {$this->recipient}, because it's not being saved in DB ");

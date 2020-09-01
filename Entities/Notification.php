@@ -19,6 +19,7 @@ class Notification extends Model
 {
     protected $table = 'notification__notifications';
     protected $fillable = ['user_id', 'type', 'message', 'icon_class', 'link', 'is_read', 'title', 'provider', 'recipient'];
+    
     protected $appends = ['time_ago'];
     protected $casts = ['is_read' => 'bool'];
 
@@ -29,7 +30,7 @@ class Notification extends Model
     {
         $driver = config('asgard.user.config.driver');
 
-        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User","recipient");
     }
 
     /**
