@@ -18,25 +18,29 @@ class EventServiceProvider extends ServiceProvider
   public function register()
   {
     $this->module = app('modules');
-    $this->service = app('Modules\\Notification\\Repositories\\RuleRepository');
-    $notifiable = $this->service->moduleConfigs($this->module->enabled());
-    //dd($notifiable);
-    $this->listen  = [];
     
-    foreach ($notifiable as $entity){
-      foreach ($entity["events"] as $event) {
-        
-        $listen = [$event["path"] => [
-          NotificationHandler::class
-        ]];
-        
-        array_push(
-          $this->listen,
-          $listen
-         );
+    if(isset($this->module) && $this->module){
+      $this->service = app('Modules\\Notification\\Repositories\\RuleRepository');
+      $notifiable = $this->service->moduleConfigs($this->module->enabled());
+      //dd($notifiable);
+      $this->listen  = [];
+  
+      foreach ($notifiable as $entity){
+        foreach ($entity["events"] as $event) {
+      
+          $listen = [$event["path"] => [
+            NotificationHandler::class
+          ]];
+      
+          array_push(
+            $this->listen,
+            $listen
+          );
+        }
       }
+      $this->listen = Arr::collapse($this->listen);
     }
-    $this->listen = Arr::collapse($this->listen);
+    
   }
   
  
