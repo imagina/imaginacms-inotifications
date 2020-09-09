@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
   {
     $this->module = app('modules');
     
-    if(isset($this->module) && $this->module){
+    if(isset($this->module) && $this->module && $this->module->enabled()){
       $this->service = app('Modules\\Notification\\Repositories\\RuleRepository');
       $notifiable = $this->service->moduleConfigs($this->module->enabled());
       //dd($notifiable);
