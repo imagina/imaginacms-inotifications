@@ -78,7 +78,7 @@ class RuleApiController extends BaseApiController
       $params = $this->getParamsRequest($request);
   
       //Response
-      $response = ["data" => $this->service->moduleConfigs($this->module->enabled())];
+      $response = ["data" => $this->service->moduleConfigs($this->module->allEnabled())];
       
       //If request pagination add meta-page
     // $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;

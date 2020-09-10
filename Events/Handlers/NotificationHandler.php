@@ -32,7 +32,7 @@ class NotificationHandler implements ShouldQueue
       $this->providerRepository = app('Modules\\Notification\\Repositories\\ProviderRepository');
       
       // getting the notifiable configs from enabled modules only
-      $notifiable = $this->ruleService->moduleConfigs($this->module->enabled());
+      $notifiable = $this->ruleService->moduleConfigs($this->module->allEnabled());
  
       // Getting the entity name from event entity
       $entityClassName = "";
