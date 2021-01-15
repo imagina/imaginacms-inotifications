@@ -10,7 +10,8 @@ return [
   */
   'real-time' => false,
   
-  'defaultEmailView' => 'notification::emails.default.index',
+  'defaultEmailContent' => 'notification::emails.contents.default',
+  'defaultEmailLayout' => 'notification::emails.layouts.default',
   
   "notificationTypes" => [
     
@@ -38,25 +39,31 @@ return [
         "id" => [
           'value' => null,
         ],
-        "senderName" => [
-          "name" => "senderName",
+        
+        "type" => [
+          "name" => "type",
+          'value' => 'email',
+          'type' => 'hidden',
+        ],
+        "fromName" => [
+          "name" => "fromName",
           'value' => '',
           "isFakeField" => 'fields',
           'type' => 'input',
           'required' => true,
           'props' => [
-            'label' => 'Sender Name *',
+            'label' => 'From Name *',
             "hint" => "The name the notification should come from"
           ],
         ],
-        "senderMail" => [
-          "name" => "senderEmail",
+        "fromEmail" => [
+          "name" => "fromEmail",
           'value' => '',
           'type' => 'email',
           "isFakeField" => 'fields',
           'required' => true,
           'props' => [
-            'label' => 'Sender Email *',
+            'label' => 'From Email *',
             "hint" => "The email address the notification should come from"
           ],
         ],
@@ -168,6 +175,11 @@ return [
       "fields" => [
         "id" => [
           'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'broadcast',
+          'type' => 'hidden',
         ],
         "pusherAppEncrypted" => [
           "name" => "pusherAppEncrypted",
@@ -319,6 +331,11 @@ return [
         "id" => [
           'value' => null,
         ],
+        "type" => [
+          "name" => "type",
+          'value' => 'push',
+          'type' => 'hidden',
+        ],
         "firebaseApiKey" => [
           "name" => "firebaseApiKey",
           'value' => '',
@@ -428,6 +445,11 @@ return [
       "fields" => [
         "id" => [
           'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'sms',
+          'type' => 'hidden',
         ],
         "driver" => [
           'value' => 'labsmobile',

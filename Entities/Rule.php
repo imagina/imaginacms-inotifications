@@ -16,6 +16,7 @@ class Rule extends Model
       "event_path",
       "conditions",
       "settings",
+      "status"
     ];
   
   protected $fakeColumns = ['conditions','settings'];

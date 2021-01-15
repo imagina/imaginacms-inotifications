@@ -265,14 +265,14 @@ final class ImaginaNotification implements Inotification
     $subject = $this->data["title"] ?? '';
     
     //default notification view
-    $defaultView = config("asgard.notification.config.defaultEmailView");
+    $defaultContent = config("asgard.notification.config.defaultEmailContent");
     
     //validating view from event data
-    $view = $this->data["view"] ?? $defaultView;
+    $view = $this->data["view"] ?? $defaultContent;
     
     //Maiable
     $mailable = new NotificationMailable($this->data,
-      $subject, (view()->exists($view) ? $view : $defaultView),
+      $subject, (view()->exists($view) ? $view : $defaultContent),
       $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
       $this->data["fromName"] ?? $this->provider->fields->fromName ?? null);
     
