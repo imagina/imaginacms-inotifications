@@ -191,7 +191,7 @@ return [
             'falseValue' => false,
             'trueValue' => true
           ],
-          "configRoute" => "broadcasting.connections.pusher.options.encrypted"
+          "configRoute" => "broadcasting.connections.pusher.options.useTLS"
         ],
         
         "pusherAppId" => [
@@ -267,6 +267,7 @@ return [
           'value' => '1',
           'type' => 'select',
           'required' => true,
+          "isFakeField" => 'fields',
           'props' => [
             'label' => 'Save in database',
             'options' => [

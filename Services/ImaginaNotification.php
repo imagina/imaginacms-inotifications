@@ -92,6 +92,7 @@ final class ImaginaNotification implements Inotification
   {
     $this->entity = $params["entity"] ?? null;
     $this->setting = $params["setting"] ?? null;
+    if(is_array($this->setting)) $this->setting = json_decode(json_encode($this->setting));
     $this->data = $params["data"] ?? $params ?? null;
     
     // if provider its not defined
@@ -238,7 +239,6 @@ final class ImaginaNotification implements Inotification
   private function loadConfigFromDatabase()
   {
     
-
     foreach ($this->providerConfig["fields"] as $field) {
       if (isset($field["configRoute"])) {
         config([$field["configRoute"] => $this->provider->fields->{$field["name"]}]);
@@ -248,10 +248,9 @@ final class ImaginaNotification implements Inotification
   
   private function pusher()
   {
-    
     if ($this->savedInDatabase) {
       \Log::info('Notification pusher to notification.new.' . $this->recipient);
-      broadcast(new BroadcastNotification($this->notification))->toOthers();
+      broadcast(new BroadcastNotification($this->notification,$this->data))->toOthers();
     } else {
       \Log::info("[Notification/pusher] Can't send the notification  to: {$this->recipient}, because it's not being saved in DB ");
     }

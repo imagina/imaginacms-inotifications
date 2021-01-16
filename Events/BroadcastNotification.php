@@ -18,10 +18,12 @@ class BroadcastNotification implements ShouldBroadcastNow, ShouldQueue
      * @var Notification
      */
     public $notification;
+    public $payload;
 
-    public function __construct(Notification $notification)
+    public function __construct(Notification $notification, $payload)
     {
         $this->notification = $notification;
+        $this->payload = $payload;
     }
 
     public function broadcastWith(){
@@ -37,8 +39,10 @@ class BroadcastNotification implements ShouldBroadcastNow, ShouldQueue
             'type'=> $this->notification->type,
             'updated_at'=>$this->notification->updated_at,
             'user'=>$this->notification->user_id,
-            'recipient'=>$this->notification->recipient,
+            'recipient'=>$this->notification->recipient
         ];
+        $data = array_merge($data,$this->payload);
+        
         return $data;
     }
 
