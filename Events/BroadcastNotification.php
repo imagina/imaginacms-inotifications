@@ -10,7 +10,7 @@ use Illuminate\Broadcasting\Channel;
 use Modules\Notification\Entities\Notification;
 use Modules\Notification\Transformers\NotificationTransformer;
 
-class BroadcastNotification implements ShouldBroadcastNow, ShouldQueue
+class BroadcastNotification implements ShouldBroadcast, ShouldQueue
 {
     use SerializesModels;
 

@@ -56,14 +56,15 @@ return [
             "hint" => "The name the notification should come from"
           ],
         ],
-        "fromEmail" => [
-          "name" => "fromEmail",
+        "fromAddress" => [
+          "name" => "fromAddress",
           'value' => '',
-          'type' => 'email',
+          'type' => 'input',
           "isFakeField" => 'fields',
           'required' => true,
           'props' => [
-            'label' => 'From Email *',
+            'type' => 'email',
+            'label' => 'From Address *',
             "hint" => "The email address the notification should come from"
           ],
         ],
