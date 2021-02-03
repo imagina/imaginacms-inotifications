@@ -10,7 +10,8 @@ return [
   */
   'real-time' => false,
   
-  'defaultEmailView' => 'notification::emails.default.index',
+  'defaultEmailContent' => 'notification::emails.contents.default',
+  'defaultEmailLayout' => 'notification::emails.layouts.default',
   
   "notificationTypes" => [
     
@@ -38,25 +39,32 @@ return [
         "id" => [
           'value' => null,
         ],
-        "senderName" => [
-          "name" => "senderName",
+        
+        "type" => [
+          "name" => "type",
+          'value' => 'email',
+          'type' => 'hidden',
+        ],
+        "fromName" => [
+          "name" => "fromName",
           'value' => '',
           "isFakeField" => 'fields',
           'type' => 'input',
           'required' => true,
           'props' => [
-            'label' => 'Sender Name *',
+            'label' => 'From Name *',
             "hint" => "The name the notification should come from"
           ],
         ],
-        "senderMail" => [
-          "name" => "senderEmail",
+        "fromAddress" => [
+          "name" => "fromAddress",
           'value' => '',
-          'type' => 'email',
+          'type' => 'input',
           "isFakeField" => 'fields',
           'required' => true,
           'props' => [
-            'label' => 'Sender Email *',
+            'type' => 'email',
+            'label' => 'From Address *',
             "hint" => "The email address the notification should come from"
           ],
         ],
@@ -169,6 +177,11 @@ return [
         "id" => [
           'value' => null,
         ],
+        "type" => [
+          "name" => "type",
+          'value' => 'broadcast',
+          'type' => 'hidden',
+        ],
         "pusherAppEncrypted" => [
           "name" => "pusherAppEncrypted",
           'value' => true,
@@ -179,7 +192,7 @@ return [
             'falseValue' => false,
             'trueValue' => true
           ],
-          "configRoute" => "broadcasting.connections.pusher.options.encrypted"
+          "configRoute" => "broadcasting.connections.pusher.options.useTLS"
         ],
         
         "pusherAppId" => [
@@ -255,6 +268,7 @@ return [
           'value' => '1',
           'type' => 'select',
           'required' => true,
+          "isFakeField" => 'fields',
           'props' => [
             'label' => 'Save in database',
             'options' => [
@@ -318,6 +332,11 @@ return [
       "fields" => [
         "id" => [
           'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'push',
+          'type' => 'hidden',
         ],
         "firebaseApiKey" => [
           "name" => "firebaseApiKey",
@@ -428,6 +447,11 @@ return [
       "fields" => [
         "id" => [
           'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'sms',
+          'type' => 'hidden',
         ],
         "driver" => [
           'value' => 'labsmobile',

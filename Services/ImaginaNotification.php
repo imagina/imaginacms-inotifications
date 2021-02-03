@@ -92,6 +92,7 @@ final class ImaginaNotification implements Inotification
   {
     $this->entity = $params["entity"] ?? null;
     $this->setting = $params["setting"] ?? null;
+    if(is_array($this->setting)) $this->setting = json_decode(json_encode($this->setting));
     $this->data = $params["data"] ?? $params ?? null;
     
     // if provider its not defined
@@ -238,7 +239,6 @@ final class ImaginaNotification implements Inotification
   private function loadConfigFromDatabase()
   {
     
-
     foreach ($this->providerConfig["fields"] as $field) {
       if (isset($field["configRoute"])) {
         config([$field["configRoute"] => $this->provider->fields->{$field["name"]}]);
@@ -248,10 +248,9 @@ final class ImaginaNotification implements Inotification
   
   private function pusher()
   {
-    
     if ($this->savedInDatabase) {
       \Log::info('Notification pusher to notification.new.' . $this->recipient);
-      broadcast(new BroadcastNotification($this->notification))->toOthers();
+      broadcast(new BroadcastNotification($this->notification,$this->data))->toOthers();
     } else {
       \Log::info("[Notification/pusher] Can't send the notification  to: {$this->recipient}, because it's not being saved in DB ");
     }
@@ -265,14 +264,14 @@ final class ImaginaNotification implements Inotification
     $subject = $this->data["title"] ?? '';
     
     //default notification view
-    $defaultView = config("asgard.notification.config.defaultEmailView");
+    $defaultContent = config("asgard.notification.config.defaultEmailContent");
     
     //validating view from event data
-    $view = $this->data["view"] ?? $defaultView;
+    $view = $this->data["view"] ?? $defaultContent;
     
     //Maiable
     $mailable = new NotificationMailable($this->data,
-      $subject, (view()->exists($view) ? $view : $defaultView),
+      $subject, (view()->exists($view) ? $view : $defaultContent),
       $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
       $this->data["fromName"] ?? $this->provider->fields->fromName ?? null);
     
