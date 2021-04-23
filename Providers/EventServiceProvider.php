@@ -7,6 +7,8 @@ use Modules\Notification\Events\Handlers\NotificationHandler;
 use Modules\Notification\Repositories\RuleRepository;
 use Illuminate\Support\Arr;
 
+use Illuminate\Support\Facades\Event;
+
 class EventServiceProvider extends ServiceProvider
 {
   private $module;
