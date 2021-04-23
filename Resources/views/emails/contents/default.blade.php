@@ -1,11 +1,11 @@
 @extends($data["layout"] ?? 'notification::emails.layouts.default')
 
 @section('content')
-  
+
   @if(isset($data["content"]) && $data["content"])
     @include($data["content"])
     @else
-      <h1 style="font-size: 22px">{!! $data["message"] !!}</h1>
+      <h1 style="font-size: 22px">{!! $data["title"] !!}</h1>
       <p style="font-size: 16px">
         {!! $data["message"]!!}
       </p>
