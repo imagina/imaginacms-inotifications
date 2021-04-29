@@ -32,23 +32,23 @@ class EventServiceProvider extends ServiceProvider
         foreach ($entity["events"] as $event) {
 
             //Listen Creating Event
-            Event::listen(
+           /* Event::listen(
                 $event["path"],
-                [NotificationHandler::class, 'handle']
-            );
+                [NotificationHandler::class]
+            );*/
 
-            /*$listen = [$event["path"] => [
+            $listen = [$event["path"] => [
                 NotificationHandler::class
             ]];
 
             array_push(
               $tempListen,
               $listen
-            );*/
+            );
         }
       }
 
-      //$this->listen = Arr::collapse($tempListen);
+      $this->listen = Arr::collapse($tempListen);
 
     }
 
