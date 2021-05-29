@@ -138,8 +138,8 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
       }
   
    
-      if(isset($filter->type) && !empty($filter->icon)){
-        $query->where('icon_class','like',$filter->icon);
+      if(isset($filter->type)){
+        $query->where('type',$filter->type);
       }
       
       //Filter by date
@@ -162,7 +162,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
       }
       
     }
-    
+
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
@@ -176,8 +176,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
     }
   }
   
-  public
-  function getItem($criteria, $params = false)
+  public function getItem($criteria, $params = false)
   {
     //Initialize query
     $query = $this->model->query();
@@ -209,8 +208,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
   }
   
   
-  public
-  function updateItems($criterias, $data)
+  public function updateItems($criterias, $data)
   {
     $query = $this->model->query();
     $query->whereIn('id', $criterias)->update($data);
@@ -219,8 +217,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
     
   }
   
-  public
-  function deleteItems($criterias)
+  public function deleteItems($criterias)
   {
     $query = $this->model->query();
     

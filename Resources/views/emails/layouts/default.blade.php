@@ -400,7 +400,7 @@
     </div>
     
     <div class="container" align="center"
-         style="margin: 120px auto 70px; width: 70%; padding: 30px; border: 1px solid #ccc; box-shadow: 0px 0px 20px #a99b9b; ">
+         style="margin: 120px auto 70px; width: 85%; padding: 15px; border: 1px solid #ccc; box-shadow: 0px 0px 20px #a99b9b; ">
   
       @yield('content')
     
