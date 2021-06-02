@@ -212,7 +212,6 @@ final class ImaginaNotification implements Inotification
           $this->savedInDatabase = true;
         }
       
-      
       if (method_exists($this, $this->provider->system_name)) {
         \Log::info("[Notification/send] notification to: {$this->recipient}, provider: {$this->provider->system_name}, saveInDatabase: " . ($this->savedInDatabase ? 'YES' : 'NO'));
         
@@ -248,10 +247,14 @@ final class ImaginaNotification implements Inotification
   
   private function pusher()
   {
-
+    if ($this->savedInDatabase) {
       \Log::info('Notification pusher to notification.new.' . $this->recipient);
+      BroadcastNotification::dispatch($order);
       broadcast(new BroadcastNotification($this->notification,$this->data))->toOthers();
-   
+    } else {
+      \Log::info("[Notification/pusher] Can't send the notification  to: {$this->recipient}, because it's not being saved in DB ");
+    }
+    
   }
   
   private function email()
