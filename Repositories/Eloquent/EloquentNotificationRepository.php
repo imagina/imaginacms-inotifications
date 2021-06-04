@@ -162,6 +162,12 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
       }
       
     }
+    
+    //remove by default notifications with is_action in true
+    $query->where(function ($query){
+      $query->where("is_action",false);
+      $query->orWhereNull("is_action");
+    });
 
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))

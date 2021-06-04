@@ -29,7 +29,7 @@ class BroadcastNotification implements ShouldBroadcast, ShouldQueue
     public function broadcastWith(){
 
         $data=[
-            'created_at'=>$this->notification->created_at,
+            'createdAt'=>$this->notification->created_at,
             'entity'=>$this->notification->icon_class,
             'id'=>$this->notification->id,
             'link'=>$this->notification->link,
@@ -37,8 +37,10 @@ class BroadcastNotification implements ShouldBroadcast, ShouldQueue
             'timeAgo'=>$this->notification->timeAgo,
             'title'=>$this->notification->title,
             'type'=> $this->notification->type,
-            'updated_at'=>$this->notification->updated_at,
+            'updatedAt'=>$this->notification->updated_at,
             'user'=>$this->notification->user_id,
+            'options'=>$this->notification->options,
+            'isAction'=>$this->notification->is_action,
             'recipient'=>$this->notification->recipient
         ];
         $data = array_merge($data,$this->payload);
