@@ -9,17 +9,16 @@
       <p style="font-size: 16px">
         {!! $data["message"]!!}
       </p>
-      @if(isset($data["withButton"]) && $data["withButton"])
-        <div>
-          <a href='{{$data["link"]}}'
-             style="text-decoration: none;
-               background-color: {{Setting::get('isite::brandSecondary')}};
-               padding: 10px;
-               margin: 10px 0;
-               color: white;"
-             target="_blank">{!! $data["buttonText"] ?? trans("isite::common.menu.viewMore")!!}</a>
-        </div>
-      @endif
-      <br>
+  @endif
+  @if(isset($data["withButton"]) && $data["withButton"])
+    <div>
+      <a href='{{$data["link"]}}'
+         style="text-decoration: none;
+           background-color: {{Setting::get('isite::brandSecondary')}};
+           padding: 10px;
+           margin: 10px 0;
+           color: white;"
+         target="_blank">{!! $data["buttonText"] ?? trans("isite::common.menu.viewMore")!!}</a>
+    </div>
   @endif
 @stop

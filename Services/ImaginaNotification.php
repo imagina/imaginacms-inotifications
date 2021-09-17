@@ -270,7 +270,7 @@ final class ImaginaNotification implements Inotification
     //validating view from event data
     $view = $this->data["view"] ?? $defaultContent;
     
-    //Maiable
+    //Mailable
     $mailable = new NotificationMailable($this->data,
       $subject, (view()->exists($view) ? $view : $defaultContent),
       $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
