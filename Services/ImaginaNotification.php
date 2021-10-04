@@ -92,7 +92,7 @@ final class ImaginaNotification implements Inotification
   {
     $this->entity = $params["entity"] ?? null;
     $this->setting = $params["setting"] ?? null;
-    if(is_array($this->setting)) $this->setting = json_decode(json_encode($this->setting));
+    if (is_array($this->setting)) $this->setting = json_decode(json_encode($this->setting));
     $this->data = $params["data"] ?? $params ?? null;
     
     // if provider its not defined
@@ -251,7 +251,7 @@ final class ImaginaNotification implements Inotification
   {
     if ($this->savedInDatabase) {
       \Log::info('Notification pusher to notification.new.' . $this->recipient);
-      broadcast(new BroadcastNotification($this->notification,$this->data))->toOthers();
+      broadcast(new BroadcastNotification($this->notification, $this->data))->toOthers();
     } else {
       \Log::info("[Notification/pusher] Can't send the notification  to: {$this->recipient}, because it's not being saved in DB ");
     }
@@ -260,24 +260,27 @@ final class ImaginaNotification implements Inotification
   
   private function email()
   {
-    
-    // subject like notification title
-    $subject = $this->data["title"] ?? '';
-    
-    //default notification view
-    $defaultContent = config("asgard.notification.config.defaultEmailContent");
-    
-    //validating view from event data
-    $view = $this->data["view"] ?? $defaultContent;
-    
-    //Mailable
-    $mailable = new NotificationMailable($this->data,
-      $subject, (view()->exists($view) ? $view : $defaultContent),
-      $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
-      $this->data["fromName"] ?? $this->provider->fields->fromName ?? null);
-    
-    \Log::info('Sending Email to ' . $this->recipient);
-    Mail::to($this->recipient)->send($mailable);
+    try {
+      // subject like notification title
+      $subject = $this->data["title"] ?? '';
+      
+      //default notification view
+      $defaultContent = config("asgard.notification.config.defaultEmailContent");
+      
+      //validating view from event data
+      $view = $this->data["view"] ?? $defaultContent;
+      
+      //Mailable
+      $mailable = new NotificationMailable($this->data,
+        $subject, (view()->exists($view) ? $view : $defaultContent),
+        $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
+        $this->data["fromName"] ?? $this->provider->fields->fromName ?? null);
+      
+      \Log::info('Sending Email to ' . $this->recipient);
+      Mail::to($this->recipient)->send($mailable);
+    } catch (\Exception $e) {
+      \Log::error("Notification Error | Sending EMAIL : " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
+    }
   }
   
   private function firebase()
@@ -298,35 +301,41 @@ final class ImaginaNotification implements Inotification
         ])
         ->send();
     } catch (\Exception $e) {
-      \Log::error($e->getMessage());
+      \Log::error("Notification Error | Sending Firebase : " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
     }
   }
   
   private function twilio()
   {
-    \Log::info("Notification twilio to: " . $this->recipient);
-    
-    $account_sid = env("TWILIO_SID");
-    $auth_token = env("TWILIO_AUTH_TOKEN");
-    $twilio_number = env("TWILIO_NUMBER");
-    $client = new Client($account_sid, $auth_token);
-    $client->messages->create($this->recipient,
-      ['from' => $twilio_number, 'body' => $this->data["message"] ?? '']);
-    
+    try {
+      \Log::info("Notification twilio to: " . $this->recipient);
+      
+      $account_sid = env("TWILIO_SID");
+      $auth_token = env("TWILIO_AUTH_TOKEN");
+      $twilio_number = env("TWILIO_NUMBER");
+      $client = new Client($account_sid, $auth_token);
+      $client->messages->create($this->recipient,
+        ['from' => $twilio_number, 'body' => $this->data["message"] ?? '']);
+    } catch (\Exception $e) {
+      \Log::error("Notification Error | Sending Twilio : " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
+    }
   }
   
   
   private function labsMobile()
   {
-    \Log::info("Notification labsMobile to: " . $this->recipient);
-  
-    $recipient = $this->recipient;
-    //Service Providers Example
-    \SMS::send(($this->data["title"] ?? '')." ".($this->data["message"] ?? '')." ".($this->data["link"] ?? ''), null, function($sms) use ($recipient) {
-      $sms->to($recipient);
-    });
-  
-  
+    try {
+      \Log::info("Notification labsMobile to: " . $this->recipient);
+      
+      $recipient = $this->recipient;
+      //Service Providers Example
+      \SMS::send(($this->data["title"] ?? '') . " " . ($this->data["message"] ?? '') . " " . ($this->data["link"] ?? ''), null, function ($sms) use ($recipient) {
+        $sms->to($recipient);
+      });
+    } catch (\Exception $e) {
+      \Log::error("Notification Error | Sending LabsMobile : " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
+    }
+    
   }
-
+  
 }
