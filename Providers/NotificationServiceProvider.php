@@ -45,7 +45,14 @@ class NotificationServiceProvider extends ServiceProvider
       BuildingSidebar::class,
       $this->getSidebarClassForModule('blog', RegisterNotificationSidebar::class)
     );
+  
+    $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
+      $event->load('notifications', Arr::dot(trans('notification::notifications')));
+      
+      // append translations
     
+    
+    });
   
   }
   
@@ -53,6 +60,8 @@ class NotificationServiceProvider extends ServiceProvider
   {
     $this->publishConfig('notification', 'config');
     $this->mergeConfigFrom($this->getModuleConfigFilePath('notification', 'permissions'), "asgard.notification.permissions");
+    $this->mergeConfigFrom($this->getModuleConfigFilePath('notification', 'settings'), "asgard.notification.settings");
+    $this->mergeConfigFrom($this->getModuleConfigFilePath('notification', 'settings-fields'), "asgard.notification.settings-fields");
     $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
     
