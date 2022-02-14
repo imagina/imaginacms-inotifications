@@ -1,5 +1,13 @@
 <?php
 return [
+  "sidebar" => [
+    "adminGroup" => "Notificaciones",
+    "adminProvider" => "Proveedores",
+    "adminConfig" => [
+      "title" => "Configuración",
+      "headerTitle" => "Configuración de notificaciones"
+    ]
+  ],
   "title" => 'Multimedia Listar/Buscar',
   "newFile" => 'Nuevo Archivo',
   "updateFile" => 'Actualizar Archivo',
