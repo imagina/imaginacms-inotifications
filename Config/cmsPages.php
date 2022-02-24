@@ -5,10 +5,7 @@ return [
     "setting" => [
       "permission" => "notification.notifications.manage",
       "activated" => true,
-      "path" => [
-        "en-us" => "/notifications/setting",
-        "es" => "/notificaciones/configuracion"
-      ],
+      "path" => "/notifications/setting",
       "name" => "notification.admin.providers",
       "layout" => "qsite/_layouts/master",
       "page" => "qnotification/_pages/admin/setting/index",
