@@ -384,11 +384,28 @@
           border: {{Setting::get('isite::brandPrimary')}} solid;
           z-index: 10000;"
         >
+
+        @php
+        
+          // Default
+          $logo = Setting::get('isite::logo1');
+          // Validation
+          if(Setting::get('notification::logoEmail')){
+            $settingLogo = json_decode(Setting::get('notification::logoEmail'));
+            //Cuando lo guardan vacio, esta llegando la relacion media
+            //Cuando lo guardan, llega la url completa
+            if(!isset($settingLogo->medias_single)){
+              $logo = Setting::get('notification::logoEmail');
+            }
+          }
+          //\Log::info("Logo: ".$logo);
+          
+        @endphp
           <div
             style="
               height: 150px;
               width: 150px;
-              background-image: url({{ json_decode(Setting::get('notification::logoEmail'))->medias_single->{"notification::logoEmail"} ? Setting::get('notification::logoEmail') : Setting::get('isite::logo1') }});
+              background-image: url({{$logo}});
               background-repeat: no-repeat;
               background-position: center;
               background-size: contain;
