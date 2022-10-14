@@ -358,7 +358,8 @@ final class ImaginaNotification implements Inotification
                 "recipientId" => $this->recipient,
                 "type" => $this->data["type"],
                 "message" => $this->data["message"],
-                "file" => $this->data["file"]
+                "file" => $this->data["file"],
+                "template" => $this->data["template"]
               ]
             ]),
             'headers' => [
