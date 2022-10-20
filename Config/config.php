@@ -9,8 +9,6 @@ return [
   | comes by default with the Pusher integration (js).
   */
   'real-time' => false,
-  'defaultEmailContent' => 'notification::emails.contents.default',
-  'defaultEmailLayout' => 'notification::emails.layouts.default',
   "notificationTypes" => [
 
     ["title" => "SMS", "system_name" => "sms"],
