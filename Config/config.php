@@ -9,13 +9,6 @@ return [
   | comes by default with the Pusher integration (js).
   */
   'real-time' => false,
-
-//  'defaultEmailContent' => 'notification::emails.contents.content',
-//  'defaultEmailLayout' => 'notification::emails.layouts.template-1.index',
-//  //'defaultEmailContent' => 'notification::emails.contents.default',
-//  //'defaultEmailLayout' => 'notification::emails.layouts.default',
-
-
   "notificationTypes" => [
 
     ["title" => "SMS", "system_name" => "sms"],
@@ -26,10 +19,9 @@ return [
     ["title" => "Broadcast", "system_name" => "broadcast"],
 
   ],
-
+  /** Providers */
   "providers" => [
-
-    "email" => [// EMAIL PROVIDER
+    "email" => [
       "name" => "Email",
       "systemName" => "email",
       "icon" => "far fa-envelope",
@@ -107,7 +99,6 @@ return [
           ],
         ],
       ],
-
       "settings" => [
 
         "recipients" => [
@@ -165,7 +156,6 @@ return [
         ],
       ]
     ],
-
     "pusher" => [// PUSHER PROVIDER
       "name" => "Pusher",
       "systemName" => "pusher",
@@ -321,7 +311,6 @@ return [
         ],
       ]
     ],
-
     "firebase" => [// PUSHER PROVIDER
       "name" => "Firebase",
       "systemName" => "firebase",
@@ -436,7 +425,6 @@ return [
         ],
       ]
     ],
-
     "labsMobile" => [// LABS MOBILE PROVIDER
       "name" => "Labs Mobile",
       "systemName" => "labsMobile",
@@ -593,6 +581,102 @@ return [
             ],
           ],
         ],
+      ]
+    ],
+    "whatsapp" => [
+      "name" => "Whatsapp",
+      "systemName" => "whatsapp",
+      "icon" => "fab fa-whatsapp",
+      "color" => "#25D366",
+      "rules" => [],
+      "type" => 'chat',
+      "fields" => [
+        "id" => [
+          'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'chat',
+          'type' => 'hidden',
+        ],
+        "accessToken" => [
+          "name" => "accessToken",
+          'value' => '',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Access Token *'
+          ],
+        ],
+        "businessAccountId" => [
+          "name" => "businessAccountId",
+          'value' => '',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Business account ID *'
+          ],
+        ],
+        "senderId" => [
+          "name" => "senderId",
+          'value' => '',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Sender ID *'
+          ],
+        ],
+        "canCreateConversation" => [
+          "name" => "canCreateConversation",
+          'value' => '1',
+          'type' => 'select',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Can create conversation',
+            'options' => [
+              ["label" => 'yes', "value" => '1'],
+              ["label" => 'no', "value" => '0']
+            ],
+          ],
+        ],
+        "status" => [
+          "name" => "status",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Enable',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+        "default" => [
+          "name" => "default",
+          'value' => false,
+          'type' => 'checkbox',
+          'props' => [
+            'label' => 'Default',
+          ],
+        ],
+        "saveInDatabase" => [
+          "name" => "saveInDatabase",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Save in database',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ]
       ]
     ],
   ]
