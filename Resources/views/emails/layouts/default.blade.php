@@ -225,8 +225,22 @@
                         <td>
                           <div class="row">
                             <div class="col-md-6">
+                              @php
+                                // Default
+                                $logo = Setting::get('isite::logo1');
+                                // Validation
+                                if(Setting::get('notification::logoEmail')){
+                                  $settingLogo = json_decode(Setting::get('notification::logoEmail'));
+                                  //Cuando lo guardan vacio, esta llegando la relacion media
+                                  //Cuando lo guardan, llega la url completa
+                                  if(!isset($settingLogo->medias_single)){
+                                    $logo = Setting::get('notification::logoEmail');
+                                  }
+                                }
+                                //\Log::info("Logo: ".$logo);
+                              @endphp
                               <figure style="margin:0;">
-                                <img class="email-logo" src="{{Setting::get('isite::logo1')}}"
+                                <img class="email-logo" src="{{$logo}}"
                                      alt="@setting('core::site-name-mini')">
                               </figure>
                             </div>
