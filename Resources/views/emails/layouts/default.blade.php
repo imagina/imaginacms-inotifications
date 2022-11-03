@@ -226,7 +226,7 @@
                           <div class="row">
                             <div class="col-md-6">
                               <figure style="margin:0;">
-                                <img class="email-logo" src="{{Setting::get('isite::logo1')}}"
+                                <img class="email-logo" src="{{Setting::get('notification::logoEmail')}}"
                                      alt="@setting('core::site-name-mini')">
                               </figure>
                             </div>
