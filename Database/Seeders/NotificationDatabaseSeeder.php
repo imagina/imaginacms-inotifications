@@ -16,6 +16,7 @@ class NotificationDatabaseSeeder extends Seeder
     {
         Model::unguard();
   
+        $this->call(NotificationModuleTableSeeder::class);
         $this->call(NotificationTypeTableSeeder::class);
         $this->call(NotificationProviderTableSeeder::class);
     
