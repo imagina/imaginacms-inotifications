@@ -3,7 +3,7 @@
 return [
   //Media
   'logoEmail' => [
-    'value' => (object)['notification::logoEmail' => null],
+    'value' => (object)['setting::mainimage' => null],
     'name' => 'medias_single',
     'fakeFieldName' => 'notification::logoEmail',
     'type' => 'media',
@@ -11,7 +11,7 @@ return [
     'groupTitle' => 'isite::common.settingGroups.media',
     'props' => [
       'label' => 'notification::common.settings.logoEmail',
-      'zone' => 'notification::logoEmail',
+      'zone' => 'setting::mainimage',
       'entity' => "Modules\Setting\Entities\Setting",
       'entityId' => null
     ]
