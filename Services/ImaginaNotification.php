@@ -274,10 +274,12 @@ final class ImaginaNotification implements Inotification
       $mailable = new NotificationMailable($this->data,
         $subject, (view()->exists($view) ? $view : $defaultContent),
         $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
-        $this->data["fromName"] ?? $this->provider->fields->fromName ?? null);
+        $this->data["fromName"] ?? $this->provider->fields->fromName ?? null,
+        $this->data["replyTo"] ?? null);
 
       \Log::info('Sending Email to ' . $this->recipient);
       Mail::to($this->recipient)->send($mailable);
+
     } catch (\Exception $e) {
       \Log::error("Notification Error | Sending EMAIL : " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
     }
