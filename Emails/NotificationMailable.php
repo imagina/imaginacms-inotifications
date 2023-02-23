@@ -25,14 +25,16 @@ class NotificationMailable extends Mailable implements ShouldQueue
    * @param $view
    * @param $replyTo
    */
-  public function __construct( $data, $subject, $view, $fromAddress = null, $fromName = null, $replyTo = null)
+  public function __construct( $data, $subject, $view, $fromAddress = null, $fromName = null, $replyTo = [])
   {
     $this->subject = $subject;
     $this->view = $view;
     $this->fromAddress = $fromAddress;
     $this->fromName = $fromName;
     $this->data = $data;
-    $this->replyTo = $replyTo;
+    $this->replyTo = $replyTo ?? [];
+   
+    
   }
   /**
    * Build the message.
@@ -41,11 +43,13 @@ class NotificationMailable extends Mailable implements ShouldQueue
    */
   public function build()
   {
+    
     try {
+    
     return $this->from($this->fromAddress ?? env('MAIL_FROM_ADDRESS'), $this->fromName ?? env('MAIL_FROM_NAME'))
       ->view($this->view)
       ->subject($this->subject)
-      ->replyTo($this->replyTo);
+      ->replyTo($this->replyTo ?? []);
     } catch (\Exception $e) {
       \Log::error("Notification Error | Sending EMAIL : " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
     }

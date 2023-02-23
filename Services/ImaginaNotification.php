@@ -275,7 +275,7 @@ final class ImaginaNotification implements Inotification
         $subject, (view()->exists($view) ? $view : $defaultContent),
         $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
         $this->data["fromName"] ?? $this->provider->fields->fromName ?? null,
-        $this->data["replyTo"] ?? null);
+        $this->data["replyTo"] ?? []);
 
       \Log::info('Sending Email to ' . $this->recipient);
       Mail::to($this->recipient)->send($mailable);
