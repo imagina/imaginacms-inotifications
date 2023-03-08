@@ -643,6 +643,26 @@ return [
             ],
           ],
         ],
+        "defaultTemplate" => [
+          "name" => "defaultTemplate",
+          'value' => 'weygo_cms_template',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Default Template *'
+          ],
+        ],
+        "defaultTemplateLocale" => [
+          "name" => "defaultTemplateLocale",
+          'value' => 'es',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Default Template Locale *'
+          ],
+        ],
         "status" => [
           "name" => "status",
           'value' => '0',
