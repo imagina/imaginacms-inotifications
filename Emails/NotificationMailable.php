@@ -32,7 +32,11 @@ class NotificationMailable extends Mailable implements ShouldQueue
     $this->fromAddress = $fromAddress;
     $this->fromName = $fromName;
     $this->data = $data;
+
     $this->replyTo = $replyTo ?? [];
+   
+    if(empty($this->replyTo))
+      $this->replyTo = ["address"=> "","email"=> "","name" => ""];
    
     
   }
