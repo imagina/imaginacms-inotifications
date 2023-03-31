@@ -36,9 +36,9 @@ class NotificationMailable extends Mailable implements ShouldQueue
     $this->replyTo = $replyTo ?? [];
    
     if(empty($this->replyTo))
-      $this->replyTo = ["address"=> "","email"=> "","name" => ""];
+      $this->replyTo = [];
    
-    
+
   }
   /**
    * Build the message.
