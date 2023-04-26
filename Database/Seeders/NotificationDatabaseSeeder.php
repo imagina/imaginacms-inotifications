@@ -18,7 +18,7 @@ class NotificationDatabaseSeeder extends Seeder
     Model::unguard();
     ProcessSeeds::dispatch([
       "baseClass" => "\Modules\Notification\Database\Seeders",
-      "seeds" => ["NotificationTypeTableSeeder", "NotificationProviderTableSeeder"]
+      "seeds" => ["NotificationTypeTableSeeder", "NotificationTypeTableSeeder", "NotificationProviderTableSeeder"]
     ]);
   }
 }

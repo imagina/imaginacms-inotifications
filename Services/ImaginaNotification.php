@@ -274,10 +274,12 @@ final class ImaginaNotification implements Inotification
       $mailable = new NotificationMailable($this->data,
         $subject, (view()->exists($view) ? $view : $defaultContent),
         $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
-        $this->data["fromName"] ?? $this->provider->fields->fromName ?? null);
-
+        $this->data["fromName"] ?? $this->provider->fields->fromName ?? null,
+        $this->data["replyTo"] ?? []);
+ 
       \Log::info('Sending Email to ' . $this->recipient);
       Mail::to($this->recipient)->send($mailable);
+
     } catch (\Exception $e) {
       \Log::error("Notification Error | Sending EMAIL : " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
     }
@@ -340,13 +342,16 @@ final class ImaginaNotification implements Inotification
   /** Whatsapp Business: Send Message */
   private function whatsapp()
   {
-    try {
+   try {
       $n8nUrl = setting("isite::n8nUrl");
       $provider = Provider::where("system_name", "whatsapp")->first();
 
       if ($n8nUrl && $provider && $provider->status && isset($provider->fields)) {
         //Request
         $client = new \GuzzleHttp\Client();
+
+        $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider,$this->data);
+
         $response = $client->request('POST',
           "{$n8nUrl}/webhook/whatsapp-business/message",
           [
@@ -356,10 +361,10 @@ final class ImaginaNotification implements Inotification
                 "bussinessAccountId" => $provider->fields->businessAccountId,
                 "senderId" => $provider->fields->senderId,
                 "recipientId" => $this->recipient,
-                "type" => $this->data["type"],
+                "type" => $this->data["type"] ?? "",
                 "message" => $this->data["message"],
-                "file" => $this->data["file"],
-                "template" => $this->data["template"]
+                "file" => $this->data["file"] ?? null,
+                "template" => $this->data["template"] ?? $templateDefault
               ]
             ]),
             'headers' => [
