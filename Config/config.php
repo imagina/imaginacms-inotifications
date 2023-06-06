@@ -320,7 +320,7 @@ return [
         "numeric",
         "min:1",
       ],
-      "type" >= 'broadcast',
+      "type" => 'push',
       "fields" => [
         "id" => [
           'value' => null,
