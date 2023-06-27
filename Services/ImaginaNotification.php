@@ -276,7 +276,7 @@ final class ImaginaNotification implements Inotification
         $this->data["fromAddress"] ?? $this->provider->fields->fromAddress ?? null,
         $this->data["fromName"] ?? $this->provider->fields->fromName ?? null,
         $this->data["replyTo"] ?? []);
- 
+
       \Log::info('Sending Email to ' . $this->recipient);
       Mail::to($this->recipient)->send($mailable);
 
@@ -343,7 +343,7 @@ final class ImaginaNotification implements Inotification
   private function whatsapp()
   {
    try {
-      $n8nUrl = setting("isite::n8nUrl");
+      $n8nUrl = setting("isite::n8nBaseUrl");
       $provider = Provider::where("system_name", "whatsapp")->first();
 
       if ($n8nUrl && $provider && $provider->status && isset($provider->fields)) {
@@ -353,7 +353,7 @@ final class ImaginaNotification implements Inotification
         $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider,$this->data);
 
         $response = $client->request('POST',
-          "{$n8nUrl}/webhook/whatsapp-business/message",
+          "{$n8nUrl}/whatsapp-business/message",
           [
             'body' => json_encode([
               "attributes" => [
