@@ -51,7 +51,7 @@ class Notification extends Model
    */
   public function getTimeAgoAttribute()
   {
-    return $this->created_at->diffForHumans();
+    return !empty($this->created_at) ? $this->created_at->diffForHumans() : 0;
   }
   
   public function isRead(): bool
