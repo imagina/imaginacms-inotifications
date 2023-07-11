@@ -115,7 +115,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
         if (isset($filter->me)) {
           if ($filter->me) {
             $query->where(function ($query) use ($params) {
-              $query->where('recipient', $params->user->id);
+              $query->where('recipient', $params->user->id ?? 0);
               $query->orWhere('recipient', 0);
             });
           } else {
@@ -123,10 +123,14 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
           }
         }
         if (isset($filter->user)) {
-          if ($params->user->hasAccess('notification.notifications.manage')) {
+          if (isset($params->user->id) && $params->user->hasAccess('notification.notifications.manage')) {
             $query->where('recipient', 0);
           } else {
-            $query->whereUserId($filter->user);
+						$query->where(function ($query) use($filter){
+							$query->whereUserId($filter->user)
+								->orWhere("recipient",$filter->user);
+						});
+          
           }
         }
       } else {
@@ -172,9 +176,10 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
     /*== FIELDS ==*/
     if (isset($params->fields) && count($params->fields))
       $query->select($params->fields);
-    
+	
     /*== REQUEST ==*/
     if (isset($params->page) && $params->page) {
+    
       return $query->paginate($params->take);
     } else {
       $params->take ? $query->take($params->take) : false;//Take
