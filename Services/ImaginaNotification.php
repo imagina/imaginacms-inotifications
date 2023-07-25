@@ -71,6 +71,8 @@ final class ImaginaNotification implements Inotification
    */
   private $data;
 
+  private $log = "Notification:: Services|ImaginaNotification|";
+
   public function __construct(
     NotificationRepository $notificationRepository,
     ProviderRepository     $providerRepository,
@@ -90,6 +92,8 @@ final class ImaginaNotification implements Inotification
    */
   public function push($params = [])
   {
+    \Log::info($this->log.'Push');
+
     $this->entity = $params["entity"] ?? null;
     $this->setting = $params["setting"] ?? null;
     if (is_array($this->setting)) $this->setting = json_decode(json_encode($this->setting));
@@ -97,6 +101,8 @@ final class ImaginaNotification implements Inotification
 
     // if provider its not defined
     if (!isset($this->provider->id)) {
+
+      \Log::info($this->log.'Push|provider its not defined');
 
       // if the type of notification it's defined
       if ($this->type) {
@@ -135,6 +141,9 @@ final class ImaginaNotification implements Inotification
         }
       }
     } else {
+
+      \Log::info($this->log.'Push|Check Provider Status');
+
       if ($this->provider->status) {
         $this->send();
       }
