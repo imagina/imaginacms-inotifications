@@ -23,4 +23,10 @@ $router->group(['prefix' => '/notification/v1'], function (Router $router) {
   //====== Templates
   require_once('ApiRoutes/templateRoutes.php');
   
+  $router->apiCrud([
+    'module' => 'Notification',
+    'prefix' => 'devices',
+    'controller' => 'DeviceApiController',
+    'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []]
+  ]);
 });
