@@ -373,7 +373,8 @@ final class ImaginaNotification implements Inotification
                 "type" => $this->data["type"] ?? "",
                 "message" => $this->data["message"],
                 "file" => $this->data["file"] ?? null,
-                "template" => $this->data["template"] ?? $templateDefault
+                "template" => $this->data["template"] ?? $templateDefault,
+                "interactive" => $this->data["interactive"] ?? null,
               ]
             ]),
             'headers' => [
@@ -382,6 +383,15 @@ final class ImaginaNotification implements Inotification
             ]
           ]
         );
+
+        //Set external_id
+        if(isset($this->data["message_id"])) {
+          $requestResponse = json_decode($response->getBody()->getContents());
+          $messageEntity = app("Modules\Ichat\Entities\Message");
+          $messageModel = $messageEntity->find($this->data['message_id']);
+          $messageModel->update(["external_id" => $requestResponse->messages[0]->id]);
+        }
+
         //Log
         \Log::info("[Notification]::WhatsappBusines: Send Message to {$this->recipient} - Type: {$this->data["type"]} - status code: " . $response->getStatusCode());
       }
