@@ -9,199 +9,199 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <title></title>
   <style>
-      table {
-          border-collapse: collapse;
-          border-spacing: 0;
-          border: none;
-          margin: 0;
-      }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      border: none;
+      margin: 0;
+    }
 
-      div, td {
-          padding: 0;
-      }
+    div, td {
+      padding: 0;
+    }
 
-      div {
-          margin: 0 !important;
-      }
+    div {
+      margin: 0 !important;
+    }
 
-      table, td, div, h1, p {
-          font-family: 'Open Sans', sans-serif;
-      }
+    table, td, div, h1, p {
+      font-family: 'Open Sans', sans-serif;
+    }
 
-      .w-60 {
-          width: 60%;
-      }
+    .w-60 {
+      width: 60%;
+    }
 
-      .col-md-6 {
-          display: inline-block;
-          width: 50%;
-          vertical-align: middle;
-          font-family: Arial, sans-serif;
-          font-size: 14px;
-          color: #363636;
-          margin-bottom: 12px;
-      }
+    .col-md-6 {
+      display: inline-block;
+      width: 50%;
+      vertical-align: middle;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #363636;
+      margin-bottom: 12px;
+    }
 
-      .email-logo {
-          width: 115px;
-          height: 50px;
-          object-fit: contain;
-          object-position: left;
-      }
+    .email-logo {
+      width: 115px;
+      height: 50px;
+      object-fit: contain;
+      object-position: left;
+    }
 
+    .email-title, #contend-mail h1 {
+      margin-left: 10%;
+      margin-right: 10%;
+      margin-bottom: 16px;
+      font-size: 22px;
+      line-height: 26px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #35364A;
+    }
+
+    .email-message {
+      margin-left: 10%;
+      margin-right: 10%;
+      font-size: 18px;
+      line-height: 20px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: #35364A;
+      margin-top: 0;
+      margin-bottom: 50px;
+    }
+
+    .email-date {
+      margin-top: 0;
+      margin-bottom: 0;
+      text-align: right;
+      font-weight: 600;
+      color: #8292A1;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .email-bottom {
+      background: #ffffff;
+      text-decoration: none;
+      padding: 8px 25px;
+      color: #3B298D !important;
+      border: 2px solid #3B298D;
+      display: inline-block;
+      mso-padding-alt: 0;
+      text-underline-color: #ff3884;
+      transition: .3s;
+      font-weight: 600;
+    }
+
+    .email-bottom:hover {
+      background: #3B298D;
+      color: #ffffff !important;
+    }
+
+    .email-p {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      color: #8292A1 !important;
+      text-decoration: none;
+      margin: 0;
+    }
+
+    .link {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      color: #8292A1 !important;
+      text-decoration: none;
+    }
+
+    .link:hover {
+      color: #000 !important;
+    }
+
+    .social {
+      margin: 0 5px;
+      text-decoration: none;
+      border: 1px solid #e8eced;
+    }
+
+    .social:hover {
+      border: 1px solid #8293A3 !important;
+      border-radius: 50%;
+    }
+
+    .social img {
+      display: inline-block;
+      color: #cccccc;
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    #contend-mail div {
+      display: block;
+      padding: 20px;
+      border: 1px solid #82929F;
+      border-radius: 10px;
+      margin: 0 6% !important;
+      text-align: left;
+    }
+
+    #contend-mail p {
+      margin-top: 0;
+      color: #36374B;
+      font-size: 16px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #82929F;
+    }
+
+    #contend-mail p:last-of-type {
+      border-bottom: 0;
+    }
+
+    #contend-mail strong {
+      display: block;
+      font-size: 14px;
+      color: #82929F;
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+
+    .email-url {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333448 !important;
+      text-decoration: none;
+    }
+
+    .email-url:hover {
+      color: #000 !important;
+    }
+
+    @media screen and (max-width: 530px) {
       .email-title, #contend-mail h1 {
-          margin-left: 10%;
-          margin-right: 10%;
-          margin-bottom: 16px;
-          font-size: 22px;
-          line-height: 26px;
-          font-weight: 600;
-          letter-spacing: -0.02em;
-          color: #35364A;
+        font-size: 18px;
+        line-height: 20px;
       }
 
       .email-message {
-          margin-left: 10%;
-          margin-right: 10%;
-          font-size: 18px;
-          line-height: 20px;
-          font-weight: 500;
-          letter-spacing: -0.02em;
-          color: #35364A;
-          margin-top: 0;
-          margin-bottom: 50px;
+        font-size: 16px;
+        line-height: 18px;
       }
 
-      .email-date {
-          margin-top: 0;
-          margin-bottom: 0;
-          text-align: right;
-          font-weight: 600;
-          color: #8292A1;
-          font-size: 14px;
-          line-height: 20px;
+      .col-md-6 {
+        display: block;
+        width: 100%;
       }
 
-      .email-bottom {
-          background: #ffffff;
-          text-decoration: none;
-          padding: 8px 25px;
-          color: #3B298D !important;
-          border: 2px solid #3B298D;
-          display: inline-block;
-          mso-padding-alt: 0;
-          text-underline-color: #ff3884;
-          transition: .3s;
-          font-weight: 600;
+      .w-60 {
+        width: 90%;
       }
-
-      .email-bottom:hover {
-          background: #3B298D;
-          color: #ffffff !important;
-      }
-
-      .email-p {
-          font-size: 14px;
-          line-height: 20px;
-          font-weight: 600;
-          color: #8292A1 !important;
-          text-decoration: none;
-          margin: 0;
-      }
-
-      .link {
-          font-size: 14px;
-          line-height: 20px;
-          font-weight: 600;
-          color: #8292A1 !important;
-          text-decoration: none;
-      }
-
-      .link:hover {
-          color: #000 !important;
-      }
-
-      .social {
-          margin: 0 5px;
-          text-decoration: none;
-          border: 1px solid #e8eced;
-      }
-
-      .social:hover {
-          border: 1px solid #8293A3 !important;
-          border-radius: 50%;
-      }
-
-      .social img {
-          display: inline-block;
-          color: #cccccc;
-          width: 40px;
-          height: 40px;
-          object-fit: contain;
-      }
-
-      #contend-mail div {
-          display: block;
-          padding: 20px;
-          border: 1px solid #82929F;
-          border-radius: 10px;
-          margin: 0 6% !important;
-          text-align: left;
-      }
-
-      #contend-mail p {
-          margin-top: 0;
-          color: #36374B;
-          font-size: 16px;
-          margin-bottom: 10px;
-          padding-bottom: 5px;
-          border-bottom: 1px solid #82929F;
-      }
-
-      #contend-mail p:last-of-type {
-          border-bottom: 0;
-      }
-
-      #contend-mail strong {
-          display: block;
-          font-size: 14px;
-          color: #82929F;
-          margin-bottom: 0;
-          font-weight: 400;
-      }
-
-      .email-url {
-          font-size: 18px;
-          font-weight: 600;
-          color: #333448 !important;
-          text-decoration: none;
-      }
-
-      .email-url:hover {
-          color: #000 !important;
-      }
-
-      @media screen and (max-width: 530px) {
-          .email-title, #contend-mail h1 {
-              font-size: 18px;
-              line-height: 20px;
-          }
-
-          .email-message {
-              font-size: 16px;
-              line-height: 18px;
-          }
-
-          .col-md-6 {
-              display: block;
-              width: 100%;
-          }
-
-          .w-60 {
-              width: 90%;
-          }
-      }
-
+    }
+  
   </style>
 </head>
 <body style="margin:0;padding:0;word-spacing:normal;background-color:#E8ECED;">
@@ -229,8 +229,7 @@
                                 // Default
                                 $logo = Setting::get('isite::logo1');
                                 // Validation
-                                if(Setting::get('notification::logoEmail') &&
-                                strpos(Setting::get('notification::logoEmail'), 'default.jpg') == false){
+                                if(Setting::get('notification::logoEmail')){
                                   $settingLogo = json_decode(Setting::get('notification::logoEmail'));
                                   //Cuando lo guardan vacio, esta llegando la relacion media
                                   //Cuando lo guardan, llega la url completa
@@ -259,17 +258,17 @@
                   <td
                     style="border-radius: 0 0 10px 10px;padding:0 30px 30px;background-color:#ffffff; text-align: center;">
                     <hr style="margin:20px; border: 1px solid #E8ECED;">
-
+                    
                     <img src="http://imgfz.com/i/4KPt72c.png" width="200" alt="imagen"
                          style="width:200px;max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff; text-align: center;">
                     @yield('content')
                   </td>
-
+                
                 </tr>
                 <tr>
                   <td
                     style="padding:30px; text-align:center;font-size:12px;background-color:transparent;color:#8292A1;">
-
+                    
                     <p style="margin:0;">
                       @php
                         $social = json_decode(setting("isite::socialNetworks"));

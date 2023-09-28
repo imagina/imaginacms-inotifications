@@ -390,8 +390,7 @@
             // Default
             $logo = Setting::get('isite::logo1');
             // Validation
-            if(Setting::get('notification::logoEmail') &&
-             strpos(Setting::get('notification::logoEmail'), 'default.jpg') == false){
+            if(Setting::get('notification::logoEmail')){
               $settingLogo = json_decode(Setting::get('notification::logoEmail'));
               //Cuando lo guardan vacio, esta llegando la relacion media
               //Cuando lo guardan, llega la url completa
