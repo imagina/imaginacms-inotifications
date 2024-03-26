@@ -8,16 +8,25 @@ $router->post('notification/mark-read',
         'uses' => 'NotificationsController@markAsRead',
     ]);
 
+
 Route::prefix('/notification/v1')->group(function (Router $router) {
-    //====== Notifications
-    require_once 'ApiRoutes/notificationRoutes.php';
 
-    //====== Providers
-    require_once 'ApiRoutes/providerRoutes.php';
+  //====== Notifications
+  require_once('ApiRoutes/notificationRoutes.php');
 
-    //====== Rules
-    require_once 'ApiRoutes/ruleRoutes.php';
+  //====== Providers
+  require_once('ApiRoutes/providerRoutes.php');
 
-    //====== Templates
-    require_once 'ApiRoutes/templateRoutes.php';
+  //====== Rules
+  require_once('ApiRoutes/ruleRoutes.php');
+
+  //====== Templates
+  require_once('ApiRoutes/templateRoutes.php');
+
+  $router->apiCrud([
+    'module' => 'Notification',
+    'prefix' => 'devices',
+    'controller' => 'DeviceApiController',
+    'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []]
+  ]);
 });

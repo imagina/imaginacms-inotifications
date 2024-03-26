@@ -120,10 +120,21 @@ class NotificationServiceProvider extends ServiceProvider
             return new AsgardNotification($app[NotificationRepository::class], $app[Authentication::class]);
         });
 
-        $this->app->bind(\Modules\Notification\Services\Inotification::class, function ($app) {
-            return new ImaginaNotification($app[NotificationRepository::class], $app[ProviderRepository::class], $app[Authentication::class]);
-        });
-    }
+    $this->app->bind(\Modules\Notification\Services\Inotification::class, function ($app) {
+      return new ImaginaNotification($app[NotificationRepository::class], $app[ProviderRepository::class], $app[Authentication::class]);
+    });
+
+    $this->app->bind(
+      'Modules\Notification\Repositories\DeviceRepository',
+      function () {
+        $repository = new \Modules\Notification\Repositories\Eloquent\EloquentDeviceRepository(new \Modules\Notification\Entities\Device());
+        if (!config('app.cache')) {
+          return $repository;
+        }
+        return new \Modules\Notification\Repositories\Cache\CacheDeviceDecorator($repository);
+      }
+    );
+  }
 
     private function registerViewComposers()
     {

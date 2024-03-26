@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNotificationDevicesTable extends Migration
+return new class extends Migration
 {
   /**
    * Run the migrations.
@@ -46,4 +46,4 @@ class CreateNotificationDevicesTable extends Migration
     });
     Schema::dropIfExists('notification__devices');
   }
-}
+};
