@@ -82,68 +82,72 @@ final class ImaginaNotification implements Inotification
         $this->auth = $auth;
     }
 
-    /**
-     * Push a notification on the dashboard
-     *
-     * @param  string  $title
-     * @param  string  $message
-     * @param  string  $icon
-     * @param  string|null  $link
-     */
-    public function push($params = [])
-    {
-        $this->entity = $params['entity'] ?? null;
-        $this->setting = $params['setting'] ?? null;
-        if (is_array($this->setting)) {
-            $this->setting = json_decode(json_encode($this->setting));
+  /**
+   * Push a notification on the dashboard
+   * @param string $title
+   * @param string $message
+   * @param string $icon
+   * @param string|null $link
+   */
+  public function push($params = [])
+  {
+    \Log::info($this->log.'Push');
+
+    $this->entity = $params["entity"] ?? null;
+    $this->setting = $params["setting"] ?? null;
+    if (is_array($this->setting)) $this->setting = json_decode(json_encode($this->setting));
+    $this->data = $params["data"] ?? $params ?? null;
+
+    // if provider its not defined
+    if (!isset($this->provider->id)) {
+
+      \Log::info($this->log.'Push|provider its not defined');
+
+      // if the type of notification it's defined
+      if ($this->type) {
+
+        // the type of notification may be an array of strings for multiples notifications
+        if (!is_array($this->type)) $this->type = [$this->type];
+
+        foreach ($this->type as $type) {
+          $this->provider = $this->providerRepository->getItem($type, (object)["include" => [], "filter" => (object)["field" => "type", "default" => 1]]);
+
+          if (isset($this->provider->id) && $this->provider->status) {
+            $this->send();
+          }
         }
-        $this->data = $params['data'] ?? $params ?? null;
+      } else {
+        // if the provider and type is not defined, the $recipient can defined the type for notification
+        // like ["push" => $user->id,"email" => $user->email]
+        if (is_array($this->recipient)) {
+          $typeRecipients = $this->recipient;
 
-        // if provider its not defined
-        if (! isset($this->provider->id)) {
-            // if the type of notification it's defined
-            if ($this->type) {
-                // the type of notification may be an array of strings for multiples notifications
-                if (! is_array($this->type)) {
-                    $this->type = [$this->type];
-                }
+          foreach ($typeRecipients as $type => $recipients) {
+            $this->type = $type;
+            $this->provider = $this->providerRepository->getItem($type, (object)["include" => [], "filter" => (object)["field" => "type", "default" => 1]]);
 
-                foreach ($this->type as $type) {
-                    $this->provider = $this->providerRepository->getItem($type, (object) ['include' => [], 'filter' => (object) ['field' => 'type', 'default' => 1]]);
+            if (isset($this->provider->id) && $this->provider->status) {
 
-                    if (isset($this->provider->id) && $this->provider->status) {
-                        $this->send();
-                    }
-                }
-            } else {
-                // if the provider and type is not defined, the $recipient can defined the type for notification
-                // like ["push" => $user->id,"email" => $user->email]
-                if (is_array($this->recipient)) {
-                    $typeRecipients = $this->recipient;
+              if (!is_array($recipients)) $recipients = [$recipients];
 
-                    foreach ($typeRecipients as $type => $recipients) {
-                        $this->type = $type;
-                        $this->provider = $this->providerRepository->getItem($type, (object) ['include' => [], 'filter' => (object) ['field' => 'type', 'default' => 1]]);
-
-                        if (isset($this->provider->id) && $this->provider->status) {
-                            if (! is_array($recipients)) {
-                                $recipients = [$recipients];
-                            }
-
-                            foreach ($recipients as $recipient) {
-                                $this->recipient = $recipient;
-                                $this->send();
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            if ($this->provider->status) {
+              foreach ($recipients as $recipient) {
+                $this->recipient = $recipient;
                 $this->send();
+              }
+
             }
+          }
         }
+      }
+    } else {
+
+      \Log::info($this->log.'Push|Check Provider Status');
+
+      if ($this->provider->status) {
+        $this->send();
+      }
     }
+  }
 
     /**
      * Set a user id to set the notification to
@@ -339,45 +343,55 @@ final class ImaginaNotification implements Inotification
         }
     }
 
-    /** Whatsapp Business: Send Message */
-    private function whatsapp()
-    {
-        try {
-            $n8nUrl = setting('isite::n8nUrl');
-            $provider = Provider::where('system_name', 'whatsapp')->first();
+  /** Whatsapp Business: Send Message */
+  private function whatsapp()
+  {
+   try {
+      $n8nUrl = setting("isite::n8nBaseUrl");
+      $provider = Provider::where("system_name", "whatsapp")->first();
 
-            if ($n8nUrl && $provider && $provider->status && isset($provider->fields)) {
-                //Request
-                $client = new \GuzzleHttp\Client();
+      if ($n8nUrl && $provider && $provider->status && isset($provider->fields)) {
+        //Request
+        $client = new \GuzzleHttp\Client();
 
-                $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider, $this->data);
+        $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider,$this->data);
 
-                $response = $client->request('POST',
-                    "{$n8nUrl}/webhook/whatsapp-business/message",
-                    [
-                        'body' => json_encode([
-                            'attributes' => [
-                                'accessToken' => $provider->fields->accessToken,
-                                'bussinessAccountId' => $provider->fields->businessAccountId,
-                                'senderId' => $provider->fields->senderId,
-                                'recipientId' => $this->recipient,
-                                'type' => $this->data['type'] ?? '',
-                                'message' => $this->data['message'],
-                                'file' => $this->data['file'] ?? null,
-                                'template' => $this->data['template'] ?? $templateDefault,
-                            ],
-                        ]),
-                        'headers' => [
-                            'Content-Type' => 'application/json',
-                            'Authorization' => $provider->system_name,
-                        ],
-                    ]
-                );
-                //Log
-                \Log::info("[Notification]::WhatsappBusines: Send Message to {$this->recipient} - Type: {$this->data['type']} - status code: ".$response->getStatusCode());
-            }
-        } catch (\Exception $e) {
-            \Log::error('[Notification]::WhatsappBusines | Error: '.$e->getMessage()."\n".$e->getFile()."\n".$e->getLine().$e->getTraceAsString());
+        $response = $client->request('POST',
+          "{$n8nUrl}/whatsapp-business/message",
+          [
+            'body' => json_encode([
+              "attributes" => [
+                "accessToken" => $provider->fields->accessToken,
+                "bussinessAccountId" => $provider->fields->businessAccountId,
+                "senderId" => $provider->fields->senderId,
+                "recipientId" => $this->recipient,
+                "type" => $this->data["type"] ?? "",
+                "message" => $this->data["message"],
+                "file" => $this->data["file"] ?? null,
+                "template" => $this->data["template"] ?? $templateDefault,
+                "interactive" => $this->data["interactive"] ?? null,
+              ]
+            ]),
+            'headers' => [
+              'Content-Type' => 'application/json',
+              'Authorization' => $provider->system_name,
+            ]
+          ]
+        );
+
+        //Set external_id
+        if(isset($this->data["message_id"])) {
+          $requestResponse = json_decode($response->getBody()->getContents());
+          $messageEntity = app("Modules\Ichat\Entities\Message");
+          $messageModel = $messageEntity->find($this->data['message_id']);
+          $messageModel->update(["external_id" => $requestResponse->messages[0]->id]);
         }
+
+        //Log
+        \Log::info("[Notification]::WhatsappBusines: Send Message to {$this->recipient} - Type: {$this->data["type"]} - status code: " . $response->getStatusCode());
+      }
+    } catch (\Exception $e) {
+      \Log::error("[Notification]::WhatsappBusines | Error: " . $e->getMessage() . "\n" . $e->getFile() . "\n" . $e->getLine() . $e->getTraceAsString());
     }
+  }
 }
