@@ -109,20 +109,23 @@ class NotificationApiController extends BaseApiController
   
       //Validate Request
       $this->validateRequestApi(new CreateNotificationRequest((array)$data));
- 
       
-      $this->notificationP->type($data->type)->to($data->to)
-        ->push(
-          [
+      //Base Data
+      $push = [
             "title" => $data->title,
             "message" => $data->message,
-            "setting" => json_decode(json_encode($data->setting)),
-            "icon_class" => $data->icon_class,
             "link" => $data->link ?? url('')
-          ]
-        );
+      ];
+
+      //Extra Data
+      if(isset($data->setting)) $push['setting'] =  json_decode(json_encode($data->setting));
+      if(isset($data->icon_class)) $push['icon_class'] = $data->icon_class;
+       
+      //Send Notification | Set Type and To
+      $this->notificationP->type($data->type)->to($data->to)->push($push);
       
       $response = ["data" => 'Item Created'];
+
     } catch (\Exception $e) {
       \Log::error($e->getMessage());
       $status = $this->getStatusError($e->getCode());
