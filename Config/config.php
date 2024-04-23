@@ -89,6 +89,7 @@ return [
           "name" => "saveInDatabase",
           'value' => '0',
           'type' => 'select',
+          "isFakeField" => 'fields',
           'required' => true,
           'props' => [
             'label' => 'Save in database',
