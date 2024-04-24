@@ -11,8 +11,8 @@ class CreateNotificationRequest extends BaseFormRequest
     return [
       'title' => 'required|min:2',
       'message' => 'required|min:2',
-      'type' => 'required',
-      'to' => 'required',
+      //'type' => 'required',
+      //'to' => 'required',
     ];
   }
   
