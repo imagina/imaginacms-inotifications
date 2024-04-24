@@ -7,6 +7,7 @@ return [
         'destroy' => 'notification::messages.destroy resource',
         'destroyAll' => 'notification::messages.destroy all resource',
         'markAllAsRead' => 'notification::messages.markAllAsRead resource',
+        'create' => 'notification::notifications.create resource'
     ],
     'notification.rules' => [
         'manage'=>'notification::messages.manage',

@@ -6,7 +6,8 @@ return [
     "adminConfig" => [
       "title" => "Setting",
       "headerTitle" => "Notifications setting"
-    ]
+    ],
+    "adminPanel" => "Panel"
   ],
   "title" => 'Multimedia List/Search',
   "newFile" => 'New File',
@@ -20,11 +21,15 @@ return [
   "editFile" => 'Edit File',
   "moveMedia" => 'Move Media',
   "selectMedia" => 'Select Media',
+  "newNotification" => "New Notification",
   "form" => [
     "altAttribute" => 'Alt Attribute',
     "keyWords" => 'Key words',
     "folderName" => 'Folder Name',
     "moveTo" => 'Move to',
+  ],
+  "label" => [
+    "message" => "Message",
   ],
   "messages" => [
     "addYourFiles" => 'Add your files here',

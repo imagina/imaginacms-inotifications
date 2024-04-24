@@ -6,7 +6,8 @@ return [
     "adminConfig" => [
       "title" => "Configuración",
       "headerTitle" => "Configuración de notificaciones"
-    ]
+    ],
+    "adminPanel" => "Panel"
   ],
   "title" => 'Multimedia Listar/Buscar',
   "newFile" => 'Nuevo Archivo',
@@ -20,11 +21,15 @@ return [
   "editFile" => 'Editar Archivo',
   "moveMedia" => 'Mover Media',
   "selectMedia" => 'Seleccionar Media',
+  "newNotification" => "Nueva Notificación",
   "form" => [
     "altAttribute" => 'Attributo Alt',
     "keyWords" => 'Palabras Claves',
     "folderName" => 'Nombre de la carpeta',
     "moveTo" => 'Mover a',
+  ],
+  "label" => [
+    "message" => "Mensaje",
   ],
   "messages" => [
     "addYourFiles" => 'Agrega tus archivos aquí',
