@@ -16,11 +16,13 @@ class NotificationApiController extends BaseApiController
    */
   private $notification;
   private $notificationP;
+  private $notificationApiService;
   
   public function __construct(NotificationRepository $notification, PushNotification $notificationP)
   {
     $this->notification = $notification;
     $this->notificationP = $notificationP;
+    $this->notificationApiService = app("Modules\Notification\Services\NotificationApiService");
   }
   
   public function markAsRead(Request $request, $id)
@@ -109,21 +111,9 @@ class NotificationApiController extends BaseApiController
   
       //Validate Request
       $this->validateRequestApi(new CreateNotificationRequest((array)$data));
-      
-      //Base Data
-      $push = [
-            "title" => $data->title,
-            "message" => $data->message,
-            "link" => $data->link ?? url('')
-      ];
+      //Create and Send Notification
+      $result = $this->notificationApiService->create($data);
 
-      //Extra Data
-      if(isset($data->setting)) $push['setting'] =  json_decode(json_encode($data->setting));
-      if(isset($data->icon_class)) $push['icon_class'] = $data->icon_class;
-       
-      //Send Notification | Set Type and To
-      $this->notificationP->type($data->type)->to($data->to)->push($push);
-      
       $response = ["data" => 'Item Created'];
 
     } catch (\Exception $e) {
