@@ -185,7 +185,7 @@ class ProviderApiController extends BaseApiController
     public function mergeWithConfigProviders($data)
     {
         $providersConfig = config('asgard.notification.config.providers');
-        $data = collect($data);
+        $data = collect($data->resolve());
         $data = $data->keyBy('systemName');
 
         foreach ($providersConfig as &$provider) {
