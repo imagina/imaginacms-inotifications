@@ -249,6 +249,7 @@ final class ImaginaNotification implements Inotification
       'message' => $this->data["message"] ?? '',
       'options' => $this->data["options"] ?? '',
       'is_action' => $this->data["isAction"] ?? false,
+      'user_id' => $this->data['user_id'] ?? null
     ]);
 
   }
