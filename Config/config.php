@@ -704,5 +704,12 @@ return [
   /*Translate keys of each entity. Based on the permission string*/
   'documentation' => [
     'providers' => "notification::cms.documentation.providers",
-  ]
+  ],
+
+  //Media Fillables
+  'mediaFillable' => [
+    'notification' => [
+      'mainimage' => 'single'
+    ]
+  ],
 ];

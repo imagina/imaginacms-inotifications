@@ -4,6 +4,8 @@ namespace Modules\Notification\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Media\Support\Traits\MediaRelation;
+
 /**
  * @property string type
  * @property string message
@@ -17,6 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Notification extends Model
 {
+
+  use MediaRelation;
+
   protected $table = 'notification__notifications';
   protected $fillable = [
     'user_id',
@@ -29,7 +34,8 @@ class Notification extends Model
     'provider',
     'recipient',
     'options',
-    'is_action'
+    'is_action',
+    'source'
   ];
   
   protected $appends = ['time_ago'];
@@ -41,7 +47,12 @@ class Notification extends Model
   public function user()
   {
     $driver = config('asgard.user.config.driver');
-    
+    return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+  }
+
+  public function recipientUser()
+  {
+    $driver = config('asgard.user.config.driver');
     return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User", "recipient");
   }
   
