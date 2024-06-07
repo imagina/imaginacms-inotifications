@@ -5,6 +5,10 @@ namespace Modules\Notification\Repositories\Eloquent;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Notification\Repositories\NotificationRepository;
 
+use Modules\Ihelpers\Events\CreateMedia;
+use Modules\Ihelpers\Events\DeleteMedia;
+use Modules\Ihelpers\Events\UpdateMedia;
+
 final class EloquentNotificationRepository extends EloquentBaseRepository implements NotificationRepository
 {
   /**
@@ -86,7 +90,7 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
    */
   public function markAllAsReadForUser($userId)
   {
-    return $this->model->whereUserId($userId)->update(['is_read' => true]);
+    return $this->model->where('recipient', (string)$userId)->update(['is_read' => true]);
   }
 
   public function getItemsBy($params = false)
@@ -126,15 +130,16 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
           if (isset($params->user->id) && $params->user->hasAccess('notification.notifications.manage')) {
             $query->where('recipient', 0);
           } else {
-						$query->where(function ($query) use($filter){
-							$query->whereUserId($filter->user)
-								->orWhere("recipient",$filter->user);
-						});
-
+            $query->where(function ($query) use ($filter) {
+              $query->whereUserId($filter->user)
+                ->orWhere("recipient", $filter->user);
+            });
           }
         }
-      } else {
-        $query->where('recipient', 0);
+      }
+
+      if (isset($filter->recipient)) {
+        $query->where('recipient', $filter->recipient);
       }
 
       if (isset($filter->icon) && !empty($filter->icon)) {
@@ -142,18 +147,20 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
       }
 
 
-      if(isset($filter->type)){
-        $query->where('type',$filter->type);
+      if (isset($filter->type)) {
+        $query->where('type', $filter->type);
       }
 
       //Filter by date
       if (isset($filter->date)) {
         $date = $filter->date;//Short filter date
-        $date->field = $date->field ?? 'created_at';
+        $dateField = $date->field ?? 'created_at';
         if (isset($date->from))//From a date
-          $query->whereDate($date->field, '>=', $date->from);
+          $query->whereDate($dateField, '>=', $date->from);
         if (isset($date->to))//to a date
-          $query->whereDate($date->field, '<=', $date->to);
+          $query->whereDate($dateField, '<=', $date->to);
+
+        if(!isset($date->from) && !isset($date->to)) $query->whereDate($dateField, $date);
       }
 
       //Order by
@@ -165,77 +172,108 @@ final class EloquentNotificationRepository extends EloquentBaseRepository implem
         $query->orderBy('created_at', 'desc');
       }
 
+      //add filter by search
+      if (isset($filter->search)) {
+        //find search in columns
+        $query->where(function ($query) use ($filter) {
+          $query->where('id', 'like', '%' . $filter->search . '%')
+            ->orWhere('title', 'like', '%' . $filter->search . '%')
+            ->orWhere('message', 'like', '%' . $filter->search . '%');
+        });
+      }
+
+      //Add filter isRead
+      if(isset($filter->isRead)){
+        $query->where('is_read', $filter->isRead);
+      }
+
+      //Add filter isRead
+      if(isset($filter->source)){
+        $query->where('source', $filter->source);
+      }
     }
 
     //remove by default notifications with is_action in true
-    $query->where(function ($query){
-      $query->where("is_action",false);
+    $query->where(function ($query) {
+      $query->where("is_action", false);
       $query->orWhereNull("is_action");
     });
 
-        /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields)) {
-            $query->select($params->fields);
-        }
-
-        /*== REQUEST ==*/
-        if (isset($params->page) && $params->page) {
-            return $query->paginate($params->take);
-        } else {
-            $params->take ? $query->take($params->take) : false; //Take
-
-            return $query->get();
-        }
+    /*== FIELDS ==*/
+    if (isset($params->fields) && count($params->fields)) {
+      $query->select($params->fields);
     }
 
-    public function getItem($criteria, $params = false)
-    {
-        //Initialize query
-        $query = $this->model->query();
+    /*== REQUEST ==*/
+    if (isset($params->page) && $params->page) {
+      return $query->paginate($params->take);
+    } else {
+      $params->take ? $query->take($params->take) : false; //Take
 
-        /*== RELATIONSHIPS ==*/
-        if (in_array('*', $params->include)) {//If Request all relationships
-            $query->with(['user']);
-        } else {//Especific relationships
-            $includeDefault = ['user']; //Default relationships
-            if (isset($params->include)) {//merge relations with default relationships
-                $includeDefault = array_merge($includeDefault, $params->include);
-            }
-            $query->with($includeDefault); //Add Relationships to query
-        }
+      return $query->get();
+    }
+  }
 
-        /*== FILTER ==*/
-        if (isset($params->filter)) {
-            $filter = $params->filter;
+  public function getItem($criteria, $params = false)
+  {
+    //Initialize query
+    $query = $this->model->query();
 
-            if (isset($filter->field)) {//Filter by specific field
-                $field = $filter->field;
-            }
-        }
-
-        /*== FIELDS ==*/
-        if (isset($params->fields) && count($params->fields)) {
-            $query->select($params->fields);
-        }
-
-        /*== REQUEST ==*/
-        return $query->where($field ?? 'id', $criteria)->first();
+    /*== RELATIONSHIPS ==*/
+    if (in_array('*', $params->include)) {//If Request all relationships
+      $query->with(['user']);
+    } else {//Especific relationships
+      $includeDefault = ['user']; //Default relationships
+      if (isset($params->include)) {//merge relations with default relationships
+        $includeDefault = array_merge($includeDefault, $params->include);
+      }
+      $query->with($includeDefault); //Add Relationships to query
     }
 
-    public function updateItems($criterias, $data)
-    {
-        $query = $this->model->query();
-        $query->whereIn('id', $criterias)->update($data);
+    /*== FILTER ==*/
+    if (isset($params->filter)) {
+      $filter = $params->filter;
 
-        return $query;
+      if (isset($filter->field)) {//Filter by specific field
+        $field = $filter->field;
+      }
     }
 
-    public function deleteItems($criterias)
-    {
-        $query = $this->model->query();
-
-        $query->whereIn('id', $criterias)->delete();
-
-        return $query;
+    /*== FIELDS ==*/
+    if (isset($params->fields) && count($params->fields)) {
+      $query->select($params->fields);
     }
+
+    /*== REQUEST ==*/
+    return $query->where($field ?? 'id', $criteria)->first();
+  }
+
+  public function updateItems($criterias, $data)
+  {
+    $query = $this->model->query();
+    $query->whereIn('id', $criterias)->update($data);
+
+    return $query;
+  }
+
+  public function deleteItems($criterias)
+  {
+    $query = $this->model->query();
+
+    $query->whereIn('id', $criterias)->delete();
+
+    return $query;
+  }
+
+  public function create($data)
+  {
+
+    $model = $this->model->create($data);
+
+    //Event to ADD media
+    event(new CreateMedia($model, $data));
+
+    return $model;
+  }
+
 }
