@@ -7,7 +7,7 @@ return [
       "title" => "Setting",
       "headerTitle" => "Notifications setting"
     ],
-    "adminPanel" => "Panel"
+    "adminPanel" => "Notifications"
   ],
   "title" => 'Multimedia List/Search',
   "newFile" => 'New File',
@@ -41,5 +41,8 @@ return [
     "providers" => "With the notification module you can send different types of messages for some actions
      of the application how to notify a new purchase order from the store by mail, it is necessary to configure
      the providers that allow to notify."
-  ]
+  ],
+  "helpTextBroadcastOption" => "This notification will be displayed within the APP",
+  "isImportant" => "BroadCast (Important)",
+  "isImportantHelpText" => "This notification will be displayed in a more visible popup in the center of the APP"
 ];

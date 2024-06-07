@@ -18,6 +18,12 @@ Route::prefix('/notifications')->group(function (Router $router) {
     ]);
 
     /** @var Router $router */
+    $router->put('/mark-all-as-read',
+      ['as' => 'api.notification.mark-all-as-read',
+      'uses' => 'NotificationApiController@markAllAsRead',
+      'middleware' => ['auth:api']
+    ]);
+
     $router->put('/mark-read/{id}',
         ['as' => 'api.notification.mark-read',
             'uses' => 'NotificationApiController@markAsRead',
