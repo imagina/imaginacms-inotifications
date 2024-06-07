@@ -71,6 +71,11 @@ trait IsNotificable
         "setting" => ["saveInDatabase" => 1],
       ];
 
+      //Optional
+      if(isset($params['link'])) $push['link'] = $params['link'];
+      if(isset($params['userId'])) $push['user_id'] = $params['userId'];
+      if(isset($params['source'])) $push['source'] = $params['source'];
+      
       //Custom Layout
       if(isset($params['content'])) $push['content'] = $params['content'];
       if(isset($params['layout'])) $push['layout'] = $params['layout'];
