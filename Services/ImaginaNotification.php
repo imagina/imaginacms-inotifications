@@ -239,18 +239,26 @@ final class ImaginaNotification implements Inotification
 
   private function create()
   {
-    $this->notification = $this->notificationRepository->create([
+
+    $dataToSave = [
       'recipient' => $this->recipient ?? $this->auth->id(),
       'icon_class' => $this->data["icon"] ?? '',
       'type' => $this->provider->type ?? $this->type ?? '',
       'provider' => $this->provider->system_name ?? '',
-      'link' => $this->data["link"] ?? url(''),
+      'link' => $this->data["link"] ?? null,
       'title' => $this->data["title"] ?? '',
       'message' => $this->data["message"] ?? '',
       'options' => $this->data["options"] ?? '',
       'is_action' => $this->data["isAction"] ?? false,
-      'user_id' => $this->data['user_id'] ?? null
-    ]);
+      'user_id' => $this->data['user_id'] ?? null,
+      'source' => $this->data['source'] ?? null 
+    ];
+
+    //Validation Media
+    if(isset($this->data['medias_single'])) $dataToSave['medias_single'] = $this->data['medias_single'];
+
+    //Save Notification
+    $this->notification = $this->notificationRepository->create($dataToSave);
 
   }
 
@@ -277,7 +285,12 @@ final class ImaginaNotification implements Inotification
 
   private function email()
   {
+    
     try {
+
+      //Add entity data to email
+      $this->data['notification'] = $this->notification;
+
       // subject like notification title
       $subject = $this->data["title"] ?? '';
 
