@@ -17,22 +17,22 @@ class NotificationApiController extends BaseApiController
   private $notification;
   private $notificationP;
   private $notificationApiService;
-  
+
   public function __construct(NotificationRepository $notification, PushNotification $notificationP)
   {
     $this->notification = $notification;
     $this->notificationP = $notificationP;
     $this->notificationApiService = app("Modules\Notification\Services\NotificationApiService");
   }
-  
+
   public function markAsRead(Request $request, $id)
   {
-    
+
     $updated = $this->notification->markNotificationAsRead($id);
-  
+
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   /**
    * GET ITEMS
    *
@@ -41,17 +41,17 @@ class NotificationApiController extends BaseApiController
   public function index(Request $request)
   {
     try {
-   
+
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
-      
+
+
       //Request to Repository
       $dataEntity = $this->notification->getItemsBy($params);
-      
+
       //Response
       $response = ["data" => NotificationTransformer::collection($dataEntity)];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
     } catch (\Exception $e) {
@@ -59,11 +59,11 @@ class NotificationApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   /**
    * GET A ITEM
    *
@@ -75,16 +75,16 @@ class NotificationApiController extends BaseApiController
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $dataEntity = $this->notification->getItem($criteria, $params);
-      
+
       //Break if no found item
       if (!$dataEntity) throw new Exception('Item not found', 404);
-      
+
       //Response
       $response = ["data" => new NotificationTransformer($dataEntity)];
-      
+
       //If request pagination add meta-page
       $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
     } catch (\Exception $e) {
@@ -92,12 +92,12 @@ class NotificationApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
-  
+
+
   /**
    * CREATE A ITEM
    *
@@ -108,7 +108,7 @@ class NotificationApiController extends BaseApiController
   {
     try {
       $data = (object)$request->input('attributes') ?? [];//Get data
-  
+
       //Validate Request
       $this->validateRequestApi(new CreateNotificationRequest((array)$data));
       //Create and Send Notification
@@ -124,7 +124,7 @@ class NotificationApiController extends BaseApiController
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   /**
    * UPDATE ITEM
    *
@@ -138,18 +138,18 @@ class NotificationApiController extends BaseApiController
     try {
       //Get data
       $data = $request->input('attributes') ?? [];//Get data
-      
+
       //Validate Request
       $this->validateRequestApi(new CreateNotificationRequest($data));
-      
+
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $dataEntity = $this->notification->getItem($criteria, $params);
       //Request to Repository
       $this->notification->update($dataEntity, $data);
-      
+
       //Response
       $response = ["data" => 'Item Updated'];
       \DB::commit();//Commit to DataBase
@@ -159,11 +159,11 @@ class NotificationApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   /**
    * DELETE A ITEM
    *
@@ -176,13 +176,13 @@ class NotificationApiController extends BaseApiController
     try {
       //Get params
       $params = $this->getParamsRequest($request);
-      
+
       //Request to Repository
       $dataEntity = $this->notification->getItem($criteria, $params);
-      
+
       //call Method delete
       $this->notification->destroy($dataEntity);
-      
+
       //Response
       $response = ["data" => "Item deleted"];
       \DB::commit();//Commit to Data Base
@@ -192,17 +192,17 @@ class NotificationApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   public function updateItems(Request $request)
   {
     try {
       //Get Parameters from URL.
       $params = $this->getParamsRequest($request);
-      
+
       $data = $request->input('attributes') ?? [];//Get data
       //Request to Repository
       $dataEntity = $this->notification->getItemsBy($params);
@@ -217,11 +217,11 @@ class NotificationApiController extends BaseApiController
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
+
   public function deleteItems(Request $request)
   {
     try {
@@ -233,16 +233,34 @@ class NotificationApiController extends BaseApiController
       $this->notification->deleteItems($crterians);
       //Response
       $response = ["data" => "Items deleted"];
-      
+
     } catch (\Exception $e) {
       \Log::error($e->getMessage());
       $status = $this->getStatusError($e->getCode());
       $response = ["errors" => $e->getMessage()];
     }
-    
+
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
   }
-  
-  
+
+  public function markAllAsRead(Request $request)
+  {
+    \DB::beginTransaction();
+    try {
+      $updated = $this->notification->markAllAsReadForUser(\Auth::user()->id);
+
+      //Response
+      $response = ["data" => "Item updated"];
+      \DB::commit();//Commit to Data Base
+    } catch (\Exception $e) {
+      \Log::error($e->getMessage());
+      \DB::rollback();//Rollback to Data Base
+      $status = $this->getStatusError($e->getCode());
+      $response = ["errors" => $e->getMessage()];
+    }
+
+    //Return response
+    return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+  }
 }

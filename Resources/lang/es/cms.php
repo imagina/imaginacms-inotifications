@@ -7,7 +7,7 @@ return [
       "title" => "Configuración",
       "headerTitle" => "Configuración de notificaciones"
     ],
-    "adminPanel" => "Panel"
+    "adminPanel" => "Notifications"
   ],
   "title" => 'Multimedia Listar/Buscar',
   "newFile" => 'Nuevo Archivo',
@@ -41,5 +41,8 @@ return [
     "providers" => "Con el modulo de notificaciones puedes enviar diferentes tipos de mensajes para algunas acciones
     de la aplicación como notificar una nueva orden de compra de la tienda por correo, es necesario configurar
     los proveedores que permiten notificar."
-  ]
+  ],
+  "helpTextBroadcastOption" => "Está notificación se mostrara dentro de la APP",
+  "isImportant" => "BroadCast (Importante)",
+  "isImportantHelpText" => "Está notificación se mostrara en un popup más visible en el centro de la APP"
 ];
