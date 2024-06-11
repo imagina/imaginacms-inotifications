@@ -17,7 +17,7 @@
   "require": {
     "php": "^8.1",
     "composer/installers": "~1.0",
-    "imagina/core-module": "v10.x-dev",
+    "imagina/core-module": "^10.0",
     "kawankoding/laravel-fcm": "^0.2.0",
     "symfony/http-client": "^6.4",
     "symfony/mailgun-mailer": "^6.4"
