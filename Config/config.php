@@ -9,23 +9,19 @@ return [
   | comes by default with the Pusher integration (js).
   */
   'real-time' => false,
-  
-  'defaultEmailView' => 'notification::emails.default.index',
-  
   "notificationTypes" => [
-    
+
     ["title" => "SMS", "system_name" => "sms"],
     ["title" => "Whatsapp", "system_name" => "whatsapp"],
     ["title" => "Slack", "system_name" => "slack"],
     ["title" => "Email", "system_name" => "email"],
     ["title" => "Push", "system_name" => "push"],
     ["title" => "Broadcast", "system_name" => "broadcast"],
-  
+
   ],
-  
+  /** Providers */
   "providers" => [
-    
-    "email" => [// EMAIL PROVIDER
+    "email" => [
       "name" => "Email",
       "systemName" => "email",
       "icon" => "far fa-envelope",
@@ -38,25 +34,32 @@ return [
         "id" => [
           'value' => null,
         ],
-        "senderName" => [
-          "name" => "senderName",
+
+        "type" => [
+          "name" => "type",
+          'value' => 'email',
+          'type' => 'hidden',
+        ],
+        "fromName" => [
+          "name" => "fromName",
           'value' => '',
           "isFakeField" => 'fields',
           'type' => 'input',
           'required' => true,
           'props' => [
-            'label' => 'Sender Name *',
+            'label' => 'From Name *',
             "hint" => "The name the notification should come from"
           ],
         ],
-        "senderMail" => [
-          "name" => "senderEmail",
+        "fromAddress" => [
+          "name" => "fromAddress",
           'value' => '',
-          'type' => 'email',
+          'type' => 'input',
           "isFakeField" => 'fields',
           'required' => true,
           'props' => [
-            'label' => 'Sender Email *',
+            'type' => 'email',
+            'label' => 'From Address *',
             "hint" => "The email address the notification should come from"
           ],
         ],
@@ -81,11 +84,12 @@ return [
             'label' => 'Default',
           ],
         ],
-        
+
         "saveInDatabase" => [
           "name" => "saveInDatabase",
           'value' => '0',
           'type' => 'select',
+          "isFakeField" => 'fields',
           'required' => true,
           'props' => [
             'label' => 'Save in database',
@@ -96,9 +100,8 @@ return [
           ],
         ],
       ],
-      
       "settings" => [
-        
+
         "recipients" => [
           "name" => "recipients",
           'value' => '',
@@ -154,7 +157,6 @@ return [
         ],
       ]
     ],
-    
     "pusher" => [// PUSHER PROVIDER
       "name" => "Pusher",
       "systemName" => "pusher",
@@ -169,6 +171,11 @@ return [
         "id" => [
           'value' => null,
         ],
+        "type" => [
+          "name" => "type",
+          'value' => 'broadcast',
+          'type' => 'hidden',
+        ],
         "pusherAppEncrypted" => [
           "name" => "pusherAppEncrypted",
           'value' => true,
@@ -179,9 +186,9 @@ return [
             'falseValue' => false,
             'trueValue' => true
           ],
-          "configRoute" => "broadcasting.connections.pusher.options.encrypted"
+          "configRoute" => "broadcasting.connections.pusher.options.useTLS"
         ],
-        
+
         "pusherAppId" => [
           "name" => "pusherAppId",
           'value' => '',
@@ -193,7 +200,7 @@ return [
           ],
           "configRoute" => "broadcasting.connections.pusher.app_id"
         ],
-        
+
         "pusherAppKey" => [
           "name" => "pusherAppKey",
           'value' => '',
@@ -205,7 +212,7 @@ return [
           ],
           "configRoute" => "broadcasting.connections.pusher.key"
         ],
-        
+
         "pusherAppSecret" => [
           "name" => "pusherAppSecret",
           'value' => '',
@@ -217,7 +224,7 @@ return [
           ],
           "configRoute" => "broadcasting.connections.pusher.secret"
         ],
-        
+
         "pusherAppCluster" => [
           "name" => "pusherAppCluster",
           'value' => '',
@@ -255,6 +262,7 @@ return [
           'value' => '1',
           'type' => 'select',
           'required' => true,
+          "isFakeField" => 'fields',
           'props' => [
             'label' => 'Save in database',
             'options' => [
@@ -263,7 +271,7 @@ return [
             ],
           ],
         ],
-      
+
       ],
       "settings" => [
         "recipients" => [
@@ -304,7 +312,6 @@ return [
         ],
       ]
     ],
-    
     "firebase" => [// PUSHER PROVIDER
       "name" => "Firebase",
       "systemName" => "firebase",
@@ -314,10 +321,15 @@ return [
         "numeric",
         "min:1",
       ],
-      "type" >= 'broadcast',
+      "type" => 'push',
       "fields" => [
         "id" => [
           'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'push',
+          'type' => 'hidden',
         ],
         "firebaseApiKey" => [
           "name" => "firebaseApiKey",
@@ -373,7 +385,7 @@ return [
             ],
           ],
         ],
-     
+
       ],
       "settings" => [
         "recipients" => [
@@ -414,7 +426,6 @@ return [
         ],
       ]
     ],
-  
     "labsMobile" => [// LABS MOBILE PROVIDER
       "name" => "Labs Mobile",
       "systemName" => "labsMobile",
@@ -428,6 +439,11 @@ return [
       "fields" => [
         "id" => [
           'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'sms',
+          'type' => 'hidden',
         ],
         "driver" => [
           'value' => 'labsmobile',
@@ -454,7 +470,7 @@ return [
           ],
           "configRoute" => "sms.labsmobile.client_id"
         ],
-      
+
         "userName" => [
           "name" => "userName",
           'value' => '',
@@ -466,7 +482,7 @@ return [
           ],
           "configRoute" => "sms.labsmobile.username"
         ],
-      
+
         "password" => [
           "name" => "password",
           'value' => '',
@@ -478,7 +494,7 @@ return [
           ],
           "configRoute" => "sms.labsmobile.password"
         ],
-  
+
         "test" => [
           "name" => "test",
           'value' => true,
@@ -491,8 +507,8 @@ return [
           ],
           "configRoute" => "sms.labsmobile.test"
         ],
-  
-       
+
+
         "status" => [
           "name" => "status",
           'value' => '0',
@@ -527,7 +543,7 @@ return [
             ],
           ],
         ],
-       
+
       ],
       "settings" => [
         "recipients" => [
@@ -568,5 +584,132 @@ return [
         ],
       ]
     ],
-  ]
+    "whatsapp" => [
+      "name" => "Whatsapp",
+      "systemName" => "whatsapp",
+      "icon" => "fab fa-whatsapp",
+      "color" => "#25D366",
+      "rules" => [],
+      "type" => 'chat',
+      "fields" => [
+        "id" => [
+          'value' => null,
+        ],
+        "type" => [
+          "name" => "type",
+          'value' => 'chat',
+          'type' => 'hidden',
+        ],
+        "accessToken" => [
+          "name" => "accessToken",
+          'value' => '',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Access Token *'
+          ],
+        ],
+        "businessAccountId" => [
+          "name" => "businessAccountId",
+          'value' => '',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Business account ID *'
+          ],
+        ],
+        "senderId" => [
+          "name" => "senderId",
+          'value' => '',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Sender ID *'
+          ],
+        ],
+        "canCreateConversation" => [
+          "name" => "canCreateConversation",
+          'value' => '1',
+          'type' => 'select',
+          "isFakeField" => 'fields',
+          'required' => true,
+          'props' => [
+            'label' => 'Can create conversation',
+            'options' => [
+              ["label" => 'yes', "value" => '1'],
+              ["label" => 'no', "value" => '0']
+            ],
+          ],
+        ],
+        "defaultTemplate" => [
+          "name" => "defaultTemplate",
+          'value' => 'weygo_cms_template',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Default Template *'
+          ],
+        ],
+        "defaultTemplateLocale" => [
+          "name" => "defaultTemplateLocale",
+          'value' => 'es',
+          'type' => 'input',
+          'required' => true,
+          "isFakeField" => 'fields',
+          'props' => [
+            'label' => 'Default Template Locale *'
+          ],
+        ],
+        "status" => [
+          "name" => "status",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Enable',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ],
+        "default" => [
+          "name" => "default",
+          'value' => false,
+          'type' => 'checkbox',
+          'props' => [
+            'label' => 'Default',
+          ],
+        ],
+        "saveInDatabase" => [
+          "name" => "saveInDatabase",
+          'value' => '0',
+          'type' => 'select',
+          'required' => true,
+          'props' => [
+            'label' => 'Save in database',
+            'options' => [
+              ["label" => 'enabled', "value" => '1'],
+              ["label" => 'disabled', "value" => '0'],
+            ],
+          ],
+        ]
+      ]
+    ],
+  ],
+  /*Translate keys of each entity. Based on the permission string*/
+  'documentation' => [
+    'providers' => "notification::cms.documentation.providers",
+  ],
+
+  //Media Fillables
+  'mediaFillable' => [
+    'notification' => [
+      'mainimage' => 'single'
+    ]
+  ],
 ];
