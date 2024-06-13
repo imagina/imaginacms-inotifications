@@ -23,14 +23,20 @@
       <div class="email-message">
         {!! $data["message"]!!}
       </div>
+      @if(!empty($data["link"]))
+        <div class="email-link">
+        <a href='{{$data["link"]}}'
+                 style="text-decoration: none;
+                         background-color: {{Setting::get('isite::brandSecondary')}};
+                         padding: 5px 10px;
+                         margin: 15px 10px 0;
+                         display: inline-block;
+                         border-radius: 6px;
+                         color: white;"
+                 target="_blank">{{ $data["notification"]->options->linkLabel ?? trans("isite::common.menu.viewMore") }}</a>
+        </div>
+      @endif
     </div>
   @endif
 
-  @if(isset($data["withButton"]) && $data["withButton"])
-    <p style="text-align: center;margin-top: 40px;">
-      <a class="email-bottom" href='{{$data["link"]}}'>
-        {!! $data["buttonText"] ?? trans("isite::common.menu.viewMore")!!}
-      </a>
-    </p>
-  @endif
 @stop
