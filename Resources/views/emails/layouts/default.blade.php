@@ -257,14 +257,9 @@
                 </tr>
                 <tr>
                   <td
-                    style="border-radius: 0 0 10px 10px;padding:0 30px 30px;background-color:#ffffff; text-align: center;">
-                    <hr style="margin:20px; border: 1px solid #E8ECED;">
-                    
-                    <img src="http://imgfz.com/i/4KPt72c.png" width="200" alt="imagen"
-                         style="width:200px;max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff; text-align: center;">
+                    style="border-radius: 0 0 10px 10px;background-color:#ffffff; text-align: center;">
                     @yield('content')
                   </td>
-                
                 </tr>
                 <tr>
                   <td
