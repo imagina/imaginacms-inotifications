@@ -44,5 +44,15 @@ return [
   ],
   "helpTextBroadcastOption" => "Está notificación se mostrara dentro de la APP",
   "isImportant" => "BroadCast (Importante)",
-  "isImportantHelpText" => "Está notificación se mostrara en un popup más visible en el centro de la APP"
+  "isImportantHelpText" => "Está notificación se mostrara en un popup más visible en el centro de la APP",
+  "markAsRead" => "Marcar como leida",
+  "markAllAsRead" => "Marcar como leidas",
+  "tab" => [
+    "all" => "Todas",
+    "unread" => "Sin leer",
+    "read" => "Leidas"
+  ],
+  "type" => "Tipo",
+  "cancel" => "Cancelar",
+  "openLink" => "Abrir enlace"
 ];
