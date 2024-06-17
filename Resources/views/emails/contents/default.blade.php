@@ -6,11 +6,10 @@
     @include($data["content"])
   @else
 
-    @if(!empty($data['notification']->mediaFiles()->mainimage->mediumThumb) && strpos($data['notification']->mediaFiles()->mainimage->mediumThumb, 'default.jpg') == false)
+    @if(!is_null($data['notification']->mediaFiles()) && !empty($data['notification']->mediaFiles()->mainimage->mediumThumb) && strpos($data['notification']->mediaFiles()->mainimage->mediumThumb, 'default.jpg') == false)
     <img src="{{$data['notification']->mediaFiles()->mainimage->mediumThumb}}" alt="{{$data['title'] ?? ''}}"
          style="margin-top:15px; margin-bottom: 20px; width: 100%; aspect-ratio: 21 / 9; object-fit: cover; border:none;text-decoration:none;color:#ffffff; text-align: center;">
     @else
-
       <hr style="margin:20px; border: 1px solid #E8ECED;">
       <img src="http://imgfz.com/i/4KPt72c.png" width="200" alt="imagen"
            style="margin-bottom:20px; width:200px;max-width:80%;height:auto;border:none;text-decoration:none;color:#ffffff; text-align: center;">
