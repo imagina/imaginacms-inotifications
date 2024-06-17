@@ -19,6 +19,7 @@ use Modules\Notification\Services\AsgardNotification;
 use Modules\Notification\Services\ImaginaNotification;
 use Modules\User\Contracts\Authentication;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Blade;
 
 class NotificationServiceProvider extends ServiceProvider
 {
@@ -66,7 +67,7 @@ class NotificationServiceProvider extends ServiceProvider
     $this->mergeConfigFrom($this->getModuleConfigFilePath('notification', 'cmsSidebar'), "asgard.notification.cmsSidebar");
     //$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
-
+    $this->registerComponents();
   }
 
   /**
@@ -149,6 +150,12 @@ class NotificationServiceProvider extends ServiceProvider
     view()->composer('partials.top-nav', NotificationViewComposer::class);
   }
 
+  /**
+  * Register Blade components
+  */
 
+  private function registerComponents(){
+    Blade::componentNamespace("Modules\Notification\View\Components", 'notification');
+  }
 
 }
