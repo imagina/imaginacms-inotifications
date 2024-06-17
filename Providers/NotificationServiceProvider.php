@@ -17,6 +17,7 @@ use Modules\Notification\Repositories\ProviderRepository;
 use Modules\Notification\Services\AsgardNotification;
 use Modules\Notification\Services\ImaginaNotification;
 use Modules\User\Contracts\Authentication;
+use Illuminate\Support\Facades\Blade;
 
 class NotificationServiceProvider extends ServiceProvider
 {
@@ -47,6 +48,8 @@ class NotificationServiceProvider extends ServiceProvider
 
             // append translations
         });
+
+        $this->registerComponents();
     }
 
     public function boot()
@@ -139,5 +142,13 @@ class NotificationServiceProvider extends ServiceProvider
     private function registerViewComposers()
     {
         view()->composer('partials.top-nav', NotificationViewComposer::class);
+    }
+
+    /**
+    * Register Blade components
+    */
+
+    private function registerComponents(){
+      Blade::componentNamespace("Modules\Notification\View\Components", 'notification');
     }
 }
