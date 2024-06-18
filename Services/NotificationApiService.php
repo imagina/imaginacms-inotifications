@@ -28,7 +28,7 @@ class NotificationApiService
         $push = [
             "title" => $data->title,
             "message" => $data->message,
-            "link" => $data->link ?? url('')
+            "link" => $data->link ?? null
         ];
 
         //Media
