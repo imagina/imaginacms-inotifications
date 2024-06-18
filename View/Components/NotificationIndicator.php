@@ -39,7 +39,7 @@ class NotificationIndicator extends Component
     $this->notiClass = $notiClass;
     $this->notiStyle = $notiStyle;
 
-    $this->route = url('/ipanel/#/notificaciones/panel');
+    $this->route = url('/iadmin/#/notifications/me');
 
     $this->user = \Auth::user() ?? null;
     $this->unRead = false; //default value
