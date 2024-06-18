@@ -20,7 +20,7 @@ class NotificationTransformer extends JsonResource
             'recipient'=>$this->when($this->recipient, $this->recipient),
             'recipientUser'=> new UserTransformer($this->whenLoaded('recipientUser')),
             'source'=>$this->when($this->source, $this->source),
-            'options'=>$this->when($this->options, $this->options),
+            'options'=>$this->options,
             'isRead'=>$this->is_read,
             'timeAgo'=>$this->when($this->timeAgo,$this->timeAgo),
             'createdAt'=>$this->when($this->created_at,$this->created_at),
