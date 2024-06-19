@@ -54,5 +54,6 @@ return [
   ],
   "type" => "Tipo",
   "cancel" => "Cancelar",
-  "openLink" => "Abrir enlace"
+  "openLink" => "Abrir enlace",
+  "seeAll" => "Ver todas"
 ];

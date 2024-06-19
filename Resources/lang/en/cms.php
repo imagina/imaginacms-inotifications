@@ -54,5 +54,6 @@ return [
   ],
   "type" => "Type",
   "cancel" => "Cancel",
-  "openLink" => "Open link"
+  "openLink" => "Open link",
+  "seeAll" => "See All"
 ];
