@@ -41,10 +41,11 @@ class BroadcastNotification implements ShouldBroadcast, ShouldQueue
             'user'=>$this->notification->user_id,
             'options'=>$this->notification->options,
             'isAction'=>$this->notification->is_action,
-            'recipient'=>$this->notification->recipient
+            'recipient'=>$this->notification->recipient,
+            'mediaFiles'=>$this->notification->mediaFiles()
         ];
         $data = array_merge($data,$this->payload);
-        
+
         return $data;
     }
 
