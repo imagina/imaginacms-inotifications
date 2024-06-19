@@ -27,7 +27,8 @@ class NotificationTransformer extends JsonResource
             'updatedAt'=>$this->when($this->updated_at,$this->updated_at),
             'user_id'=>$this->when($this->user_id,$this->user_id),
             'user'=>new UserTransformer($this->whenLoaded('user')),
-            'mediaFiles' => $this->mediaFiles()
+            'mediaFiles' => $this->mediaFiles(),
+            'sourceData' => $this->sourceData
         ];
 
         return $data;

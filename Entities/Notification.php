@@ -37,10 +37,10 @@ class Notification extends Model
     'is_action',
     'source'
   ];
-  
+
   protected $appends = ['time_ago'];
   protected $casts = ['is_read' => 'bool', 'options' => 'array'];
-  
+
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
    */
@@ -55,7 +55,7 @@ class Notification extends Model
     $driver = config('asgard.user.config.driver');
     return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User", "recipient");
   }
-  
+
   /**
    * Return the created time in difference for humans (2 min ago)
    * @return string
@@ -64,19 +64,45 @@ class Notification extends Model
   {
     return !empty($this->created_at) ? $this->created_at->diffForHumans() : 0;
   }
-  
+
   public function isRead(): bool
   {
     return $this->is_read === true;
   }
-  
+
   public function getOptionsAttribute($value)
   {
     return json_decode($value);
   }
-  
+
   public function setOptionsAttribute($value)
   {
     $this->attributes['options'] = json_encode($value);
+  }
+
+  public function getSourceDataAttribute($value)
+  {
+    //Init default source data
+    $sourceData = [
+      "label" => "General",
+      "icon" => "fa-light fa-bell",
+      "color" => "#2196f3",
+      "backgroundColor" => "#D9D9D9",
+    ];
+
+    //Search the source data
+    $source = $this->source;
+    if ($source) {
+      $sources = iconfig('config.notificationSource', true);
+      foreach ($sources as $key => $value) {
+        if (is_array($value) && array_key_exists($source, $value)) {
+          $sourceData = array_merge($sourceData, $value[$source]);
+          break;
+        }
+      }
+    }
+
+    //Response
+    return $sourceData;
   }
 }
