@@ -41,6 +41,7 @@ class BroadcastNotification implements ShouldBroadcast, ShouldQueue
             'options' => $this->notification->options,
             'isAction' => $this->notification->is_action,
             'recipient' => $this->notification->recipient,
+            'mediaFiles'=>$this->notification->mediaFiles()
         ];
         $data = array_merge($data, $this->payload);
 
