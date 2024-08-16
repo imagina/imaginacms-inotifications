@@ -1,5 +1,5 @@
 <div id="{{$id}}" class="notification-indicator {{$notiClass}}" @if($unRead) data-toggle="tooltip" data-placement="right" title="Tienes notificaciones sin leer" @endif>
-  <a class="btn-notification" href="{{$route}}" target="$target">
+  <a class="btn-notification" href="{{$route}}" target="{{$target}}">
     <i class="icon {{$icon}} {{$iconClass}}"></i>
       @if($unRead)<span class="indicator"></span>@endif
   </a>
