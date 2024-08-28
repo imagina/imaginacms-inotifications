@@ -17,6 +17,7 @@ class NotificationIndicator extends Component
   public $notiStyle;
   public $unRead;
   public $user;
+  public $target;
 
   public function __construct($id = null,
                               $icon = "fa-solid fa-bell",
@@ -26,7 +27,8 @@ class NotificationIndicator extends Component
                               $colorBadge = "#FF0000",
                               $route = "#",
                               $notiClass = "px-2",
-                              $notiStyle = null
+                              $notiStyle = null,
+                              $target="_blank"
   )
   {
     $this->id = $id ?? uniqid('notification');
@@ -38,6 +40,7 @@ class NotificationIndicator extends Component
     $this->route = $route;
     $this->notiClass = $notiClass;
     $this->notiStyle = $notiStyle;
+    $this->target = $target;
 
     $this->route = url('/iadmin/#/notifications/me');
 
