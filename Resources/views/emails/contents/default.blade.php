@@ -33,7 +33,7 @@
                          display: inline-block;
                          border-radius: 6px;
                          color: white;"
-                 target="_blank">{{ $data["notification"]->options->linkLabel ?? trans("isite::common.menu.viewMore") }}</a>
+                 target="_blank">{{ $data["notification"]->options->linkLabel ?? $data["options"]['linkLabel'] ?? trans("isite::common.menu.viewMore") }}</a>
         </div>
       @endif
     </div>
