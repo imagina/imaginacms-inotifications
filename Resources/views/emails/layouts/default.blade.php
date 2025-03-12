@@ -201,7 +201,7 @@
         width: 90%;
       }
     }
-  
+
   </style>
 </head>
 <body style="margin:0;padding:0;word-spacing:normal;background-color:#E8ECED;">
@@ -228,17 +228,16 @@
                               @php
                                 // Default
                                 $logo = Setting::get('isite::logo1');
+                                $notificationLogo = Setting::get('notification::logoEmail');
                                 // Validation
-                                if(Setting::get('notification::logoEmail') &&
-                                strpos(Setting::get('notification::logoEmail'), 'default.jpg') == false){
-                                  $settingLogo = json_decode(Setting::get('notification::logoEmail'));
+                                if($notificationLogo && strpos($notificationLogo, 'default.jpg') == false){
+                                  $settingLogo = json_decode($notificationLogo);
                                   //Cuando lo guardan vacio, esta llegando la relacion media
                                   //Cuando lo guardan, llega la url completa
                                   if(!isset($settingLogo->medias_single)){
-                                    $logo = Setting::get('notification::logoEmail');
+                                    $logo = $notificationLogo;
                                   }
                                 }
-                                //\Log::info("Logo: ".$logo);
                               @endphp
                               <figure style="margin:0;">
                                 <img class="email-logo" src="{{$logo}}"
@@ -264,7 +263,7 @@
                 <tr>
                   <td
                     style="padding:30px; text-align:center;font-size:12px;background-color:transparent;color:#8292A1;">
-                    
+
                     <p style="margin:0;">
                       @php
                         $social = json_decode(setting("isite::socialNetworks"));
@@ -314,7 +313,7 @@
                     </p>
                     <hr style="border-width: 2px;">
                     <p style="margin:0;">
-                      <a class="email-url" href="{{url('')}}">{{url('')}}</a>
+                      <a class="email-url" href="{{env('FRONT_APP_URL', url(''))}}">{{env('FRONT_APP_URL', url(''))}}</a>
                     </p>
                   </td>
                 </tr>
