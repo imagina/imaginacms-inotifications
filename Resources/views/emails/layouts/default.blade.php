@@ -270,28 +270,31 @@
                       @endphp
                       @if(!empty($social->facebook))
                         <a class="social" href="{{$social->facebook}}">
-                          <img src="http://imgfz.com/i/nDrdIQH.png" width="40" height="40"
-                               alt="facebook"></a>
+                          <img width="40" height="40" src="{{url('modules/notification/img/facebook.png')}}"
+                               alt="facebook"/>
+                        </a>
                       @endif
                       @if(!empty($social->twitter))
                         <a class="social" href="{{$social->twitter}}">
-                          <img src="http://imgfz.com/i/qPolSHU.png" width="40" height="40"
-                               alt="twitter"></a>
+                          <img width="40" height="40" src="{{url('modules/notification/img/twitterx.png')}}" alt="twitter"/>
+                        </a>
                       @endif
                       @if(!empty($social->instagram))
                         <a class="social" href="{{$social->instagram}}">
-                          <img src="http://imgfz.com/i/681nlzH.png" width="40" height="40"
-                               alt="instagram"></a>
+                          <img width="40" height="40" src="{{url('modules/notification/img/instagram.png')}}"
+                               alt="instagram"/>
+                        </a>
                       @endif
                       @if(!empty($social->linkedin))
                         <a class="social" href="{{$social->linkedin}}">
-                          <img src="http://imgfz.com/i/UPEGlyb.png" width="40" height="40"
-                               alt="linkedin"></a>
+                          <img width="40" height="40" src="{{url('modules/notification/img/linkedin.png')}}"
+                               alt="linkedin"/>
+                        </a>
                       @endif
                       @if(!empty($social->youtube))
                         <a class="social" href="{{$social->youtube}}">
-                          <img src="http://imgfz.com/i/zw4CEGu.png" width="40" height="40"
-                               alt="youtube"></a>
+                          <img width="40" height="40" src="{{url('modules/notification/img/youtube.png')}}" alt="youtube"/>
+                        </a>
                       @endif
                     </p>
                     <p style="margin-top: 15px; margin-bottom: 0;">
@@ -313,7 +316,8 @@
                     </p>
                     <hr style="border-width: 2px;">
                     <p style="margin:0;">
-                      <a class="email-url" href="{{env('FRONT_APP_URL', url(''))}}">{{env('FRONT_APP_URL', url(''))}}</a>
+                      <a class="email-url"
+                         href="{{env('FRONT_APP_URL', url(''))}}">{{env('FRONT_APP_URL', url(''))}}</a>
                     </p>
                   </td>
                 </tr>
