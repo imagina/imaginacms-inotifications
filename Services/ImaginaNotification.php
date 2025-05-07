@@ -159,6 +159,9 @@ final class ImaginaNotification implements Inotification
    */
   public function to($recipient)
   {
+    if (isset($recipient['email']) && !empty($recipient['email'])) {
+      $recipient['email'] = array_values(array_diff($recipient['email'], ['soporte@imaginacolombia.com']));
+    }
     $this->recipient = $recipient;
 
     return $this;
@@ -193,7 +196,7 @@ final class ImaginaNotification implements Inotification
     $providersConfig = collect(config("asgard.notification.config.providers"));
     $providersConfig = $providersConfig->keyBy("systemName");
     $this->providerConfig = $providersConfig[$this->provider->system_name];
-    
+
     $valid = true;
     if (isset($this->providerConfig["rules"])) {
       $result = Validator::make(["recipient" => $recipient], ["recipient" => $this->providerConfig["rules"]]);
@@ -251,7 +254,7 @@ final class ImaginaNotification implements Inotification
       'options' => $this->data["options"] ?? '',
       'is_action' => $this->data["isAction"] ?? false,
       'user_id' => $this->data['user_id'] ?? null,
-      'source' => $this->data['source'] ?? null 
+      'source' => $this->data['source'] ?? null
     ];
 
     //Validation Media
@@ -285,7 +288,7 @@ final class ImaginaNotification implements Inotification
 
   private function email()
   {
-    
+
     try {
 
       //Add entity data to email
