@@ -92,7 +92,7 @@ final class ImaginaNotification implements Inotification
    */
   public function push($params = [])
   {
-    \Log::info($this->log.'Push');
+    \Log::info($this->log . 'Push');
 
     $this->entity = $params["entity"] ?? null;
     $this->setting = $params["setting"] ?? null;
@@ -144,7 +144,7 @@ final class ImaginaNotification implements Inotification
       }
     } else {
 
-      \Log::info($this->log.'Push|Check Provider Status');
+      \Log::info($this->log . 'Push|Check Provider Status');
 
       if ($this->provider->status) {
         $this->send();
@@ -259,7 +259,7 @@ final class ImaginaNotification implements Inotification
     ];
 
     //Validation Media
-    if(isset($this->data['medias_single'])) $dataToSave['medias_single'] = $this->data['medias_single'];
+    if (isset($this->data['medias_single'])) $dataToSave['medias_single'] = $this->data['medias_single'];
 
     //Save Notification
     $this->notification = $this->notificationRepository->create($dataToSave);
@@ -376,7 +376,7 @@ final class ImaginaNotification implements Inotification
   /** Whatsapp Business: Send Message */
   private function whatsapp()
   {
-   try {
+    try {
       $n8nUrl = setting("isite::n8nBaseUrl");
       $provider = Provider::where("system_name", "whatsapp")->first();
 
@@ -384,7 +384,7 @@ final class ImaginaNotification implements Inotification
         //Request
         $client = new \GuzzleHttp\Client();
 
-        $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider,$this->data);
+        $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider, $this->data);
 
         $response = $client->request('POST',
           "{$n8nUrl}/whatsapp-business/message",
@@ -410,7 +410,7 @@ final class ImaginaNotification implements Inotification
         );
 
         //Set external_id
-        if(isset($this->data["message_id"])) {
+        if (isset($this->data["message_id"])) {
           $requestResponse = json_decode($response->getBody()->getContents());
           $messageEntity = app("Modules\Ichat\Entities\Message");
           $messageModel = $messageEntity->find($this->data['message_id']);
