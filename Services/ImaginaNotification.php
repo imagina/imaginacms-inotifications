@@ -160,7 +160,8 @@ final class ImaginaNotification implements Inotification
   public function to($recipient)
   {
     if (isset($recipient['email']) && !empty($recipient['email'])) {
-      $recipient['email'] = array_values(array_diff($recipient['email'], ['soporte@imaginacolombia.com']));
+      $emails = is_array($recipient['email']) ? $recipient['email'] : [$recipient['email']];
+      $recipient['email'] = array_values(array_diff($emails, ['soporte@imaginacolombia.com']));
     }
     $this->recipient = $recipient;
 
