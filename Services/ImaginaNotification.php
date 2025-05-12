@@ -161,7 +161,14 @@ final class ImaginaNotification implements Inotification
   {
     if (isset($recipient['email']) && !empty($recipient['email'])) {
       $emails = is_array($recipient['email']) ? $recipient['email'] : [$recipient['email']];
-      $recipient['email'] = array_values(array_diff($emails, ['soporte@imaginacolombia.com']));
+      $excludedEmails = config('asgard.user.config.emailsExcludedNotification', []);
+
+      // Asegura que $excludedEmails sea un array
+      if (!is_array($excludedEmails)) {
+        $excludedEmails = [$excludedEmails];
+      }
+
+      $recipient['email'] = array_values(array_diff($emails, $excludedEmails));
     }
     $this->recipient = $recipient;
 
