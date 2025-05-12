@@ -712,4 +712,10 @@ return [
       'mainimage' => 'single'
     ]
   ],
+
+  //Emails excluded from notification
+  'emailsExcludedNotification' => [
+    'soporte@imaginacolombia.com'
+  ]
+
 ];
