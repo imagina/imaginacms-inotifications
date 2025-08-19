@@ -1,5 +1,5 @@
 {
-  "name": "imagina/inotification",
+  "name": "imagina/notification-module",
   "description": "",
   "type": "laravel-module",
   "license": "MIT",
