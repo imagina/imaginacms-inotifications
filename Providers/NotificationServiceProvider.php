@@ -3,6 +3,7 @@
 namespace Modules\Notification\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Core\Traits\CanPublishConfiguration;
@@ -68,6 +69,7 @@ class NotificationServiceProvider extends ServiceProvider
     //$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
     $this->registerComponents();
+    $this->registerComponentsLivewire();
   }
 
   /**
@@ -132,7 +134,7 @@ class NotificationServiceProvider extends ServiceProvider
     $this->app->bind(\Modules\Notification\Services\Inotification::class, function ($app) {
       return new ImaginaNotification($app[NotificationRepository::class], $app[ProviderRepository::class], $app[Authentication::class]);
     });
-  
+
     $this->app->bind(
       'Modules\Notification\Repositories\DeviceRepository',
       function () {
@@ -151,11 +153,19 @@ class NotificationServiceProvider extends ServiceProvider
   }
 
   /**
-  * Register Blade components
-  */
+   * Register Blade components
+   */
 
   private function registerComponents(){
     Blade::componentNamespace("Modules\Notification\View\Components", 'notification');
+  }
+
+  /**
+   * Register components Livewire
+   */
+  private function registerComponentsLivewire()
+  {
+    Livewire::component('notification::dynamic-notification-indicator', \Modules\Notification\Http\Livewire\DynamicNotificationIndicator::class);
   }
 
 }
