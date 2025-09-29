@@ -65,11 +65,6 @@ class Notification extends Model
     return !empty($this->created_at) ? $this->created_at->diffForHumans() : 0;
   }
 
-  public function isRead(): bool
-  {
-    return $this->is_read === true;
-  }
-
   public function getOptionsAttribute($value)
   {
     return json_decode($value);

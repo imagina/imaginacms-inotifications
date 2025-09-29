@@ -1,13 +1,44 @@
-<div id="{{$componentId}}">
-  <x-notification::notification-indicator
-    :id="$idNotificationIndicator"
-    :icon="$icon"
-    :iconFont="$iconFont"
-    :iconClass="$iconClass"
-    :colorIcon="$colorIcon"
-    :colorBadge="$colorBadge"
-    :notiClass="$notiClass"
-    :notiStyle="$notiStyle"
-    :target="$target"
-  />
+<div wire:init="getUnread" id="{{ $idNotificationIndicator }}" class="notification-indicator {{ $notiClass }}"
+     @if($unRead) data-toggle="tooltip" data-placement="right" title="Tienes notificaciones sin leer" @endif>
+  <a class="btn-notification" href="{{ $route }}" target="{{ $target }}">
+    <i class="icon {{ $icon }} {{ $iconClass }}"></i>
+    @if($unRead)
+      <span class="indicator"></span>
+    @endif
+  </a>
 </div>
+
+@section('scripts')
+  <style>
+    #{{ $idNotificationIndicator }} .btn-notification {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: stretch;
+      position: relative;
+    }
+
+    #{{ $idNotificationIndicator }} .icon {
+      color: {{ $colorIcon }};
+      font-size: {{ $iconFont }};
+    }
+
+    #{{ $idNotificationIndicator }} .indicator {
+      position: absolute;
+      top: -4px;
+      right: -3px;
+      cursor: inherit;
+      background-color: {{ $colorBadge }};
+      color: #fff;
+      height: 8px;
+      width: 8px;
+      border-radius: 4px;
+      vertical-align: baseline;
+      display: block;
+    }
+  </style>
+  <script type="text/javascript">
+    $(function () {
+      $('#{{ $idNotificationIndicator }}').tooltip();
+    });
+  </script>
+@endsection
