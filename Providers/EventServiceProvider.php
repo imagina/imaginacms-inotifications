@@ -6,6 +6,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Modules\Notification\Events\Handlers\NotificationHandler;
 use Modules\Notification\Repositories\RuleRepository;
 use Illuminate\Support\Arr;
+use Modules\Notification\Events\Handlers\ValidateProviderAccessKey;
 
 use Illuminate\Support\Facades\Event;
 
@@ -16,35 +17,34 @@ class EventServiceProvider extends ServiceProvider
   protected $listen = [];
 
 
-
   public function boot()
   {
     $this->module = app('modules');
 
-    if(isset($this->module) && $this->module && $this->module->allEnabled()){
+    if (isset($this->module) && $this->module && $this->module->allEnabled()) {
       $this->service = app('Modules\\Notification\\Repositories\\RuleRepository');
       $notifiable = $this->service->moduleConfigs($this->module->allEnabled());
 
       //dd($notifiable);
-      $tempListen  = [];
+      $tempListen = [];
 
-      foreach ($notifiable as $entity){
+      foreach ($notifiable as $entity) {
         foreach ($entity["events"] as $event) {
 
-            //Listen Creating Event
-           /* Event::listen(
-                $event["path"],
-                [NotificationHandler::class]
-            );*/
+          //Listen Creating Event
+          /* Event::listen(
+               $event["path"],
+               [NotificationHandler::class]
+           );*/
 
-            $listen = [$event["path"] => [
-                NotificationHandler::class
-            ]];
+          $listen = [$event["path"] => [
+            NotificationHandler::class
+          ]];
 
-            array_push(
-              $tempListen,
-              $listen
-            );
+          array_push(
+            $tempListen,
+            $listen
+          );
         }
       }
 
@@ -54,5 +54,15 @@ class EventServiceProvider extends ServiceProvider
 
   }
 
-
+  public function register()
+  {
+    Event::listen(
+      "Modules\\Notification\\Events\\ProviderWasUpdated",
+      [ValidateProviderAccessKey::class, 'handle']
+    );
+    Event::listen(
+      "Modules\\Notification\\Events\\ProviderWasCreated",
+      [ValidateProviderAccessKey::class, 'handle']
+    );
+  }
 }

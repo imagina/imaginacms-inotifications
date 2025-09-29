@@ -92,7 +92,7 @@ final class ImaginaNotification implements Inotification
    */
   public function push($params = [])
   {
-    \Log::info($this->log.'Push');
+    \Log::info($this->log . 'Push');
 
     $this->entity = $params["entity"] ?? null;
     $this->setting = $params["setting"] ?? null;
@@ -144,7 +144,7 @@ final class ImaginaNotification implements Inotification
       }
     } else {
 
-      \Log::info($this->log.'Push|Check Provider Status');
+      \Log::info($this->log . 'Push|Check Provider Status');
 
       if ($this->provider->status) {
         $this->send();
@@ -159,6 +159,17 @@ final class ImaginaNotification implements Inotification
    */
   public function to($recipient)
   {
+    if (isset($recipient['email']) && !empty($recipient['email'])) {
+      $emails = is_array($recipient['email']) ? $recipient['email'] : [$recipient['email']];
+      $excludedEmails = config('asgard.user.config.emailsExcludedNotification', []);
+
+      // Asegura que $excludedEmails sea un array
+      if (!is_array($excludedEmails)) {
+        $excludedEmails = [$excludedEmails];
+      }
+
+      $recipient['email'] = array_values(array_diff($emails, $excludedEmails));
+    }
     $this->recipient = $recipient;
 
     return $this;
@@ -193,7 +204,7 @@ final class ImaginaNotification implements Inotification
     $providersConfig = collect(config("asgard.notification.config.providers"));
     $providersConfig = $providersConfig->keyBy("systemName");
     $this->providerConfig = $providersConfig[$this->provider->system_name];
-    
+
     $valid = true;
     if (isset($this->providerConfig["rules"])) {
       $result = Validator::make(["recipient" => $recipient], ["recipient" => $this->providerConfig["rules"]]);
@@ -251,11 +262,11 @@ final class ImaginaNotification implements Inotification
       'options' => $this->data["options"] ?? '',
       'is_action' => $this->data["isAction"] ?? false,
       'user_id' => $this->data['user_id'] ?? null,
-      'source' => $this->data['source'] ?? null 
+      'source' => $this->data['source'] ?? null
     ];
 
     //Validation Media
-    if(isset($this->data['medias_single'])) $dataToSave['medias_single'] = $this->data['medias_single'];
+    if (isset($this->data['medias_single'])) $dataToSave['medias_single'] = $this->data['medias_single'];
 
     //Save Notification
     $this->notification = $this->notificationRepository->create($dataToSave);
@@ -285,7 +296,7 @@ final class ImaginaNotification implements Inotification
 
   private function email()
   {
-    
+
     try {
 
       //Add entity data to email
@@ -372,7 +383,7 @@ final class ImaginaNotification implements Inotification
   /** Whatsapp Business: Send Message */
   private function whatsapp()
   {
-   try {
+    try {
       $n8nUrl = setting("isite::n8nBaseUrl");
       $provider = Provider::where("system_name", "whatsapp")->first();
 
@@ -380,7 +391,7 @@ final class ImaginaNotification implements Inotification
         //Request
         $client = new \GuzzleHttp\Client();
 
-        $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider,$this->data);
+        $templateDefault = app("Modules\Notification\Services\WhatsappService")->createTemplate($provider, $this->data);
 
         $response = $client->request('POST',
           "{$n8nUrl}/whatsapp-business/message",
@@ -406,7 +417,7 @@ final class ImaginaNotification implements Inotification
         );
 
         //Set external_id
-        if(isset($this->data["message_id"])) {
+        if (isset($this->data["message_id"])) {
           $requestResponse = json_decode($response->getBody()->getContents());
           $messageEntity = app("Modules\Ichat\Entities\Message");
           $messageModel = $messageEntity->find($this->data['message_id']);
